@@ -1,0 +1,62 @@
+﻿@using Bandodientu.Models;
+@model IList<Product>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2> Danh sách menu</h2>
+    </div>
+    <p>
+        <a type="button" class="btn btn-success" asp-area="Admin" asp-controller="Post" asp-action="Create">
+            <i class="bi bibi-file-earmark-text me-1">Thêm sản phẩm</i>
+        </a>
+    </p>
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-12">
+                <div class="card-body mt-4">
+                    <table class="table table-borderless datatable">
+                        <thead>
+                            <tr>
+                                <th class="col-1 text-center">#</th>
+                                <th class="col-3 text-center">ProductName</th>
+                                <td class="col-2 text-center">OriginalPrice</td>
+                                <td class="col-2 text-center">Discounted</td>
+                                @* <td class="col-1 text-center">Description</td> *@
+                                <td class="col-1 text-center">Color</td>
+                                <td class="col-2 text-center">Số lượng</td>
+                                <td class="col-2 text-center">Chức năng</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.OrderBy(n=>n.ProductID))
+                            {
+                                <tr>
+                                    <th class="text-center" scope="row">@item.ProductID</th>
+                                    <td>
+                                        <a asp-area="Admin" asp-controller="Menu" asp-action="Details"
+                                           asp-route-id="@item.ProductID" class="text-primary">@item.ProductName</a>
+                                    </td>
+                                    <td class="text-center">@item.OriginalPrice</td>
+                                    <td class="text-center">@item.DiscountCode</td>
+                                    @* <td class="text-center">@item.Description</td> *@
+                                    <td class="text-center">@item.Color</td>
+                                    <td class="text-center">@item.Quantity</td>
+                                    <td class="text-center">
+                                        <a asp-area="Admin" asp-controller="Product" asp-action="Edit"
+                                           asp-route-id="@item.ProductID" class="btn btn-primary btn-sm"
+                                           title="Sửa nội dung bài viết"><i class="bi bi-pencil"></i></a>
+                                        <a asp-area="Admin" asp-controller="Product" asp-action="Delete"
+                                           asp-route-id="@item.ProductID" class="btn btn-danger btn-sm"
+                                           title="Xóa thông tin bài viết"><i class="bi bi-trash"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

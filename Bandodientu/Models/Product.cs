@@ -21,6 +21,6 @@ namespace Bandodientu.Models
 		public string? Image { get; set; }
 		public string? New { get; set; }
 		public string? Link { get; set; }
-		public int classify { get; set; }
+		public int MenuID { get; set; }
 	}
 }

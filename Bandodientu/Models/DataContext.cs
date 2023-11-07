@@ -11,5 +11,6 @@ namespace Bandodientu.Models
         public DbSet<Menu> Menus { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<AdminMenu> AdminMenus { get; set; }
+
     }
 }
