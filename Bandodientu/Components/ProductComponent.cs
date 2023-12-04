@@ -14,6 +14,7 @@ namespace Bandodientu.Components
 		public async Task<IViewComponentResult> InvokeAsync()
 		{
 			var listofProduct = (from p in _context.Products
+								 where(p.IsActive==true)
 								 select p).ToList();
 			return await Task.FromResult((IViewComponentResult)View("Default", listofProduct));
 		}

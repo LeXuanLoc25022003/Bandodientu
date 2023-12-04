@@ -5,10 +5,10 @@
 }
 <main id="main" class="main">
     <div class="pagetitle">
-        <h2> Danh sách menu</h2>
+        <h2> Danh sách sản phẩm</h2>
     </div>
     <p>
-        <a type="button" class="btn btn-success" asp-area="Admin" asp-controller="Post" asp-action="Create">
+        <a type="button" class="btn btn-success" asp-area="Admin" asp-controller="Product" asp-action="Create">
             <i class="bi bibi-file-earmark-text me-1">Thêm sản phẩm</i>
         </a>
     </p>
@@ -19,30 +19,38 @@
                     <table class="table table-borderless datatable">
                         <thead>
                             <tr>
-                                <th class="col-1 text-center">#</th>
-                                <th class="col-3 text-center">ProductName</th>
-                                <td class="col-2 text-center">OriginalPrice</td>
-                                <td class="col-2 text-center">Discounted</td>
-                                @* <td class="col-1 text-center">Description</td> *@
-                                <td class="col-1 text-center">Color</td>
+                                <th class="col-2 text-center">Mã sản phẩm</th>
+                                <th class="col-1 text-justify">Image</th>
+                                <td class="col-4 text-center">ProductName</td>
                                 <td class="col-2 text-center">Số lượng</td>
+                                <td class="col-1 text-center">Ẩn/Hiện</td>
                                 <td class="col-2 text-center">Chức năng</td>
                             </tr>
                         </thead>
                         <tbody>
+                            @{
+                                int i = 1;
+                            }
                             @foreach (var item in Model.OrderBy(n=>n.ProductID))
                             {
-                                <tr>
-                                    <th class="text-center" scope="row">@item.ProductID</th>
+                                <tr id="tr_@item.ProductID">
+                                    <td>@(i++)</td>
                                     <td>
                                         <a asp-area="Admin" asp-controller="Menu" asp-action="Details"
-                                           asp-route-id="@item.ProductID" class="text-primary">@item.ProductName</a>
+                                           asp-route-id="@item.ProductID" class="text-primary"><img style="width:50px;height:50px" src="@item.Image" /></a>
                                     </td>
-                                    <td class="text-center">@item.OriginalPrice</td>
-                                    <td class="text-center">@item.DiscountCode</td>
-                                    @* <td class="text-center">@item.Description</td> *@
-                                    <td class="text-center">@item.Color</td>
+                                    <td class="text-left">@item.ProductName</td>
                                     <td class="text-center">@item.Quantity</td>
+                                    <td class="text-center">
+                                        @if (item.IsActive == true)
+                                        {
+                                            @Html.CheckBox("IsActive", true, new { disabled = "disabled" })
+                                        }
+                                        else
+                                        {
+                                            @Html.CheckBox("IsActive", new { disabled = "disabled" })
+                                        }
+                                    </td>
                                     <td class="text-center">
                                         <a asp-area="Admin" asp-controller="Product" asp-action="Edit"
                                            asp-route-id="@item.ProductID" class="btn btn-primary btn-sm"

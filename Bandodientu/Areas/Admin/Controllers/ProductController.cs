@@ -1,5 +1,6 @@
 ﻿using Bandodientu.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Bandodientu.Areas.Admin.Controllers
 {
@@ -13,7 +14,7 @@ namespace Bandodientu.Areas.Admin.Controllers
             _context = context;
         }
 
-        public ActionResult Index()
+        public IActionResult Index()
         {
             var mnList = _context.Products.OrderBy(m=>m.ProductID).ToList();
             return View(mnList);
@@ -46,6 +47,75 @@ namespace Bandodientu.Areas.Admin.Controllers
             _context.Products.Remove(deleMenu);
             _context.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public IActionResult Create()
+        {
+            var mnList = (from m in _context.Menus
+                          select new SelectListItem()
+                          {
+                              Text = m.MenuName,
+                              Value = m.MenuID.ToString()
+                          }).ToList();
+            mnList.Insert(0, new SelectListItem()
+            {
+                Text = "---Select---",
+                Value = string.Empty
+            });
+            ViewBag.mnList = mnList;
+            return View();
+        }
+
+        [HttpPost]
+
+        public IActionResult Create(Product product)
+        {
+            if(ModelState.IsValid)
+            {
+                _context.Add(product);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Edit(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var mn = _context.Products.Find(id);
+            if (mn == null)
+            {
+                return NotFound();
+            }
+            var mnList = (from m in _context.Menus
+                          select new SelectListItem()
+                          {
+                              Text = m.MenuName,
+                              Value = m.MenuID.ToString()
+                          }).ToList();
+            mnList.Insert(0, new SelectListItem()
+            {
+                Text = "---Select---",
+                Value = string.Empty
+            });
+            ViewBag.mnList = mnList;
+            return View(mn);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public IActionResult Edit(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Products.Update(product);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(product);
         }
     }
 }

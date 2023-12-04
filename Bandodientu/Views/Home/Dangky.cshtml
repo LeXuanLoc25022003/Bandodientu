@@ -1,0 +1,101 @@
+﻿@model Bandodientu.Models.Customer;
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Đăng ký</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+	<!-- Popper JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+@{
+	Layout = null;
+}
+<body>
+@*     <form asp-action="Create" method="post">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="Email">Email</label>
+                <input type="text" class="form-control mb-3" asp-for="Email">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="Password">Password</label>
+                <input type="text" class="form-control mb-3" asp-for="Password">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="Phone">Phone</label>
+                <input type="text" class="form-control mb-3" asp-for="Phone">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="Address">Address</label>
+                <input type="text" class="form-control mb-3" asp-for="Address">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="IsActive">IsActive</label>
+                <input type="text" class="form-control mb-3" asp-for="IsActive">
+            </div>
+        </div>
+        <a class="btn btn-lg btn-warning p-2 mr-5" href="javascript:history.back()">
+            <i class="bi bi-arrow-left-circle"></i>Quay lại
+        </a>
+        <button type="submit" class="btn btn-lg btn-danger p-2">
+            <i claas="bi bi-trash-fill"></i>Lưu lại
+        </button>
+    </form> *@
+	<form asp-action="Dangky" method="post">
+	<div class="container">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h2 class="text-center">Đăng ký</h2>
+			</div>
+			<div class="panel-body">
+					<div class="form-group">
+						<label asp-for="UserName" class="control-label"></label>
+						<input asp-for="UserName" class="form-control" />
+						<span asp-validation-for="UserName" class="text-danger"></span>
+					</div>
+				<div class="form-group">
+					<label asp-for="Email" class="control-label"></label>
+					<input asp-for="Email" class="form-control" />
+					<span asp-validation-for="Email" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Password" class="control-label"></label>
+					<input asp-for="Password" class="form-control" />
+					<span asp-validation-for="Password" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Phone" class="control-label"></label>
+					<input asp-for="Phone" class="form-control" />
+					<span asp-validation-for="Phone" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<input asp-for="Birthday" type="date">
+				</div>
+					<div class="form-group">
+						<div class="alert-danger" asp-validation-summary="ModelOnly"></div>
+						<label asp-for="LocationID">Địa chỉ </label>
+						<select asp-for="LocationID" class="form-control" asp-items="@(new SelectList(ViewBag.mnList,"Value","Text"))"></select>
+					</div>
+					<div class="form-group d-none">
+						<input asp-for="IsActive" type="date" value="True">
+					</div>
+				<a class="btn btn-lg btn-warning p-2 mr-5" href="javascript:history.back()">
+					<i class="bi bi-arrow-left-circle"></i>Quay lại
+				</a>
+				<button type="submit" class="btn btn-lg btn-danger p-2">
+					<i claas="bi bi-trash-fill"></i>Lưu lại
+				</button>
+			</div>
+		</div>
+	</div>
+	</form>
+</body>
+</html>

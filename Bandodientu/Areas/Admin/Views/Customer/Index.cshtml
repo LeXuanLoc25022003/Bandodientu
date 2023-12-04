@@ -1,0 +1,69 @@
+﻿@using Bandodientu.Models;
+@model IList<Customer>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2> Danh sách người dùng</h2>
+    </div>
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-12">
+                <div class="card-body mt-4">
+                    <table class="table table-borderless datatable">
+                        <thead>
+                            <tr>
+                                <th class="col-1 text-center">Mã</th>
+                                <th class="col-2 text-center">Name</th>
+                                <td class="col-1 text-center">Password</td>
+                                <td class="col-2 text-center">Birthday</td>
+                                <td class="col-1 text-center">Phone</td>
+                                <td class="col-2 text-center">Email</td>
+                                <td class="col-1 text-center">IsActive</td>
+                                <td class="col-2 text-center">Chức năng</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int i = 1;
+                            }
+                            @foreach (var item in Model)
+                            {
+                                <tr id="tr_@item.CustomerID">
+                                    <td>@(i++)</td>
+                                    <td>
+                                        <a asp-area="Admin" asp-controller="Menu" asp-action="Details"
+                                           asp-route-id="@item.CustomerID" class="text-primary">@item.UserName</a>
+                                    </td>
+                                    <td class="text-center">@item.Password</td>
+                                    <td class="text-center">@item.Birthday.ToString("dd/MM/yyyy")</td>
+                                    <td class="text-center">@item.Phone</td>
+                                    <td class="text-center">@item.Email</td>
+                                    <td class="text-center">
+                                        @if (item.IsActive == true)
+                                        {
+                                            @Html.CheckBox("IsActive", true, new { disabled = "disabled" })
+                                        }
+                                        else
+                                        {
+                                            @Html.CheckBox("IsActive", new { disabled = "disabled" })
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        <a asp-area="Admin" asp-controller="Customer" asp-action="Edit"
+                                           asp-route-id="@item.CustomerID" class="btn btn-primary btn-sm"
+                                           title="Sửa nội dung bài viết"><i class="bi bi-pencil"></i></a>
+                                        <a asp-area="Admin" asp-controller="Customer" asp-action="Delete"
+                                           asp-route-id="@item.CustomerID" class="btn btn-danger btn-sm"
+                                           title="Xóa thông tin người dùng"><i class="bi bi-trash"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

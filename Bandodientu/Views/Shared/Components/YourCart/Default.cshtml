@@ -1,0 +1,45 @@
+﻿@model Cart;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<!-- Cart -->
+<div class="dropdown">
+    @await Component.InvokeAsync("NumberCart")
+    <div class="cart-dropdown">
+        <div class="cart-list">
+            @if (Model != null && Model?.Lines.Count > 0)
+            {
+                @foreach (var line in Model?.Lines)
+                {
+                    <div class="product-widget">
+                        <div class="product-img">
+                            <img src="@line.Product.Image" alt="">
+                        </div>
+                        <div class="product-body">
+                            <h3 class="product-name"><a href="#">@line.Product.ProductName</a></h3>
+                            <h4 class="product-price"><span class="qty">@line.Quantity</span>.@line.Product.DiscountedPrice</h4>
+                        </div>
+                        <button class="delete">
+                            <a href="/Cart/RemoveFromCart/?productId=@line.Product.ProductID">
+                                <i class="fa fa-close"></i>
+                            </a>
+                        </button>
+                    </div>
+                }
+                <div class="cart-summary">
+                    <small>@Model?.Lines.Count Item(s) selected</small>
+                    <h5>SUBTOTAL: $@Model?.ComputeTotalValue()</h5>
+                </div>
+            }
+            else
+            {
+                <p>Không có sản phẩm nào</p>
+            }
+        </div>
+        <div class="cart-btns">
+            <a href="#">View Cart</a>
+            <a href="/Cart">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+</div>

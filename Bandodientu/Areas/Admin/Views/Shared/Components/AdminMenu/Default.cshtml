@@ -14,11 +14,24 @@
         {
             var Pid = item.AdminMenuID;
             var Smenu = Model.Where(p => p.ParentLevel == Pid).OrderBy(p => p.ItemOrder).ToList();
+            if(item.ItemTarget != "nav-item")
+            {
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#@item.ItemTarget" data-bs-toggle="collapse" href="#">
                         <i class="@item.Icon"></i><span>@item.ItemName</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                 </li>
+            }
+
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="/Admin/@item.ControllerName/@item.ActionName">
+                        <i class="bi bi-person"></i>
+                        <span>@item.ItemName</span>
+                    </a>
+                </li>
+            }
              <ul id="@item.IdName" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                 @foreach (var smn in Smenu)
                 {

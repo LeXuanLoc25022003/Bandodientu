@@ -1,0 +1,70 @@
+﻿@using Bandodientu.Models;
+@model IList<Post>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2> Danh sách tin tức</h2>
+    </div>
+    <p>
+        <a type="button" class="btn btn-success" asp-area="Admin" asp-controller="Post" asp-action="Create">
+            <i class="bi bibi-file-earmark-text me-1">Thêm tin tức</i>
+        </a>
+    </p>
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-12">
+                <div class="card-body mt-4">
+                    <table class="table table-borderless datatable">
+                        <thead>
+                            <tr>
+                                <th class="col-1 text-center">PostID</th>
+                                <th class="col-3 text-center">Title</th>
+                                <td class="col-2 text-center">Images</td>
+                                <td class="col-1 text-center">CreatedDate</td>
+                                <td class="col-1 text-center">Ẩn/Hiện</td>
+                                <td class="col-1 text-center">Chức năng</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int i = 1;
+                            }
+                            @foreach (var item in Model)
+                            {
+                                <tr id="tr_@item.PostID">
+                                    <td>@(i++)</td>
+                                    <td>
+                                        <a asp-area="Admin" asp-controller="Post" asp-action="Details"
+                                           asp-route-id="@item.PostID" class="text-primary">@item.Title</a>
+                                    </td>
+                                    <td class="text-center"><img style="width:50px;height:50px" src="@item.Images" /></td>
+                                    <td class="text-center">@item.CreateDate</td>
+                                    <td class="text-center">
+                                        @if (item.IsActive == true)
+                                        {
+                                            @Html.CheckBox("IsActive", true, new { disabled = "disabled" })
+                                        }
+                                        else
+                                        {
+                                            @Html.CheckBox("IsActive", new { disabled = "disabled" })
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        <a asp-area="Admin" asp-controller="Post" asp-action="Edit"
+                                           asp-route-id="@item.PostID" class="btn btn-primary btn-sm"
+                                           title="Sửa nội dung bài viết"><i class="bi bi-pencil"></i></a>
+                                        <a asp-area="Admin" asp-controller="Post" asp-action="Delete"
+                                           asp-route-id="@item.PostID" class="btn btn-danger btn-sm"
+                                           title="Xóa thông tin bài viết"><i class="bi bi-trash"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

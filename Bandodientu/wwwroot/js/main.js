@@ -150,12 +150,12 @@
 	var priceSlider = document.getElementById('price-slider');
 	if (priceSlider) {
 		noUiSlider.create(priceSlider, {
-			start: [1, 999],
+			start: [1000000, 20000000],
 			connect: true,
-			step: 1,
+			step: 1000000,
 			range: {
-				'min': 1,
-				'max': 999
+				'min': 1000000,
+				'max': 20000000
 			}
 		});
 
@@ -166,3 +166,21 @@
 	}
 
 })(jQuery);
+	$(document).ready(function () {
+		$('.store-pagination a').click(function (e) {
+			e.preventDefault(); // Ngăn chặn hành động mặc định của liên kết
+
+			// Loại bỏ class 'active' từ tất cả các liên kết
+			$('.store-pagination li').removeClass('active');
+
+			// Thêm class 'active' cho liên kết được click
+			$(this).parent('li').addClass('active');
+
+			// Thực hiện các hành động khác nếu cần
+			// Ví dụ: Load dữ liệu mới từ trang
+			// ...
+
+			// Điều hướng đến trang mới
+			window.location.href = $(this).attr('href');
+		});
+	});

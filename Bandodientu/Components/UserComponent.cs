@@ -14,7 +14,6 @@ namespace Bandodientu.Components
 		public async Task<IViewComponentResult> InvokeAsync()
 		{
 			var listofMenu = (from m in _context.User
-							  where m.IsActive == true
 							  select m).ToList();
 			return await Task.FromResult((IViewComponentResult)View("Default", listofMenu));
 		}

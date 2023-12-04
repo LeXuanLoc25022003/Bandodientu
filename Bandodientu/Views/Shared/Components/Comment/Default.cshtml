@@ -1,0 +1,204 @@
+﻿@model IList<Comment>
+@using Bandodientu.Utilities;
+@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+<div id="tab3" class="tab-pane fade in">
+	<div class="row">
+		<!-- Rating -->
+		<div class="col-md-3">
+			<div id="rating">
+				<div class="rating-avg">
+					<span>4.5</span>
+					<div class="rating-stars">
+						<i class="fa fa-star"></i>
+						<i class="fa fa-star"></i>
+						<i class="fa fa-star"></i>
+						<i class="fa fa-star"></i>
+						<i class="fa fa-star-o"></i>
+					</div>
+				</div>
+				<ul class="rating">
+					<li>
+						<div class="rating-stars">
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+						</div>
+						<div class="rating-progress">
+							<div style="width: @ViewBag.percent5%"></div>
+						</div>
+						<span class="sum">@ViewBag.rate5</span>
+					</li>
+					<li>
+						<div class="rating-stars">
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star-o"></i>
+						</div>
+						<div class="rating-progress">
+							<div style="width: @ViewBag.percent4%;"></div>
+						</div>
+						<span class="sum">@ViewBag.rate4</span>
+					</li>
+					<li>
+						<div class="rating-stars">
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star-o"></i>
+							<i class="fa fa-star-o"></i>
+						</div>
+						<div class="rating-progress">
+							<div style="width: @ViewBag.percent3%;"></div>
+						</div>
+						<span class="sum">@ViewBag.rate3</span>
+					</li>
+					<li>
+						<div class="rating-stars">
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star-o"></i>
+							<i class="fa fa-star-o"></i>
+							<i class="fa fa-star-o"></i>
+						</div>
+						<div class="rating-progress">
+							<div style="width: @ViewBag.percent2%;"></div>
+						</div>
+						<span class="sum">@ViewBag.rate2</span>
+					</li>
+					<li>
+						<div class="rating-stars">
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star-o"></i>
+							<i class="fa fa-star-o"></i>
+							<i class="fa fa-star-o"></i>
+							<i class="fa fa-star-o"></i>
+						</div>
+						<div class="rating-progress">
+							<div style="width: @ViewBag.percent1%;"></div>
+						</div>
+						<span class="sum">@ViewBag.rate1</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- /Rating -->
+		<!-- Reviews -->
+		<div class="col-md-6">
+			<div id="reviews">
+				@if (Model.Any(item => item.ProductID == ViewBag.ProductID))
+				{
+					<ul class="reviews">
+						@foreach (var item in Model)
+						{
+							if (item.ProductID == ViewBag.ProductID)
+							{
+								<li>
+									<div class="review-heading">
+										<h5 class="name">@item.YourName</h5>
+										<p class="date">@item.DateTime</p>
+										<div class="review-rating">
+											@for (int i = 1; i <= 5; i++)
+											{
+												if (i <= item.Rate)
+												{
+													<i class="fa fa-star"></i>
+												}
+												else
+												{
+													<i class="fa fa-star-o empty"></i>
+												}
+											}
+										</div>
+									</div>
+									<div class="review-body">
+										<p>@item.Review</p>
+									</div>
+								</li>
+							}
+						}
+					</ul>
+				}
+				else
+				{
+					<p>Chưa có bình luận về sản phẩm này</p>
+				}
+				<ul class="reviews-pagination">
+					<li class="active">1</li>
+					<li><a href="#reviews">2</a></li>
+					<li><a href="#reviews">3</a></li>
+					<li><a href="#reviews">4</a></li>
+					<li><a href="#reviews"><i class="fa fa-angle-right"></i></a></li>
+				</ul>
+			</div>
+		</div>
+		<!-- /Reviews -->
+		<!-- Review Form -->
+		<div class="col-md-3">
+			<div id="review-form">
+				<form class="review-form">
+					<input id="c_name" class="input" name="name" type="text" placeholder="Your Name">
+					<input id="c_email" class="input" type="text" name="email" placeholder="Your Email">
+					<textarea id="c_review" type="text" class="input" name="review" placeholder="Your Review"></textarea>
+					<input id="c_productID" value="@ViewBag.ProductID" class="input1" type="text" style="display:none">
+					<div class="col-12">
+						<label for="rate">Chọn số sao:</label><br>
+						<select id="c_start" name="rating">
+							<option value="1">★</option>
+							<option value="2">★★</option>
+							<option value="3">★★★</option>
+							<option value="4">★★★★</option>
+							<option value="5">★★★★★</option>
+						</select><br>
+					</div>
+					<div class="button-wrap mt-8">
+						<button id="c_send" type="button" value="submit" class="btn btn btn-custom-size lg-size btn-primary btn-secondary-hover rounded-0" name="submit">Gửi</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- /Review Form -->
+	</div>
+</div>
+@section Scripts{
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			$("#c_send").click(function () {
+				_name = $("#c_name").val();
+				_email = $("#c_email").val();
+				_review = $("#c_review").val();
+				id = $("#c_productID").val();
+				_rate = $("#c_start").val();
+				$.ajax({
+					url: "/Comment/Create",
+					type: "POST",
+					data: { name: _name, email: _email, review: _review, id: id, rate: _rate },
+					success: function (result) {
+						if (result) {
+							$("#c_name").val("");
+							$("#c_email").val("");
+							$("#c_review").val("");
+							$("#c_productID").val("");
+							$("#c_start").val("");
+							// alert("Gửi bình luận thành công")
+							toastr.success('Gửi thành công');
+						} else {
+							// alert("Gửi không thành công")
+							toastr.error('Gửi không thành công');
+						}
+					}
+				});
+			});
+		})
+	</script>
+}

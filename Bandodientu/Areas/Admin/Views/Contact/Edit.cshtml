@@ -1,0 +1,56 @@
+﻿@model Bandodientu.Models.Contact
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Xác nhận sửa liên hệ</h2>
+    </div>
+    <div class="container show p-5">
+        <div class="row pb-2">
+            <h2>Sửa liên hệ</h2>
+        </div>
+
+        <form methoad="post" asp-action="Edit">
+            <div asp-validation-summary="All"></div>
+            <div class="form-row">
+                <input type="text" class="form-control mb-3" asp-for="ContactID" type="hidden">
+                <div class="form-group col-md-6">
+                    <label asp-for="Name">Name</label>
+                    <input type="text" class="form-control mb-3" asp-for="Name" placeholder="Nhập tên">
+                    <span asp-validation-for="Name" class="alert-danger"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-mb-6">
+                    <label asp-for="Phone">Phone</label>
+                    <input type="text" class="form-control mb-3" asp-for="Phone" placeholder="Nhập điện thoại">
+                    <span asp-validation-for="Phone" class="alert-danger"></span>
+                </div>
+                <div class="form-group col-mb-6">
+                    <label asp-for="Email">Email</label>
+                    <input type="text" class="form-control mb-3" asp-for="Email" placeholder="Nhập email" />
+                    <span asp-validation-for="Email" class="alert-danger"></span>
+                </div>
+                <div class="form-group col-mb-6">
+                    <label asp-for="CreateDate">DateTime</label>
+                    <input type="text" class="form-control mb-3" asp-for="CreateDate" placeholder="Nhập thời gian" />
+                    <span asp-validation-for="CreateDate" class="alert-danger"></span>
+                </div>
+                <div class="form-group col-mb-6">
+                    <label asp-for="Messeage">Messeage</label>
+                    <input type="text" class="form-control mb-3" asp-for="Messeage" placeholder="" />
+                    <span asp-validation-for="Messeage" class="alert-danger"></span>
+                </div>
+                <div class="form-group mt-5 mb-5">
+                    <label>
+                        @Html.CheckBox("IsActive",false)
+                        Hiển thị
+                    </label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-lg btn-primary p-2"><i class="bi bi-file-plus-fill"></i>Lưu</button>
+            <a asp-controller="Comment" asp-action="Index" class="btn btn-lg btn-warning p-2">Quay lại</a>
+        </form>
+    </div>
+</main>

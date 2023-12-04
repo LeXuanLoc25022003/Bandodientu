@@ -1,0 +1,28 @@
+﻿@model Bandodientu.Models.Customer
+@{
+    Layout = "/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Xác nhận xóa người dùng</h2>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label asp-for="CustomerID">CustomerID</label>
+            <input type="text" class="form-control mb-3" asp-for="CustomerID" disabled>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="UserName">UserName</label>
+            <input type="text" class="form-control mb-3" asp-for="UserName" disabled>
+        </div>
+    </div>
+    <form asp-action="Delete" methoad="post">
+        <input type="hidden" asp-for="CustomerID" />
+        <a class="btn btn-lg btn-warning p-2 mr-5" href="javascript:history.back()">
+            <i class="bi bi-arrow-left-circle"></i>Quay lại
+        </a>
+        <button type="submit" class="btn btn-lg btn-danger p-2">
+            <i classs="bi bi-trash-fill"></i>Xóa người dùng
+        </button>
+    </form>
+</main>
