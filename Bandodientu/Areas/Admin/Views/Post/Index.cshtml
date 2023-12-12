@@ -12,6 +12,19 @@
             <i class="bi bibi-file-earmark-text me-1">Thêm tin tức</i>
         </a>
     </p>
+    <div class="card-tools">
+        @using(Html.BeginForm())
+        {
+            <div class="input-group input-group-sm" style="width: 150px;">
+                <input type="text" id="search" name="search" class="form-control float-right" placeholder="Search">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
     <section class="section dashboard">
         <div class="row">
             <div class="col-12">
@@ -24,7 +37,7 @@
                                 <td class="col-2 text-center">Images</td>
                                 <td class="col-1 text-center">CreatedDate</td>
                                 <td class="col-1 text-center">Ẩn/Hiện</td>
-                                <td class="col-1 text-center">Chức năng</td>
+                                <td class="col-3 text-center">Chức năng</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -33,9 +46,9 @@
                             }
                             @foreach (var item in Model)
                             {
-                                <tr id="tr_@item.PostID">
+                                <tr class="text-center" id="tr_@item.PostID">
                                     <td>@(i++)</td>
-                                    <td>
+                                    <td class="text-center">
                                         <a asp-area="Admin" asp-controller="Post" asp-action="Details"
                                            asp-route-id="@item.PostID" class="text-primary">@item.Title</a>
                                     </td>
@@ -55,9 +68,8 @@
                                         <a asp-area="Admin" asp-controller="Post" asp-action="Edit"
                                            asp-route-id="@item.PostID" class="btn btn-primary btn-sm"
                                            title="Sửa nội dung bài viết"><i class="bi bi-pencil"></i></a>
-                                        <a asp-area="Admin" asp-controller="Post" asp-action="Delete"
-                                           asp-route-id="@item.PostID" class="btn btn-danger btn-sm"
-                                           title="Xóa thông tin bài viết"><i class="bi bi-trash"></i></a>
+                                        <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.PostID">Chi tiết</a>
+                                        <a data-id="@item.PostID" class="btn btn-danger btn-sm btn-delete"><i class="bi bi-trash"></i></a>
                                     </td>
                                 </tr>
                             }
@@ -68,3 +80,29 @@
         </div>
     </section>
 </main>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(".btn-delete").click(function () {
+                _id = $(this).data("id");
+                if (confirm("Bạn có muốn xóa không")) {
+                    $.ajax({
+                        url: "/Admin/Post/Delete",
+                        type: "POST",
+                        data: { id: _id },
+                        success: function (result) {
+                            if (result) {
+                                $("#tr_" + _id).remove();
+                                toastr.success('Xóa thành công');
+                            }
+                            else {
+                                toastr.error('Xóa không thành công');
+                            }
+                        }
+                    })
+                }
+            });
+        })
+    </script>
+}
+

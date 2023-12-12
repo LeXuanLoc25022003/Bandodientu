@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Bandodientu.Models
 {
-	[Table("Order")]
+	[Table("tbOrder")]
 	public class Order
 	{
 		[Key]
@@ -12,6 +12,7 @@ namespace Bandodientu.Models
 		public string? Address {  get; set; }
 		public decimal ToTalAmount {  get; set; }
 		public int Quantity {  get; set; }
+		public string? Code {  get; set; }
 		public int OrderStatusID {  get; set; }
 		public DateTime? CreateDate {  get; set; }
 

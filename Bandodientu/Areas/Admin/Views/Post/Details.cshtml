@@ -1,0 +1,68 @@
+﻿@using Bandodientu.Utilities;
+@model Bandodientu.Models.Post
+@{
+    Layout = "/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Chi tiết</h2>
+    </div>
+    <div class="container shadow p-5">
+        <form>
+            <div asp-validation-summary="All"></div>
+            <div class="form-row">
+                <input type="text" class="form-control mb-3" asp-for="PostID" type="hidden">
+                <div class="form-group col-md-6">
+                    <label asp-for="Title">Title</label>
+                    <input type="text" class="form-control mb-3" asp-for="Title">
+                    <span asp-validation-for="Title" class="alert-danger"></span>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="MenuID"></label>
+                <input type="text" class="form-control mb-3" asp-for="MenuID">
+                <span asp-validation-for="MenuID" class="alert-danger"></span>
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="Title">Title</label>
+                <input type="text" class="form-control mb-3" asp-for="Title">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="Abstract">Abstract</label>
+                <input type="text" class="form-control mb-3" asp-for="Abstract">
+            </div>
+            <div class="form-group col-md-12">
+                <label class="control-label">Images</label>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" asp-for="Images" id="file_input" aria-describedby="button-addon2">
+                </div>
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="IsActive">IsActive</label>
+                <input type="text" class="form-control mb-3" asp-for="IsActive">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="CreateDate">Date</label>
+                <input type="text" class="form-control mb-3" asp-for="CreateDate">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="PostOrder">PostOrder</label>
+                <input type="text" class="form-control mb-3" asp-for="PostOrder">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="Author">Author</label>
+                <input type="text" class="form-control mb-3" asp-for="Author">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="Status">Status</label>
+                <input type="text" class="form-control mb-3" asp-for="Status">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="Link">Link</label>
+                <input type="text" class="form-control mb-3" asp-for="Link">
+            </div>
+            <a asp-action="Edit" asp-route-id="@Model.PostID">Edit</a> |
+            <a asp-action="Index">Back to List</a>
+        </form>
+    </div>
+</main>

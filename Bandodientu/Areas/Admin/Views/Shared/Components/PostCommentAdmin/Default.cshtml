@@ -1,0 +1,52 @@
+﻿@using Bandodientu.Models;
+@model IList<PostComment>
+<li class="nav-item dropdown">
+
+    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+        <i class="bi bi-bell"></i>
+        <span class="badge bg-primary badge-number">@ViewBag.comment</span>
+    </a><!-- End Notification Icon -->
+
+    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+        <li class="dropdown-header">
+            You have @ViewBag.comment new notifications
+            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+        </li>
+        <li>
+            <hr class="dropdown-divider">
+        </li>
+        @foreach(var item in Model)
+        {
+            if (Model != null)
+            {
+                <li class="notification-item">
+                    <i class="bi bi-exclamation-circle text-success"></i>
+                    <div>
+                        <h4>@item.Name</h4>
+                        <p>@item.Message</p>
+                        <p>@item.CreateDate</p>
+                    </div>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+            }
+            else
+            {
+                <li class="notification-item">
+                    <i class="bi bi-exclamation-circle text-warning"></i>
+                    <div>
+                        <p>Không có thông báo nào</p>
+                    </div>
+                </li>
+            }
+
+        }
+
+        <li class="dropdown-footer">
+            <a href="/Admin/PostComment/Index">Show all notifications</a>
+        </li>
+
+    </ul><!-- End Notification Dropdown Items -->
+
+</li><!-- End Notification Nav -->

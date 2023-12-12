@@ -14,11 +14,11 @@
             </div>
             <div class="form-group d-none">
                 <label asp-for="Parent">Parent</label>
-                <input type="text" class="form-control mb-3" asp-for="Parent" value="1">
+                <input type="text" class="form-control mb-3" asp-for="Parent" value="0">
             </div>
             <div class="form-group col-md-6 mt-3 mb-3">
                 <label>
-                    @Html.CheckBox("IsAction",false)
+                    @Html.CheckBox("IsActive",false)
                     Hiển thị
                 </label>
             </div>

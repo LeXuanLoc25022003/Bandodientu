@@ -13,7 +13,15 @@ namespace Bandodientu.Utilities
         public static string _MessageEmail = string.Empty;
 		public static string _MessageContact= string.Empty;
 		public static string _Phone = String.Empty;
-		public static int _ProductID;
+        public static string _About = String.Empty;
+        public static string _Image = String.Empty;
+        public static string _Company = String.Empty;
+        public static string _Job = String.Empty;
+        public static string _Country = String.Empty;
+        public static string _Address = String.Empty;
+        public static string Phone = String.Empty;
+		public static string _Password = String.Empty;
+        public static int _ProductID;
 		public static string TitleSlugGeneration(string type,string productname,long id)
 		{
 			string sProduct = type + "-" + SlugGenerator.SlugGenerator.GenerateSlug(productname) + "-" + id.ToString() + ".html";

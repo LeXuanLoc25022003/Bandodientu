@@ -19,6 +19,9 @@ namespace Bandodientu.Models
 		public DbSet<Post> Posts { get; set; }
         public DbSet<PostComment> postComments { get; set; }
         public DbSet<ReplyComment> replyComments { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderStatus> OrderStatuses { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
 
 	}
 }

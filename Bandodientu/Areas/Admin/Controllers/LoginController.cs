@@ -37,7 +37,15 @@ namespace Bandodientu.Areas.Admin.Controllers
 			Function._UserID = check.UserID;
 			Function._UserName = string.IsNullOrEmpty(check.UserName) ? string.Empty : check.UserName;
 			Function._Email = string.IsNullOrEmpty(check.Email) ? string.Empty : check.Email;
-			return RedirectToAction("Index","Home");
+            Function._About = string.IsNullOrEmpty(check.About) ? string.Empty : check.About;
+            Function._Image = string.IsNullOrEmpty(check.Image) ? string.Empty : check.Image;
+            Function._Company = string.IsNullOrEmpty(check.Company) ? string.Empty : check.Company;
+            Function._Job = string.IsNullOrEmpty(check.Job) ? string.Empty : check.Job;
+            Function._Country = string.IsNullOrEmpty(check.Country) ? string.Empty : check.Country;
+            Function._Address = string.IsNullOrEmpty(check.Address) ? string.Empty : check.Address;
+            Function.Phone = string.IsNullOrEmpty(check.Phone) ? string.Empty : check.Phone;
+            Function._Password = string.IsNullOrEmpty(check.Password) ? string.Empty : check.Password;
+            return RedirectToAction("Index","Home");
 		}
 	}
 }

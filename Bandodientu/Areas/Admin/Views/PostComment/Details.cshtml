@@ -1,0 +1,46 @@
+﻿@using Bandodientu.Utilities;
+@model Bandodientu.Models.PostComment
+@{
+    Layout = "/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Chi tiết</h2>
+    </div>
+    <div class="container shadow p-5">
+        <form>
+            <div asp-validation-summary="All"></div>
+            <div class="form-row">
+                <input type="text" class="form-control mb-3" asp-for="CommentID" type="hidden">
+                <div class="form-group col-md-6">
+                    <label asp-for="Name">Name</label>
+                    <input type="text" class="form-control mb-3" asp-for="Name">
+                    <span asp-validation-for="Name" class="alert-danger"></span>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="Email"></label>
+                <input type="text" class="form-control mb-3" asp-for="Email">
+                <span asp-validation-for="Email" class="alert-danger"></span>
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="CreateDate">Date</label>
+                <input type="text" class="form-control mb-3" asp-for="CreateDate">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="PostID">PostID</label>
+                <input type="text" class="form-control mb-3" asp-for="PostID">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="Message">Messeage</label>
+                <input type="text" class="form-control mb-3" asp-for="Message">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="IsActive">IsActive</label>
+                <input type="text" class="form-control mb-3" asp-for="IsActive">
+            </div>
+            <a asp-action="Edit" asp-route-id="@Model.CommentID">Edit</a> |
+            <a asp-action="Index">Back to List</a>
+        </form>
+    </div>
+</main>

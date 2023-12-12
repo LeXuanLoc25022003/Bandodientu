@@ -1,8 +1,5 @@
 ﻿@using Bandodientu.Models;
 @model IList<PostComment>
-@{
-    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-}
 <main id="main" class="main">
     <div class="pagetitle">
         <h2> Danh sách bình luận</h2>
@@ -20,15 +17,18 @@
                                 <td class="col-2 text-center">Messeage</td>
                                 <td class="col-1 text-center">PostID</td>
                                 <td class="col-1 text-center">Ẩn/Hiện</td>
-                                <td class="col-1 text-center">Chức năng</td>
+                                <td class="col-3 text-center">Chức năng</td>
                             </tr>
                         </thead>
                         <tbody>
+                            @{
+                                int i = 1;
+                            }
                             @foreach (var item in Model)
                             {
-                                <tr>
-                                    <th class="text-center" scope="row">@item.CommentID</th>
-                                    <td>
+                                <tr id="@item.CommentID" class="text-center">
+                                    <td>@(i++)</td>
+                                    <td class="text-center">
                                         <a asp-area="Admin" asp-controller="Menu" asp-action="Details"
                                            asp-route-id="@item.CommentID" class="text-primary">@item.Name</a>
                                     </td>
@@ -49,9 +49,8 @@
                                         <a asp-area="Admin" asp-controller="PostComment" asp-action="Edit"
                                            asp-route-id="@item.CommentID" class="btn btn-primary btn-sm"
                                            title="Sửa nội dung bình luận"><i class="bi bi-pencil"></i></a>
-                                        <a asp-area="Admin" asp-controller="PostComment" asp-action="Delete"
-                                           asp-route-id="@item.CommentID" class="btn btn-danger btn-sm"
-                                           title="Xóa bình luận"><i class="bi bi-trash"></i></a>
+                                        <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.CommentID">Chi tiết</a>
+                                        <a class="btn btn-danger btn-sm btn-delete" data-id="@item.CommentID">Xóa</a>
                                     </td>
                                 </tr>
                             }
@@ -62,3 +61,29 @@
         </div>
     </section>
 </main>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(".btn-delete").click(function () {
+                _id = $(this).data("id");
+                if (confirm("Bạn có muốn xóa không")) {
+                    $.ajax({
+                        url: "/Admin/PostComment/Delete",
+                        type: "POST",
+                        data: { id: _id },
+                        success: function (result) {
+                            if (result) {
+                                $("#tr_" + _id).remove();
+                                toastr.success('Xóa thành công');
+                            }
+                            else {
+                                toastr.error('Xóa không thành công');
+                            }
+                        }
+                    })
+                }
+            });
+        })
+    </script>
+}
+

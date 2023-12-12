@@ -1,0 +1,50 @@
+﻿@using Bandodientu.Utilities;
+@model Bandodientu.Models.Comment
+@{
+    Layout = "/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Chi tiết</h2>
+    </div>
+    <div class="container shadow p-5">
+        <form>
+            <div asp-validation-summary="All"></div>
+            <div class="form-row">
+                <input type="text" class="form-control mb-3" asp-for="CommentID" type="hidden">
+                <div class="form-group col-md-6">
+                    <label asp-for="YourName">YourName</label>
+                    <input type="text" class="form-control mb-3" asp-for="YourName">
+                    <span asp-validation-for="YourName" class="alert-danger"></span>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="YourEmail"></label>
+                <input type="text" class="form-control mb-3" asp-for="YourEmail">
+                <span asp-validation-for="YourEmail" class="alert-danger"></span>
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="DateTime">Date</label>
+                <input type="text" class="form-control mb-3" asp-for="DateTime">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="Review">Review</label>
+                <input type="text" class="form-control mb-3" asp-for="Review">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="ProductID">ProductID</label>
+                <input type="text" class="form-control mb-3" asp-for="ProductID">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="Rate">Rate</label>
+                <input type="text" class="form-control mb-3" asp-for="Rate">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="IsActive">IsActive</label>
+                <input type="text" class="form-control mb-3" asp-for="IsActive">
+            </div>
+            <a asp-action="Edit" asp-route-id="@Model.CommentID">Edit</a> |
+            <a asp-action="Index">Back to List</a>
+        </form>
+    </div>
+</main>

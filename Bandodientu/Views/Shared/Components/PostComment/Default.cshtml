@@ -7,22 +7,23 @@
 <div class="comments-list-wrap">
 	<h3 class="comment-count-title">@ViewBag.comment Comments</h3>
 	<div class="comment-list">
-		@if (Model != null && Model.Any(item => item.PostID == ViewBag.PostID))
+		@if (Model != null)
 		{
-			@foreach (var item in Model.Where(item => item.PostID == ViewBag.PostID))
+			foreach (var item in Model.Where(item => item.PostID == ViewBag.PostID))
 			{
 				<div class="single-comment-body">
 					<div class="comment-text-body">
 						<h4>@item.Name <span class="comment-date">@item.CreateDate</span><a class="reply-btn">reply</a></h4>
 						<p>@item.Message</p>
+						<form class="hidden-message" id="hidden-message">
+							<input id="c_customerID" value="@Function._CustomerID" class="input" type="text" style="display:none">
+							<input id="c_commentID" value="@item.CommentID" class="input1" type="text" style="display:none">
+							<input id="messeage" style="border-radius:50px;width: 400px;margin-left: 80px" type="text" placeholder="Nhập câu trả lời....." /><br />
+							<button type="button" id="c_reply" class="btn btn-info" style="border-radius: 50px;margin-left: 400px;">Trả lời</button>
+						</form>
 					</div>
 				</div>
-				<form class="hidden-message" id="hidden-message">
-					<input id="c_customerID" value="@Function._CustomerID" class="input" type="text" style="display:none">
-					<input id="c_commentID" value="@item.CommentID" class="input1" type="text" style="display:none">
-					<input id="messeage" style="border-radius:50px;width: 400px;margin-left: 80px" type="text" placeholder="Nhập câu trả lời....." /><br />
-					<button type="button" id="c_reply" class="btn btn-info" style="border-radius: 50px;margin-left: 400px;">Trả lời</button>
-				</form>
+				@await Component.InvokeAsync("PostCommentChild", new { commentId = item.CommentID })
 			}
 		}
 		else
@@ -32,8 +33,8 @@
 			</div>
 		}
 	</div>
-
 </div>
+
 <div class="comment-template">
 	<h4>Leave a comment</h4>
 	<p>If you have a comment dont feel hesitate to send us your opinion.</p>
@@ -52,6 +53,7 @@
 	<script>
 		$(document).ready(function () {
 			$(".reply-btn").click(function () {
+				var replyButton = $(this);
 				$.ajax({
 					url: "/Home/CheckLogin",
 					type: "POST",
@@ -59,7 +61,7 @@
 						if (!result.isLogin) {
 							toastr.error("Đăng nhập để phản hồi!");
 						} else {
-							$('#hidden-message').show();
+							replyButton.closest('.single-comment-body').find('.hidden-message').show();
 						}
 					},
 				});
@@ -105,7 +107,7 @@
 				$.ajax({
 					url: "/ReplyComment/Create",
 					type: "POST",
-					data: { customerID: _customerID, commentID: _commentID, messeage: messeage},
+					data: { customerID: _customerID, commentID: _commentID, messeage: messeage },
 					success: function (result) {
 						if (result) {
 							$("#c_customerID").val("");
@@ -118,6 +120,6 @@
 					}
 				});
 			});
-		})
+		});
 	</script>
 }

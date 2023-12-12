@@ -1,0 +1,68 @@
+﻿@using Bandodientu.Utilities;
+@model Bandodientu.Models.Product
+@{
+    Layout = "/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Chi tiết</h2>
+    </div>
+    <div class="container shadow p-5">
+        <form>
+            <div asp-validation-summary="All"></div>
+            <div class="form-row">
+                <input type="text" class="form-control mb-3" asp-for="ProductID" type="hidden">
+                <div class="form-group col-md-6">
+                    <label asp-for="ProductName">ProductName</label>
+                    <input type="text" class="form-control mb-3" asp-for="ProductName">
+                    <span asp-validation-for="ProductName" class="alert-danger"></span>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="OriginalPrice">OriginalPrice</label>
+                <input type="text" class="form-control mb-3" asp-for="OriginalPrice">
+                <span asp-validation-for="OriginalPrice" class="alert-danger"></span>
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="DiscountedPrice">DiscountedPrice</label>
+                <input type="text" class="form-control mb-3" asp-for="DiscountedPrice">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="DiscountCode">DiscountCode</label>
+                <input type="text" class="form-control mb-3" asp-for="DiscountCode">
+            </div>
+            <div class="form-group col-md-12">
+                <label class="control-label">Images</label>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" asp-for="Image" id="file_input" aria-describedby="button-addon2">
+                </div>
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="Description">Description</label>
+                <input type="text" class="form-control mb-3" asp-for="Description">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="Color">Color</label>
+                <input type="text" class="form-control mb-3" asp-for="Color">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="Quantity">Quantity</label>
+                <input type="text" class="form-control mb-3" asp-for="Quantity">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="New">New</label>
+                <input type="text" class="form-control mb-3" asp-for="New">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="Link">Link</label>
+                <input type="text" class="form-control mb-3" asp-for="Link">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="IsActive">IsActive</label>
+                <input type="text" class="form-control mb-3" asp-for="IsActive">
+            </div>
+            <a asp-action="Edit" asp-route-id="@Model.ProductID">Edit</a> |
+            <a asp-action="Index">Back to List</a>
+        </form>
+    </div>
+</main>

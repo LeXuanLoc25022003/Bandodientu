@@ -1,0 +1,78 @@
+﻿@using Bandodientu.Models;
+@model IList<Order>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2> Danh sách đơn hàng</h2>
+    </div>
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-12">
+                <div class="card-body mt-4">
+                    <table class="table table-borderless datatable">
+                        <thead>
+                            <tr>
+                                <th class="col-1 text-center">Mã</th>
+                                <th class="col-3 text-center">Tổng đơn hàng</th>
+                                <td class="col-2 text-center">DateTime</td>
+                                <td class="col-2 text-center">Trạng thái</td>
+                                <td class="col-3 text-center">Chức năng</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int i = 1;
+                            }
+                            @foreach (var item in Model)
+                            {
+                                <tr class="text-center" id="tr_@item.OrderID">
+                                    <td>@(i++)</td>
+                                    <td class="text-center">
+                                        <a asp-area="Admin" asp-controller="Order" asp-action="Details"
+                                           asp-route-id="@item.OrderID" class="text-primary">@item.ToTalAmount</a>
+                                    </td>
+                                    <td class="text-center">@item.CreateDate</td>
+                                    <td class="text-center">@item.OrderStatusID</td>
+                                    <td class="text-center">
+                                        <a asp-area="Admin" asp-controller="Order" asp-action="Edit"
+                                           asp-route-id="@item.OrderID" class="btn btn-primary btn-sm"
+                                           title="Sửa nội dung bình luận"><i class="bi bi-pencil"></i></a>
+                                        <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.OrderID">Chi tiết</a>
+                                        <a data-id="@item.OrderID" class="btn btn-danger btn-sm btn-delete"><i class="bi bi-trash"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(".btn-delete").click(function () {
+                _id = $(this).data("id");
+                if (confirm("Bạn có muốn xóa không")) {
+                    $.ajax({
+                        url: "/Admin/Order/Delete",
+                        type: "POST",
+                        data: { id: _id },
+                        success: function (result) {
+                            if (result) {
+                                $("#tr_" + _id).remove();
+                                toastr.success('Xóa thành công');
+                            }
+                            else {
+                                toastr.error('Xóa không thành công');
+                            }
+                        }
+                    })
+                }
+            });
+        })
+    </script>
+}

@@ -1,0 +1,48 @@
+﻿@using Bandodientu.Models;
+@model IList<Contact>
+<li class="nav-item dropdown">
+
+    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+        <i class="bi bi-chat-left-text"></i>
+        <span class="badge bg-success badge-number">@ViewBag.comment</span>
+    </a><!-- End Messages Icon -->
+
+    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+        <li class="dropdown-header">
+            You have @ViewBag.comment new messages
+            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+        </li>
+        <li>
+            <hr class="dropdown-divider">
+        </li>
+        @foreach(var item in Model)
+        {
+            if (Model != null)
+            {
+                <li class="message-item">
+                    <a href="#">
+                        <div>
+                            <h4>@item.Name</h4>
+                            <p>@item.Messeage</p>
+                            <p>@item.CreateDate</p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+            }
+            else
+            {
+                <li class="message-item">
+                    <a>Không có liên hệ nào</a>
+                </li>
+            }
+        }
+        <li class="dropdown-footer">
+            <a href="/Admin/Contact/Index">Show all messages</a>
+        </li>
+
+    </ul><!-- End Messages Dropdown Items -->
+
+</li><!-- End Messages Nav -->

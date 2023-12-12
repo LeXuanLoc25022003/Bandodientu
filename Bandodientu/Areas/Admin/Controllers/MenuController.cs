@@ -1,6 +1,7 @@
 ﻿using Bandodientu.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace Doanlaptrinhweb2.Areas.Admin.Controllers
 {
@@ -17,7 +18,23 @@ namespace Doanlaptrinhweb2.Areas.Admin.Controllers
             var mnList = _context.Menus.OrderBy(m => m.MenuID).ToList();
             return View(mnList);
         }
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null || _context.Menus == null)
+            {
+                return NotFound();
+            }
 
+            var tbProduct = await _context.Menus
+                //.Include(t => t.PostOrder)
+                .FirstOrDefaultAsync(m => m.MenuID == id);
+            if (tbProduct == null)
+            {
+                return NotFound();
+            }
+
+            return View(tbProduct);
+        }
         public IActionResult Delete(int? id)
         {
             if (id == null || id == 0)

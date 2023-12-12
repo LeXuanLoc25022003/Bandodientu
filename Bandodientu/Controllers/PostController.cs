@@ -59,7 +59,7 @@ namespace Bandodientu.Controllers
 			var post = _context.Posts
 				.FirstOrDefault(m => m.PostID == id);
 			var comments = _context.postComments
-				.Count(m => (m.PostID == id));			
+				.Count(m => (m.PostID == id));
 			if (post == null)
 			{
 				return NotFound();

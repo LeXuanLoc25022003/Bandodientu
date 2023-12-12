@@ -56,57 +56,6 @@ namespace Bandodientu.Controllers
 
 				return RedirectToAction("Index", "Home");
 			}
-		//public List<Cart> Carts
-		//{
-		//	get
-		//	{
-		//		var data = HttpContext.Session.Get<List<Cart>>("GioHang");
-		//		if (data == null)
-		//		{
-		//			data = new List<Cart>();
-		//		}
-		//		return data;
-		//	}
-		//}
-
-		//public IActionResult Index()
-		//{
-		//	return View(Carts);
-		//}
-
-		//public IActionResult AddToCart(int id, int SoLuong, string type = "Normal")
-		//{
-		//	var myCart = Carts;
-		//	var item = myCart.SingleOrDefault(p => p.MaHh == id);
-
-		//	if (item == null)//chưa có
-		//	{
-		//		var hangHoa = _context.Products.SingleOrDefault(p => p.ProductID == id);
-		//		item = new Cart
-		//		{
-		//			MaHh = id,
-		//			TenHH = hangHoa.ProductName,
-		//			DonGia = hangHoa.OriginalPrice,
-		//			SoLuong = SoLuong,
-		//			Hinh = hangHoa.Image
-		//		};
-		//		myCart.Add(item);
-		//	}
-		//	else
-		//	{
-		//		item.SoLuong += SoLuong;
-		//	}
-		//	HttpContext.Session.Set("GioHang", myCart);
-
-		//	if (type == "ajax")
-		//	{
-		//		return Json(new
-		//		{
-		//			SoLuong = Carts.Sum(c => c.SoLuong)
-		//		});
-		//	}
-		//	return RedirectToAction("Index");
-		//}
 		public ActionResult DeleteToCart(int productId)
 		{
 			Product? product = _context.Products

@@ -1,7 +1,8 @@
 ﻿@model Cart;
 @using Bandodientu.Utilities;
 @{
-	Layout = null;
+	IList<Customer> customer = ViewBag.Customer;
+	Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +39,16 @@
 	  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
+	<style>
+		.button-details-cacenl{
+			display:flex;
+		}
 
+		.button-details-cacenl .cancel {
+			padding-left:20px;
+			margin-left:80px;
+		}
+	</style>
 </head>
 <body>
 	<!-- HEADER -->
@@ -154,30 +164,18 @@
 							<h3 class="title">Billing address</h3>
 						</div>
 						<div class="form-group">
-							<input class="input" type="text" name="first-name" placeholder="First Name">
+							<input class="input" type="text" name="Full-name" value="@Function._UserName" style="color:red" readonly="readonly">
 						</div>
 						<div class="form-group">
-							<input class="input" type="text" name="last-name" placeholder="Last Name">
+							<input class="input" type="text" name="Phone" value="@Function._Phone" style="color:red" readonly="readonly">
 						</div>
 						<div class="form-group">
-							<input class="input" type="email" name="email" placeholder="Email">
+							<input class="input" type="email" name="email" value="@Function._Email" style="color:red" readonly="readonly">
 						</div>
 						<div class="form-group">
-							<input class="input" type="text" name="address" placeholder="Address">
+							<input class="input" type="text" id="address" placeholder="Nhập địa chỉ...">
 						</div>
-						<div class="form-group">
-							<input class="input" type="text" name="city" placeholder="City">
-						</div>
-						<div class="form-group">
-							<input class="input" type="text" name="country" placeholder="Country">
-						</div>
-						<div class="form-group">
-							<input class="input" type="text" name="zip-code" placeholder="ZIP Code">
-						</div>
-						<div class="form-group">
-							<input class="input" type="tel" name="tel" placeholder="Telephone">
-						</div>
-						<div class="form-group">
+						@* <div class="form-group">
 							<div class="input-checkbox">
 								<input type="checkbox" id="create-account">
 								<label for="create-account">
@@ -189,11 +187,11 @@
 									<input class="input" type="password" name="password" placeholder="Enter Your Password">
 								</div>
 							</div>
-						</div>
+						</div> *@
 					</div>
 					<!-- /Billing Details -->
 					<!-- Shiping Details -->
-					<div class="shiping-details">
+					@* <div class="shiping-details">
 						<div class="section-title">
 							<h3 class="title">Shiping address</h3>
 						</div>
@@ -230,12 +228,12 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> *@
 					<!-- /Shiping Details -->
 					<!-- Order notes -->
-					<div class="order-notes">
+@* 					<div class="order-notes">
 						<textarea class="input" placeholder="Order Notes"></textarea>
-					</div>
+					</div> *@
 					<!-- /Order notes -->
 				</div>
 
@@ -256,21 +254,21 @@
 						<div class="order-products">
 							<div class="order-col">
 								<div>@line.Quantity x @line.Product.ProductName</div>
-								<div>$@line.Product.OriginalPrice</div>
+								<div>$@(line.Product.DiscountedPrice * line.Quantity)</div>
 							</div>
 						</div>
 						}
 						}
 						<div class="order-col">
 							<div>Shiping</div>
-							<div><strong>FREE</strong></div>
+							<div><strong>$20000</strong></div>
 						</div>
 						<div class="order-col">
 							<div><strong>TOTAL</strong></div>
-							<div><strong class="order-total">$2940.00</strong></div>
+							<div><strong class="order-total">$@(Model?.ComputeTotalValue() + 20000)</strong></div>
 						</div>
 					</div>
-					<div class="payment-method">
+@* 					<div class="payment-method">
 						<div class="input-radio">
 							<input type="radio" name="payment" id="payment-1">
 							<label for="payment-1">
@@ -308,8 +306,12 @@
 							<span></span>
 							I've read and accept the <a href="#">terms & conditions</a>
 						</label>
+					</div> *@
+					<button id="c_send" class="primary-btn order-submit">Đặt hàng</button>
+					<div class="button-details-cacenl" style="display:none">
+						<button id="c_detail" class="primary-btn order-submit">Chi tiết đơn hàng</button>
+						<button id="c_cancel" class="primary-btn order-submit cancel">Hủy đơn</button>
 					</div>
-					<a href="#" class="primary-btn order-submit">Place order</a>
 				</div>
 				<!-- /Order Details -->
 			</div>
@@ -454,6 +456,56 @@
 	<script src="~/js/nouislider.min.js"></script>
 	<script src="~/js/jquery.zoom.min.js"></script>
 	<script src="~/js/main.js"></script>
+	@section Scripts6{
+		<script>
+			$(document).ready(function () {
+				$("#c_send").click(function () {
+					_address = $("#address").val();
+					$.ajax({
+						url: "/Checkout/Order",
+						type: "POST",
+						data: { address:_address},
+						success: function (result) {
+							if (result) {
+								$("#address").val("");
+								$("#c_send").hide();
+								$(".button-details-cacenl").show();
+								$(".billing-details").hide();
+								toastr.success('Đặt hàng thành công');
+							} else {
+								toastr.error('Đặt hàng không thành công');
+							}
+						}
+					});
+				});
+			})
+		</script>
+	}
+	@section Scripts7{
+		<script>
+			$(document).ready(function () {
+				$("#c_cancel").click(function () {
+					_id = $(this).data("id");
+					if (confirm("Bạn có muốn xóa không")) {
+						$.ajax({
+							url: "/Admin/Comment/Delete",
+							type: "POST",
+							data: { id: _id },
+							success: function (result) {
+								if (result) {
+									$("#tr_" + _id).remove();
+									toastr.success('Xóa thành công');
+								}
+								else {
+									toastr.error('Xóa không thành công');
+								}
+							}
+						})
+					}
+				});
+			})
+		</script>
+	}
 
 </body>
 </html>

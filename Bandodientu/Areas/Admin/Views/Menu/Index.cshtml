@@ -25,20 +25,20 @@
                                 <td class="col-2 text-center">Menu cha</td>
                                 <td class="col-1 text-center">Thứ tự</td>
                                 <td class="col-1 text-center">Ẩn/Hiện</td>
-                                <td class="col-2 text-center">Chức năng</td>
+                                <td class="col-3 text-center">Chức năng</td>
                             </tr>
                         </thead>
                         <tbody>
                             @{
-                                int i = 0;
+                                int i = 1;
                             }
                             @foreach (var item in Model)
                             {
-                                <tr id="tr_@item.MenuID">
+                                <tr class="text-center" id="tr_@item.MenuID">
                                     <td>@(i++)</td>
-                                    <td>
+                                    <td class="text-center">
                                         <a asp-area="Admin" asp-controller="Menu" asp-action="Details"
-                                           asp-route-id="@item.MenuID" class="text-primary">@item.MenuName</a>
+                                           asp-route-id="@item.MenuID" class="text-center">@item.MenuName</a>
                                     </td>
                                     <td class="text-center">@item.Levels</td>
                                     <td class="text-center">@item.ParentID</td>
@@ -57,9 +57,8 @@
                                         <a asp-area="Admin" asp-controller="Menu" asp-action="Edit"
                                            asp-route-id="@item.MenuID" class="btn btn-primary btn-sm"
                                            title="Sửa nội dung"><i class="bi bi-pencil"></i></a>
-                                        <a asp-area="Admin" asp-controller="Menu" asp-action="Delete"
-                                           asp-route-id="@item.MenuID" class="btn btn-danger btn-sm"
-                                           title="Xóa thông tin"><i class="bi bi-trash"></i></a>
+                                        <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.MenuID">Chi tiết</a>
+                                        <a data-id="@item.MenuID" class="btn btn-danger btn-sm btn-delete"><i class="bi bi-trash"></i></a>
                                     </td>
                                 </tr>
                             }
@@ -70,3 +69,28 @@
         </div>
     </section>
 </main>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(".btn-delete").click(function () {
+                _id = $(this).data("id");
+                if (confirm("Bạn có muốn xóa không")) {
+                    $.ajax({
+                        url: "/Admin/Menu/Delete",
+                        type: "POST",
+                        data: { id: _id },
+                        success: function (result) {
+                            if (result) {
+                                $("#tr_" + _id).remove();
+                                toastr.success('Xóa thành công');
+                            }
+                            else {
+                                toastr.error('Xóa không thành công');
+                            }
+                        }
+                    })
+                }
+            });
+        })
+    </script>
+}

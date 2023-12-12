@@ -1,0 +1,62 @@
+﻿@using Bandodientu.Utilities;
+@model Bandodientu.Models.Menu
+@{
+    Layout = "/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Chi tiết</h2>
+    </div>
+    <div class="container shadow p-5">
+        <form>
+            <div asp-validation-summary="All"></div>
+            <div class="form-row">
+                <input type="text" class="form-control mb-3" asp-for="MenuID" type="hidden">
+                <div class="form-group col-md-6">
+                    <label asp-for="MenuName">Name</label>
+                    <input type="text" class="form-control mb-3" asp-for="MenuName">
+                    <span asp-validation-for="MenuName" class="alert-danger"></span>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="ControllerName">ControlerName</label>
+                <input type="text" class="form-control mb-3" asp-for="ControllerName">
+                <span asp-validation-for="ControllerName" class="alert-danger"></span>
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="ActionName">ActionName</label>
+                <input type="text" class="form-control mb-3" asp-for="ActionName">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="ParentID">ParentID</label>
+                <input type="text" class="form-control mb-3" asp-for="ParentID">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="Link">Link</label>
+                <input type="text" class="form-control mb-3" asp-for="Link">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="MenuOrder">MenuOrder</label>
+                <input type="text" class="form-control mb-3" asp-for="MenuOrder">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="Position">Position</label>
+                <input type="text" class="form-control mb-3" asp-for="Position">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="Levels">Levels</label>
+                <input type="text" class="form-control mb-3" asp-for="Levels">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="Icon">Icon</label>
+                <input type="text" class="form-control mb-3" asp-for="Icon">
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="IsActive">IsActive</label>
+                <input type="text" class="form-control mb-3" asp-for="IsActive">
+            </div>
+            <a asp-action="Edit" asp-route-id="@Model.MenuID">Edit</a> |
+            <a asp-action="Index">Back to List</a>
+        </form>
+    </div>
+</main>

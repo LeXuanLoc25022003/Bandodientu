@@ -1,0 +1,50 @@
+﻿@model Bandodientu.Models.Order
+@using Bandodientu.Utilities
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Xác nhận chỉnh đơn hàng</h2>
+    </div>
+    <div class="container show p-5">
+        <div class="row pb-2">
+            <h2>Sửa đơn hàng</h2>
+        </div>
+
+        <form methoad="post" asp-action="Edit">
+            <div asp-validation-summary="All"></div>
+            <div class="form-row">
+                <input type="text" class="form-control mb-3" asp-for="OrderID" type="hidden">
+                <div class="form-group col-md-6">
+                    <label asp-for="CustomerID">CustomerID</label>
+                    <input type="text" class="form-control mb-3" asp-for="CustomerID" placeholder="Nhập mã khách hàng">
+                    <span asp-validation-for="CustomerID" class="alert-danger"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-mb-6">
+                    <label asp-for="Address">Address</label>
+                    <input type="text" class="form-control mb-3" asp-for="Address" placeholder="Nhập địa chỉ" />
+                    <span asp-validation-for="Address" class="alert-danger"></span>
+                </div>
+                <div class="form-group col-mb-6">
+                    <label asp-for="ToTalAmount">TotalAmount</label>
+                    <input type="text" class="form-control mb-3" asp-for="ToTalAmount" placeholder="Nhập tổng đơn hàng" />
+                    <span asp-validation-for="ToTalAmount" class="alert-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="OrderStatusID">Chọn trạng thái đơn hàng</label>
+                    <select asp-for="OrderStatusID" class="form-control"
+                            asp-items="@(new SelectList(ViewBag.mnList,"Value","Text"))"></select>
+                    <span asp-validation-for="OrderStatusID" class="alert-danger"></span>
+                </div>
+                <div class="form-group d-none">
+                    <input asp-for="CreateDate" class="form-control" value="@Function.getCurentDate()" />
+                </div>
+            </div>
+            <button type="submit" class="btn btn-lg btn-primary p-2"><i class="bi bi-file-plus-fill"></i>Lưu</button>
+            <a asp-controller="Order" asp-action="Index" class="btn btn-lg btn-warning p-2">Quay lại</a>
+        </form>
+    </div>
+</main>

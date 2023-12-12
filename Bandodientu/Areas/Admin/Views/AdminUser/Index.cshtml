@@ -19,7 +19,7 @@
                                 <td class="col-1 text-center">Password</td>
                                 <td class="col-1 text-center">Email</td>
                                 <td class="col-1 text-center">Ẩn/Hiện</td>
-                                <td class="col-2 text-center">Chức năng</td>
+                                <td class="col-3 text-center">Chức năng</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -28,9 +28,9 @@
                             }
                             @foreach (var item in Model)
                             {
-                                <tr id="tr_@item.UserID">
+                                <tr class="text-center" id="tr_@item.UserID">
                                     <td>@(i++)</td>
-                                    <td>
+                                    <td class ="text-center">
                                         <a asp-area="Admin" asp-controller="Menu" asp-action="Details"
                                            asp-route-id="@item.UserID" class="text-primary">@item.UserName</a>
                                     </td>
@@ -50,9 +50,8 @@
                                         <a asp-area="Admin" asp-controller="AdminUser" asp-action="Edit"
                                            asp-route-id="@item.UserID" class="btn btn-primary btn-sm"
                                            title="Sửa nội dung bài viết"><i class="bi bi-pencil"></i></a>
-                                        <a asp-area="Admin" asp-controller="AdminUser" asp-action="Delete"
-                                           asp-route-id="@item.UserID" class="btn btn-danger btn-sm"
-                                           title="Xóa thông tin người dùng"><i class="bi bi-trash"></i></a>
+                                        <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.UserID">Chi tiết</a>
+                                        <a data-id="@item.UserID" class="btn btn-danger btn-sm btn-delete"><i class="bi bi-trash"></i></a>
                                     </td>
                                 </tr>
                             }
@@ -63,3 +62,28 @@
         </div>
     </section>
 </main>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(".btn-delete").click(function () {
+                _id = $(this).data("id");
+                if (confirm("Bạn có muốn xóa không")) {
+                    $.ajax({
+                        url: "/Admin/AdminUser/Delete",
+                        type: "POST",
+                        data: { id: _id },
+                        success: function (result) {
+                            if (result) {
+                                $("#tr_" + _id).remove();
+                                toastr.success('Xóa thành công');
+                            }
+                            else {
+                                toastr.error('Xóa không thành công');
+                            }
+                        }
+                    })
+                }
+            });
+        })
+    </script>
+}

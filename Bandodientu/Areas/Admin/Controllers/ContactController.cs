@@ -1,5 +1,6 @@
 ﻿using Bandodientu.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bandodientu.Areas.Admin.Controllers
 {
@@ -16,7 +17,24 @@ namespace Bandodientu.Areas.Admin.Controllers
 			var mnList = _context.Contacts.OrderBy(m=>m.ContactID).ToList();
 			return View(mnList);
 		}
-		public IActionResult Delete(int? id)
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null || _context.Contacts == null)
+            {
+                return NotFound();
+            }
+
+            var tbProduct = await _context.Contacts
+                //.Include(t => t.PostOrder)
+                .FirstOrDefaultAsync(m => m.ContactID == id);
+            if (tbProduct == null)
+            {
+                return NotFound();
+            }
+
+            return View(tbProduct);
+        }
+        public IActionResult Delete(int? id)
 		{
 			if( id== null || id == 0)
 			{

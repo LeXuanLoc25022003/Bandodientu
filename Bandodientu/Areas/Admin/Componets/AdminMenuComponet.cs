@@ -1,7 +1,7 @@
 ﻿using Bandodientu.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Doanlaptrinhweb2.Areas.Admin.Components
+namespace Bandodientu.Areas.Admin.Components
 {
 	[ViewComponent(Name = "AdminMenu")]
 	public class AdminMenuComponent : ViewComponent

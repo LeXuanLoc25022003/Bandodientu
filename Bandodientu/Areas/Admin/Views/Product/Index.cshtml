@@ -33,11 +33,11 @@
                             }
                             @foreach (var item in Model.OrderBy(n=>n.ProductID))
                             {
-                                <tr id="tr_@item.ProductID">
+                                <tr id="tr_@item.ProductID" class="text-center">
                                     <td>@(i++)</td>
-                                    <td>
+                                    <td class="text-center">
                                         <a asp-area="Admin" asp-controller="Menu" asp-action="Details"
-                                           asp-route-id="@item.ProductID" class="text-primary"><img style="width:50px;height:50px" src="@item.Image" /></a>
+                                           asp-route-id="@item.ProductID" class="text-center"><img style="width:50px;height:50px" src="@item.Image" /></a>
                                     </td>
                                     <td class="text-left">@item.ProductName</td>
                                     <td class="text-center">@item.Quantity</td>
@@ -55,9 +55,8 @@
                                         <a asp-area="Admin" asp-controller="Product" asp-action="Edit"
                                            asp-route-id="@item.ProductID" class="btn btn-primary btn-sm"
                                            title="Sửa nội dung bài viết"><i class="bi bi-pencil"></i></a>
-                                        <a asp-area="Admin" asp-controller="Product" asp-action="Delete"
-                                           asp-route-id="@item.ProductID" class="btn btn-danger btn-sm"
-                                           title="Xóa thông tin bài viết"><i class="bi bi-trash"></i></a>
+                                        <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.ProductID">Chi tiết</a>
+                                        <a data-id="@item.ProductID" class="btn btn-danger btn-sm btn-delete"><i class="bi bi-trash"></i></a>
                                     </td>
                                 </tr>
                             }
@@ -68,3 +67,28 @@
         </div>
     </section>
 </main>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(".btn-delete").click(function () {
+                _id = $(this).data("id");
+                if (confirm("Bạn có muốn xóa không")) {
+                    $.ajax({
+                        url: "/Admin/Product/Delete",
+                        type: "POST",
+                        data: { id: _id },
+                        success: function (result) {
+                            if (result) {
+                                $("#tr_" + _id).remove();
+                                toastr.success('Xóa thành công');
+                            }
+                            else {
+                                toastr.error('Xóa không thành công');
+                            }
+                        }
+                    })
+                }
+            });
+        })
+    </script>
+}

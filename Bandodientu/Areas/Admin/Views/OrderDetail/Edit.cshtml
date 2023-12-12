@@ -1,0 +1,46 @@
+﻿@model Bandodientu.Models.OrderDetail
+@using Bandodientu.Utilities
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Xác nhận chỉnh chi tiết đơn hàng</h2>
+    </div>
+    <div class="container show p-5">
+        <div class="row pb-2">
+            <h2>Sửa chi tiết đơn hàng</h2>
+        </div>
+
+        <form methoad="post" asp-action="Edit">
+            <div asp-validation-summary="All"></div>
+            <div class="form-row">
+                <input type="text" class="form-control mb-3" asp-for="OrderDetailID" type="hidden">
+                <div class="form-group col-md-6">
+                    <label asp-for="OrderID">OrderID</label>
+                    <input type="text" class="form-control mb-3" asp-for="OrderID" placeholder="Nhập mã đơn hàng">
+                    <span asp-validation-for="OrderID" class="alert-danger"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-mb-6">
+                    <label asp-for="ProductID">ProductID</label>
+                    <input type="text" class="form-control mb-3" asp-for="ProductID" placeholder="Nhập mã sản phẩm" />
+                    <span asp-validation-for="ProductID" class="alert-danger"></span>
+                </div>
+                <div class="form-group col-mb-6">
+                    <label asp-for="Price">Price</label>
+                    <input type="text" class="form-control mb-3" asp-for="Price" placeholder="Nhập giá sản phẩm" />
+                    <span asp-validation-for="Price" class="alert-danger"></span>
+                </div>
+                <div class="form-group col-mb-6">
+                    <label asp-for="Quantity">Quantity</label>
+                    <input type="text" class="form-control mb-3" asp-for="Quantity" placeholder="Nhập số lượng" />
+                    <span asp-validation-for="Quantity" class="alert-danger"></span>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-lg btn-primary p-2"><i class="bi bi-file-plus-fill"></i>Lưu</button>
+            <a asp-controller="OrderDetail" asp-action="Index" class="btn btn-lg btn-warning p-2">Quay lại</a>
+        </form>
+    </div>
+</main>
