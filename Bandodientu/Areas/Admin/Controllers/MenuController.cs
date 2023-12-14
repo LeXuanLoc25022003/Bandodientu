@@ -1,7 +1,9 @@
 ﻿using Bandodientu.Models;
+using Bandodientu.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing.Printing;
 
 namespace Doanlaptrinhweb2.Areas.Admin.Controllers
 {
@@ -9,14 +11,45 @@ namespace Doanlaptrinhweb2.Areas.Admin.Controllers
     public class MenuController : Controller
     {
         private readonly DataContext _context;
+        int PageSize = 5;
         public MenuController(DataContext context)
         {
             _context = context;
         }
-        public IActionResult Index()
+        public IActionResult Index(int productPage = 1)
         {
-            var mnList = _context.Menus.OrderBy(m => m.MenuID).ToList();
-            return View(mnList);
+            return View(
+                new MenuListViewModel
+                {
+                    Menus = _context.Menus
+                    .Skip((productPage - 1) * PageSize)
+                    .Take(PageSize),
+                    PagingInfo = new PagingInfo
+                    {
+                        ItemsPerPage = PageSize,
+                        CurrentPage = productPage,
+                        TotalItems = _context.Menus.Count()
+                    }
+                }
+                );
+        }
+        public async Task<IActionResult> Search(string keywords, int productPage = 1)
+        {
+            return View("Index",
+                new MenuListViewModel
+                {
+                    Menus = _context.Menus
+                    .Where(m => m.MenuName.Contains(keywords))
+                    .Skip((productPage - 1) * PageSize)
+                    .Take(PageSize),
+                    PagingInfo = new PagingInfo
+                    {
+                        ItemsPerPage = PageSize,
+                        CurrentPage = productPage,
+                        TotalItems = _context.Menus.Count()
+                    }
+                }
+                );
         }
         public async Task<IActionResult> Details(int? id)
         {

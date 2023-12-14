@@ -29,6 +29,27 @@
 
     <!-- Template Main CSS File -->
     <link href="~/admin/assets/css/style.css" rel="stylesheet">
+    <style>
+        .input1-group {
+            display: flex;
+        }
+        .input-group{
+            width:30%;
+            margin-right:30px;
+        }
+
+        label {
+            display: inline-block;
+            font-size: 24px;
+        }
+
+        .input-group-append{
+            margin-left:30px;  
+        }
+        .year{
+            margin-left:30px;
+        }
+    </style>
 </head>
 
 <body>
@@ -37,7 +58,7 @@
     <header id="header" class="header fixed-top d-flex align-items-center">
 
         <div class="d-flex align-items-center justify-content-between">
-            <a href="index.html" class="logo d-flex align-items-center">
+            <a href="/Admin" class="logo d-flex align-items-center">
                 <img src="admin/assets/img/logo.png" alt="">
                 <span class="d-none d-lg-block">ElectronAdmin</span>
             </a>
@@ -142,9 +163,6 @@
 
     <!-- Template Main JS File -->
     <script src="~/admin/assets/js/main.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 

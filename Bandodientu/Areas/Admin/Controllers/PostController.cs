@@ -1,13 +1,16 @@
 ﻿using Bandodientu.Models;
+using Bandodientu.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing.Printing;
 
 namespace Bandodientu.Areas.Admin.Controllers
 {
 	[Area("Admin")]
 	public class PostController : Controller
 	{
+		int PageSize = 3;
 		private readonly DataContext _context;
 
 		public PostController(DataContext context)
@@ -15,11 +18,41 @@ namespace Bandodientu.Areas.Admin.Controllers
 			_context = context;
 		}
 
-		public IActionResult Index()
+		public IActionResult Index(int productPage = 1)
 		{
-			var mnList = _context.Posts.OrderBy(m => m.PostID).ToList();
-			return View(mnList);
-		}
+            return View(
+            new PostListViewModel
+            {
+                Posts = _context.Posts
+                .Skip((productPage - 1) * PageSize)
+                .Take(PageSize),
+                PagingInfo = new PagingInfo
+                {
+                    ItemsPerPage = PageSize,
+                    CurrentPage = productPage,
+                    TotalItems = _context.Posts.Count()
+                }
+            }
+            );
+        }
+        public async Task<IActionResult> Search(int month, int productPage = 1)
+        {
+            return View("Index",
+                new PostListViewModel
+                {
+                    Posts = _context.Posts
+                    .Where(m => m.MenuID.Equals(month))
+                    .Skip((productPage - 1) * PageSize)
+                    .Take(PageSize),
+                    PagingInfo = new PagingInfo
+                    {
+                        ItemsPerPage = PageSize,
+                        CurrentPage = productPage,
+                        TotalItems = _context.Posts.Count()
+                    }
+                }
+                );
+        }
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Posts == null)

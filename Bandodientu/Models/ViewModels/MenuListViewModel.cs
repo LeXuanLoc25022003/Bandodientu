@@ -1,8 +1,8 @@
 ﻿namespace Bandodientu.Models.ViewModels
 {
-	public class ProductListViewModel
+	public class MenuListViewModel
 	{
-		public IEnumerable<Product> Products { get; set; } = Enumerable.Empty<Product>();
+        public IEnumerable<Menu> Menus { get; set; } = Enumerable.Empty<Menu>();
         public PagingInfo PagingInfo { get; set; } = new PagingInfo();
 	}
 }

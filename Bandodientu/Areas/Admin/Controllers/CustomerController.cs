@@ -1,8 +1,10 @@
 ﻿using Bandodientu.Areas.Admin.Models;
 using Bandodientu.Models;
+using Bandodientu.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing.Printing;
 
 namespace Bandodientu.Areas.Admin.Controllers
 {
@@ -10,14 +12,45 @@ namespace Bandodientu.Areas.Admin.Controllers
     public class CustomerController : Controller
     {
         private readonly DataContext _context;
+        int PageSize = 5;
         public CustomerController(DataContext context)
         {
             _context = context;
         }
-        public IActionResult Index()
+        public IActionResult Index(int productPage = 1)
         {
-            var mnList = _context.customers.OrderBy(m=>m.CustomerID).ToList();
-            return View(mnList);
+            return View(
+            new CustomerListViewModel
+            {
+                Customers = _context.customers
+                .Skip((productPage - 1) * PageSize)
+                .Take(PageSize),
+                PagingInfo = new PagingInfo
+                {
+                    ItemsPerPage = PageSize,
+                    CurrentPage = productPage,
+                    TotalItems = _context.customers.Count()
+                }
+            }
+            );
+        }
+        public async Task<IActionResult> Search(string keywords, int productPage = 1)
+        {
+            return View("Index",
+                new CustomerListViewModel
+                {
+                    Customers = _context.customers
+                    .Where(m => m.UserName.Equals(keywords))
+                    .Skip((productPage - 1) * PageSize)
+                    .Take(PageSize),
+                    PagingInfo = new PagingInfo
+                    {
+                        ItemsPerPage = PageSize,
+                        CurrentPage = productPage,
+                        TotalItems = _context.customers.Count()
+                    }
+                }
+                );
         }
         public async Task<IActionResult> Details(int? id)
         {

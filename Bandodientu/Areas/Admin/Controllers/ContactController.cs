@@ -1,6 +1,9 @@
 ﻿using Bandodientu.Models;
+using Bandodientu.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
+using System.Drawing.Printing;
 
 namespace Bandodientu.Areas.Admin.Controllers
 {
@@ -8,15 +11,46 @@ namespace Bandodientu.Areas.Admin.Controllers
 	public class ContactController : Controller
 	{
 		private readonly DataContext _context;
+        int PageSize = 5;
 		public ContactController(DataContext context) 
 		{
 			_context = context;
 		}
-		public IActionResult Index()
+		public IActionResult Index(int productPage = 1)
 		{
-			var mnList = _context.Contacts.OrderBy(m=>m.ContactID).ToList();
-			return View(mnList);
-		}
+            return View(
+            new ContactListViewModel
+            {
+                Contacts = _context.Contacts
+                .Skip((productPage - 1) * PageSize)
+                .Take(PageSize),
+                PagingInfo = new PagingInfo
+                {
+                    ItemsPerPage = PageSize,
+                    CurrentPage = productPage,
+                    TotalItems = _context.Contacts.Count()
+                }
+            }
+            );
+        }
+        public async Task<IActionResult> Search(string keywords,int month,int year, int productPage = 1)
+        {
+            return View("Index",
+                new ContactListViewModel
+                {
+                    Contacts = _context.Contacts
+                    .Where(m => m.Name.Contains(keywords) || m.CreateDate.Month == month || m.CreateDate.Year == year)
+                    .Skip((productPage - 1) * PageSize)
+                    .Take(PageSize),
+                    PagingInfo = new PagingInfo
+                    {
+                        ItemsPerPage = PageSize,
+                        CurrentPage = productPage,
+                        TotalItems = _context.Contacts.Count()
+                    }
+                }
+                );
+        }
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Contacts == null)
@@ -25,7 +59,6 @@ namespace Bandodientu.Areas.Admin.Controllers
             }
 
             var tbProduct = await _context.Contacts
-                //.Include(t => t.PostOrder)
                 .FirstOrDefaultAsync(m => m.ContactID == id);
             if (tbProduct == null)
             {

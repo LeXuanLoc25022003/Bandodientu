@@ -1,20 +1,36 @@
 ﻿using Bandodientu.Models;
+using Bandodientu.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing.Printing;
 
 namespace Bandodientu.Controllers
 {
 	public class CommentController : Controller
 	{
 		private readonly DataContext _context;
+		int PageSize = 2;
 		public CommentController(DataContext context)
 		{
 			_context = context;
 		}
-		public IActionResult Index()
+		public IActionResult Index(int productPage=1)
 		{
-			return View();
-		}
+            return View(
+				new CommentListViewModel
+				{
+				Comments = _context.Comments
+				.Skip((productPage - 1) * PageSize)
+				.Take(PageSize),
+				PagingInfo = new PagingInfo
+					{
+					ItemsPerPage = PageSize,
+					CurrentPage = productPage,
+					TotalItems = _context.Comments.Count()
+					}
+				}
+			);
+        }
 		[HttpPost]
 		public bool Create(string name, string email, string review, int id, int rate)
 		{

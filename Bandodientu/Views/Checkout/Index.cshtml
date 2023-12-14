@@ -188,6 +188,7 @@
 								</div>
 							</div>
 						</div> *@
+
 					</div>
 					<!-- /Billing Details -->
 					<!-- Shiping Details -->
@@ -236,7 +237,9 @@
 					</div> *@
 					<!-- /Order notes -->
 				</div>
-
+				<div class="caption" style="display:none">
+					@await Component.InvokeAsync("OrderDetail")
+				</div>
 				<!-- Order Details -->
 				<div class="col-md-5 order-details">
 					<div class="section-title text-center">
@@ -307,11 +310,12 @@
 							I've read and accept the <a href="#">terms & conditions</a>
 						</label>
 					</div> *@
-					<button id="c_send" class="primary-btn order-submit">Đặt hàng</button>
+					<button id="c_send" class="primary-btn order-submit">Đặt hàng</button>					
 					<div class="button-details-cacenl" style="display:none">
 						<button id="c_detail" class="primary-btn order-submit">Chi tiết đơn hàng</button>
 						<button id="c_cancel" class="primary-btn order-submit cancel">Hủy đơn</button>
 					</div>
+
 				</div>
 				<!-- /Order Details -->
 			</div>
@@ -506,6 +510,23 @@
 			})
 		</script>
 	}
-
+	@section Scripts8{
+		<script>
+			$(document).ready(function () {
+				$("#c_detail").click(function () {
+					$.ajax({
+						success: function (result) {
+							if (result) {
+								$(".caption").show();
+								$(".order-details").hide();
+							} else {
+								toastr.error('Bạn chưa đặt hàng');
+							}
+						}
+					});
+				});
+			})
+		</script>
+	}
 </body>
 </html>

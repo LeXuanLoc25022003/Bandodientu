@@ -1,7 +1,9 @@
 ﻿using Bandodientu.Models;
+using Bandodientu.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing.Printing;
 
 namespace Bandodientu.Areas.Admin.Controllers
 {
@@ -9,6 +11,7 @@ namespace Bandodientu.Areas.Admin.Controllers
     public class LocationController : Controller
     {
         private readonly DataContext _context;
+        int PageSize = 5;
         public LocationController(DataContext context)
         {
             _context = context;
@@ -30,10 +33,40 @@ namespace Bandodientu.Areas.Admin.Controllers
 
             return View(tbProduct);
         }
-        public IActionResult Index()
+        public IActionResult Index(int productPage = 1)
         {
-            var mnList = _context.Locations.OrderBy(m => m.LocationID).ToList();
-            return View(mnList);
+            return View(
+            new LocationListViewModel
+            {
+                Locations = _context.Locations
+                .Skip((productPage - 1) * PageSize)
+                .Take(PageSize),
+                PagingInfo = new PagingInfo
+                {
+                    ItemsPerPage = PageSize,
+                    CurrentPage = productPage,
+                    TotalItems = _context.Locations.Count()
+                }
+            }
+            );
+        }
+        public async Task<IActionResult> Search(string keywords, int productPage = 1)
+        {
+            return View("Index",
+                new LocationListViewModel
+                {
+                    Locations = _context.Locations
+                    .Where(m => m.Name.Equals(keywords))
+                    .Skip((productPage - 1) * PageSize)
+                    .Take(PageSize),
+                    PagingInfo = new PagingInfo
+                    {
+                        ItemsPerPage = PageSize,
+                        CurrentPage = productPage,
+                        TotalItems = _context.Locations.Count()
+                    }
+                }
+                );
         }
         public IActionResult Delete(int? id)
         {

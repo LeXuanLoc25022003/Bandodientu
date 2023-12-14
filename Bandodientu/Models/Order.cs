@@ -14,7 +14,7 @@ namespace Bandodientu.Models
 		public int Quantity {  get; set; }
 		public string? Code {  get; set; }
 		public int OrderStatusID {  get; set; }
-		public DateTime? CreateDate {  get; set; }
+		public DateTime CreateDate {  get; set; }
 
 	}
 }

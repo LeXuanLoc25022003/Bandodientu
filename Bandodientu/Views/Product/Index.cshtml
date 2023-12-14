@@ -311,24 +311,18 @@
 						<div class="store-sort">
 							<label>
 								Sort By:
+								<form asp-action="OrderBy" asp-controller="Product">
 								<select class="input-select">
-									<option value="0">Popular</option>
-									<option value="1">Position</option>
+									<option>Price</option>
 								</select>
-							</label>
-
-							<label>
-								Show:
-								<select class="input-select">
-									<option value="0">20</option>
-									<option value="1">50</option>
-								</select>
+								<button type="submit">Sort</button>
+								</form>
 							</label>
 						</div>
-						<ul class="store-grid">
+@* 						<ul class="store-grid">
 							<li class="active"><i class="fa fa-th"></i></li>
 							<li><a href="#"><i class="fa fa-th-list"></i></a></li>
-						</ul>
+						</ul> *@
 					</div>
 					<!-- /store top filter -->
 					<!-- store products -->

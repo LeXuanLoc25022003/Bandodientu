@@ -12,7 +12,7 @@ namespace Bandodientu.Models
 		public int CustomerID { get; set; }
 		public int CommentID {  get; set; }
 		public string? Messeage { get; set; }
-		public DateTime? CreateDate { get; set; }
+		public DateTime CreateDate { get; set; }
 		public bool? IsActive { get; set; }
 		public Customer Customer { get; set; }
 	}

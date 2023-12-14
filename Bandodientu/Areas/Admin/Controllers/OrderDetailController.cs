@@ -1,13 +1,16 @@
 ﻿using Bandodientu.Models;
+using Bandodientu.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing.Printing;
 
 namespace Bandodientu.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class OrderDetailController : Controller
     {
+        int PageSize = 5;
         private readonly DataContext _context;
 
         public OrderDetailController(DataContext context)
@@ -15,10 +18,22 @@ namespace Bandodientu.Areas.Admin.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int productPage = 1)
         {
-            var mnList = _context.OrderDetails.OrderBy(m => m.OrderDetailID).ToList();
-            return View(mnList);
+            return View(
+            new OrderDetailListViewModel
+            {
+                OrderDetails = _context.OrderDetails
+                .Skip((productPage - 1) * PageSize)
+                .Take(PageSize),
+                PagingInfo = new PagingInfo
+                {
+                    ItemsPerPage = PageSize,
+                    CurrentPage = productPage,
+                    TotalItems = _context.OrderDetails.Count()
+                }
+            }
+            );
         }
         public async Task<IActionResult> Details(int? id)
         {

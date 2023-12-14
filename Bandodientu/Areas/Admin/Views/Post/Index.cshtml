@@ -1,5 +1,6 @@
 ﻿@using Bandodientu.Models;
-@model IList<Post>
+@using Bandodientu.Models.ViewModels;
+@model PostListViewModel;
 @{
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
@@ -7,6 +8,20 @@
     <div class="pagetitle">
         <h2> Danh sách tin tức</h2>
     </div>
+    <form asp-action="Search" asp-controller="Post" class="input1-group">
+        <div>
+            <label for="lang-select">Chủ đề</label>
+            <select name="month" id="lang-select">
+                <option value="null">--Chọn--</option>
+                <option value="3">Điện thoại</option>
+                <option value="4">Laptop</option>
+                <option value="5">Laptop cũ giá rẻ</option>
+            </select>
+        </div>
+        <div class="input-group-append border-0">
+            <button id="button-addon3" type="submit" class="btn btn-link text-success"><i class="bi bi-search"></i></button>
+        </div>
+    </form>
     <p>
         <a type="button" class="btn btn-success" asp-area="Admin" asp-controller="Post" asp-action="Create">
             <i class="bi bibi-file-earmark-text me-1">Thêm tin tức</i>
@@ -44,7 +59,7 @@
                             @{
                                 int i = 1;
                             }
-                            @foreach (var item in Model)
+                            @foreach (var item in Model.Posts)
                             {
                                 <tr class="text-center" id="tr_@item.PostID">
                                     <td>@(i++)</td>
@@ -78,9 +93,28 @@
                 </div>
             </div>
         </div>
+        <div class="container mt-3">
+            <ul class="list-group list-group-horizontal">
+                @for (i = 1; i <= Model.PagingInfo.TotalPages; i++)
+                {
+                    @if (i == 1)
+                    {
+                        <li class="list-group-item"><a href="https://localhost:7295/Admin/Post/?productPage=@i">1</a></li>
+                    }
+                    else
+                    {
+                        <li class="list-group-item"><a href="https://localhost:7295/Admin/Post/?productPage=@i">@i</a></li>
+                    }
+                }
+                <li class="list-group-item"><a href="https://localhost:7295/Admin/Post/?productPage=@(Model.PagingInfo.CurrentPage + 1)"><i class="bi bi-arrow-right-circle"></i></a></li>
+            </ul>
+        </div>
     </section>
 </main>
 @section Scripts{
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         $(document).ready(function () {
             $(".btn-delete").click(function () {

@@ -1,9 +1,46 @@
 ﻿@using Bandodientu.Models;
-@model IList<PostComment>
+@using Bandodientu.Models.ViewModels;
+@model PostCommentListViewModel;
 <main id="main" class="main">
     <div class="pagetitle">
         <h2> Danh sách bình luận</h2>
     </div>
+    <form asp-action="Search" asp-controller="PostComment" class="input1-group">
+        <div>
+            <label for="lang-select">Tháng</label>
+            <select name="month" id="lang-select">
+                <option value="null">--Chọn--</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+            </select>
+        </div>
+        <div>
+            <label for="lang-select" class="year">Năm</label>
+            <select name="year" id="lang-select">
+                <option value="null">--Chọn--</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+            </select>
+        </div>
+        <div class="input-group-append border-0">
+            <button id="button-addon3" type="submit" class="btn btn-link text-success"><i class="bi bi-search"></i></button>
+        </div>
+    </form>
     <section class="section dashboard">
         <div class="row">
             <div class="col-12">
@@ -24,7 +61,7 @@
                             @{
                                 int i = 1;
                             }
-                            @foreach (var item in Model)
+                            @foreach (var item in Model.PostComments)
                             {
                                 <tr id="@item.CommentID" class="text-center">
                                     <td>@(i++)</td>
@@ -59,9 +96,28 @@
                 </div>
             </div>
         </div>
+        <div class="container mt-3">
+            <ul class="list-group list-group-horizontal">
+                @for (i = 1; i <= Model.PagingInfo.TotalPages; i++)
+                {
+                    @if (i == 1)
+                    {
+                        <li class="list-group-item"><a href="https://localhost:7295/Admin/PostComment/?productPage=@i">1</a></li>
+                    }
+                    else
+                    {
+                        <li class="list-group-item"><a href="https://localhost:7295/Admin/PostComment/?productPage=@i">@i</a></li>
+                    }
+                }
+                <li class="list-group-item"><a href="https://localhost:7295/Admin/PostComment/?productPage=@(Model.PagingInfo.CurrentPage + 1)"><i class="bi bi-arrow-right-circle"></i></a></li>
+            </ul>
+        </div>
     </section>
 </main>
 @section Scripts{
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         $(document).ready(function () {
             $(".btn-delete").click(function () {

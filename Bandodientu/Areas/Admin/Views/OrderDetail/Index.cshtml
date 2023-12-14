@@ -1,5 +1,6 @@
 ﻿@using Bandodientu.Models;
-@model IList<OrderDetail>
+@using Bandodientu.Models.ViewModels;
+@model OrderDetailListViewModel;
 @{
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
@@ -26,7 +27,7 @@
                             @{
                                 int i = 1;
                             }
-                            @foreach (var item in Model)
+                            @foreach (var item in Model.OrderDetails)
                             {
                                 <tr class="text-center" id="tr_@item.OrderDetailID">
                                     <td>@(i++)</td>
@@ -51,9 +52,28 @@
                 </div>
             </div>
         </div>
+        <div class="container mt-3">
+            <ul class="list-group list-group-horizontal">
+                @for (i = 1; i <= Model.PagingInfo.TotalPages; i++)
+                {
+                    @if (i == 1)
+                    {
+                        <li class="list-group-item"><a href="https://localhost:7295/Admin/OrderDetail/?productPage=@i">1</a></li>
+                    }
+                    else
+                    {
+                        <li class="list-group-item"><a href="https://localhost:7295/Admin/OrderDetail/?productPage=@i">@i</a></li>
+                    }
+                }
+                <li class="list-group-item"><a href="https://localhost:7295/Admin/OrderDetail/?productPage=@(Model.PagingInfo.CurrentPage + 1)"><i class="bi bi-arrow-right-circle"></i></a></li>
+            </ul>
+        </div>
     </section>
 </main>
 @section Scripts{
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         $(document).ready(function () {
             $(".btn-delete").click(function () {

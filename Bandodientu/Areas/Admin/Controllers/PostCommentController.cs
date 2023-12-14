@@ -1,23 +1,56 @@
 ﻿using Bandodientu.Models;
+using Bandodientu.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing.Printing;
 
 namespace Bandodientu.Areas.Admin.Controllers
 {
 	[Area("Admin")]
 	public class PostCommentController : Controller
 	{
+		int PageSize = 5;
 		private readonly DataContext _context;
 		public PostCommentController(DataContext context)
 		{
 			_context = context;
 		}
-		public IActionResult Index()
+		public IActionResult Index(int productPage = 1)
 		{
-			var mnList = _context.postComments.OrderBy(m => m.CommentID).ToList();
-			return View(mnList);
-		}
+            return View(
+            new PostCommentListViewModel
+            {
+                PostComments = _context.postComments
+                .Skip((productPage - 1) * PageSize)
+                .Take(PageSize),
+                PagingInfo = new PagingInfo
+                {
+                    ItemsPerPage = PageSize,
+                    CurrentPage = productPage,
+                    TotalItems = _context.postComments.Count()
+                }
+            }
+            );
+        }
+        public async Task<IActionResult> Search(int month,int year, int productPage = 1)
+        {
+            return View("Index",
+                new PostCommentListViewModel
+                {
+                    PostComments = _context.postComments
+                    .Where(m=>m.CreateDate.Month == month || m.CreateDate.Year == year)
+                    .Skip((productPage - 1) * PageSize)
+                    .Take(PageSize),
+                    PagingInfo = new PagingInfo
+                    {
+                        ItemsPerPage = PageSize,
+                        CurrentPage = productPage,
+                        TotalItems = _context.postComments.Count()
+                    }
+                }
+                );
+        }
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.postComments == null)

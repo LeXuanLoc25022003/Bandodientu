@@ -118,5 +118,23 @@ namespace Bandodientu.Controllers
 				}
 				);
 		}
-	}
+        public async Task<IActionResult> OrderBy(int productPage = 1)
+        {
+            return View("Index",
+                new ProductListViewModel
+                {
+                    Products = _context.Products
+                    .OrderBy(m=>m.DiscountedPrice).ToList()
+                    .Skip((productPage - 1) * PageSize)
+                    .Take(PageSize),
+                    PagingInfo = new PagingInfo
+                    {
+                        ItemsPerPage = PageSize,
+                        CurrentPage = productPage,
+                        TotalItems = _context.Products.Count()
+                    }
+                }
+                );
+        }
+    }
 }

@@ -1,5 +1,6 @@
 ﻿@using Bandodientu.Models;
-@model IList<Menu>
+@using Bandodientu.Models.ViewModels;
+@model MenuListViewModel;
 @{
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
@@ -7,6 +8,14 @@
     <div class="pagetitle">
         <h2> Danh sách thực đơn</h2>
     </div>
+    <form asp-action="Search" asp-controller="Menu">
+        <div class="input-group mb-4 border rounded-pill p-1" style="background-color:white">
+            <input type="search" name="keywords" placeholder="Tìm kiếm tên tiêu đề" aria-describedby="button-addon3" class="form-control bg-none border-0">
+            <div class="input-group-append border-0">
+                <button id="button-addon3" type="submit" class="btn btn-link text-success"><i class="bi bi-search"></i></button>
+            </div>
+        </div>
+    </form>
     <p>
         <a type="button" class="btn btn-success" asp-area="Admin" asp-controller="Menu" asp-action="Create">
             <i class="bi bibi-file-earmark-text me-1">Thêm thực đơn</i>
@@ -32,7 +41,7 @@
                             @{
                                 int i = 1;
                             }
-                            @foreach (var item in Model)
+                            @foreach (var item in Model.Menus.OrderBy(n => n.MenuID))
                             {
                                 <tr class="text-center" id="tr_@item.MenuID">
                                     <td>@(i++)</td>
@@ -67,9 +76,28 @@
                 </div>
             </div>
         </div>
+        <div class="container mt-3">
+            <ul class="list-group list-group-horizontal">
+                @for (i = 1; i <= Model.PagingInfo.TotalPages; i++)
+                {
+                    @if (i == 1)
+                    {
+                        <li class="list-group-item"><a href="https://localhost:7295/Admin/Menu/?productPage=@i">1</a></li>
+                    }
+                    else
+                    {
+                        <li class="list-group-item"><a href="https://localhost:7295/Admin/Menu/?productPage=@i">@i</a></li>
+                    }
+                }
+                <li class="list-group-item"><a href="https://localhost:7295/Admin/Menu/?productPage=@(Model.PagingInfo.CurrentPage + 1)"><i class="bi bi-arrow-right-circle"></i></a></li>
+            </ul>
+        </div>
     </section>
 </main>
 @section Scripts{
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         $(document).ready(function () {
             $(".btn-delete").click(function () {

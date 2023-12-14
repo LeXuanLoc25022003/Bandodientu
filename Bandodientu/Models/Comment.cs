@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Bandodientu.Models.ViewModels;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Bandodientu.Models
@@ -12,7 +13,7 @@ namespace Bandodientu.Models
 		public string? YourName { get; set; }
 
 		public string? YourEmail { get; set; }
-		public DateTime? DateTime { get; set; }
+		public DateTime DateTime { get; set; }
 
 		public string? Review { get; set; }
 

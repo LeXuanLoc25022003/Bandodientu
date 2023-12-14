@@ -1,7 +1,10 @@
-﻿namespace Bandodientu.Models.ViewModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Bandodientu.Models.ViewModels
 {
 	public class PagingInfo
 	{
+		[Key]
 		public int TotalItems { get; set; } //tổng sản phẩm
 		public int ItemsPerPage { get; set; } //có bao nheieu sản phẩm trên 1 trang
 		public int CurrentPage { get; set; } //trang hiện tại

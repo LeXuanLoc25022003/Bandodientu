@@ -14,7 +14,7 @@ namespace Bandodientu.Models
         public string? Images { get; set; }
         public string? Link { get; set; }
         public string? Author { get; set; }
-        public DateTime? CreateDate { get; set; }
+        public DateTime CreateDate { get; set; }
         public bool? IsActive { get; set; }
         public int PostOrder { get; set; }
         public int MenuID { get; set; }

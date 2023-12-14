@@ -71,12 +71,12 @@
                             <input type="text" class="form-control mb-3" asp-for="Link" placeholder="Nhập link sản phẩm" />
                             <span asp-validation-for="Link" class="alert-danger"></span>
                         </div>
-                        <div class="form-group col-mb-6">
+@*                         <div class="form-group col-mb-6">
                             <div class="alert-danger" asp-validation-summary="ModelOnly"></div>
                             <label asp-for="MenuID">Chọn mục</label>
                             <select asp-for="MenuID" class="form-control"
                             asp-items="@(new SelectList(ViewBag.mnList,"Value","Text"))"></select>
-                        </div>
+                        </div> *@
                         <div class="form-group col-md-6 mt-3 mb-3">
                             <label>
                                 @Html.CheckBox("IsActive",false)

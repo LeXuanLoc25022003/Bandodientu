@@ -1,22 +1,55 @@
 ﻿using Bandodientu.Areas.Admin.Models;
 using Bandodientu.Models;
+using Bandodientu.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing.Printing;
 
 namespace Bandodientu.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class AdminUserController : Controller
     {
+        int PageSize = 5;
         public readonly DataContext _context;
         public AdminUserController(DataContext context)
         {
             _context = context;
         }
-        public IActionResult Index()
+        public IActionResult Index(int productPage = 1)
         {
-            var mnList = _context.AdminUsers.OrderBy(m=>m.UserID).ToList();
-            return View(mnList);
+            return View(
+            new AdminUserListViewModel
+            {
+                AdminUsers = _context.AdminUsers
+                .Skip((productPage - 1) * PageSize)
+                .Take(PageSize),
+                PagingInfo = new PagingInfo
+                {
+                    ItemsPerPage = PageSize,
+                    CurrentPage = productPage,
+                    TotalItems = _context.AdminUsers.Count()
+                }
+            }
+            );
+        }
+        public async Task<IActionResult> Search(string keywords, int productPage = 1)
+        {
+            return View("Index",
+                new AdminUserListViewModel
+                {
+                    AdminUsers = _context.AdminUsers
+                    .Where(m => m.UserName.Equals(keywords))
+                    .Skip((productPage - 1) * PageSize)
+                    .Take(PageSize),
+                    PagingInfo = new PagingInfo
+                    {
+                        ItemsPerPage = PageSize,
+                        CurrentPage = productPage,
+                        TotalItems = _context.AdminUsers.Count()
+                    }
+                }
+                );
         }
         public async Task<IActionResult> Details(int? id)
         {

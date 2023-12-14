@@ -1,7 +1,9 @@
 ﻿using Bandodientu.Models;
+using Bandodientu.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing.Printing;
 
 namespace Bandodientu.Areas.Admin.Controllers
 {
@@ -9,14 +11,45 @@ namespace Bandodientu.Areas.Admin.Controllers
     public class CommentController : Controller
     {
         private readonly DataContext _context;
+        int PageSize = 5;
         public CommentController(DataContext context)
         {
             _context = context;
         }
-        public IActionResult Index()
+        public IActionResult Index(int productPage=1)
         {
-            var mnList = _context.Comments.OrderBy(m => m.CommentID).ToList();
-            return View(mnList);
+			return View(
+			new CommentListViewModel
+			{
+				Comments = _context.Comments
+				.Skip((productPage - 1) * PageSize)
+				.Take(PageSize),
+					PagingInfo = new PagingInfo
+					{
+						ItemsPerPage = PageSize,
+						CurrentPage = productPage,
+						TotalItems = _context.Comments.Count()
+					}
+				}
+			);
+		}
+        public async Task<IActionResult> Search(int keywords,int month,int year, int productPage = 1)
+        {
+            return View("Index",
+                new CommentListViewModel
+                {
+                    Comments = _context.Comments
+                    .Where(m => m.ProductID.Equals(keywords) || m.DateTime.Month == month || m.DateTime.Year == year)
+                    .Skip((productPage - 1) * PageSize)
+                    .Take(PageSize),
+                    PagingInfo = new PagingInfo
+                    {
+                        ItemsPerPage = PageSize,
+                        CurrentPage = productPage,
+                        TotalItems = _context.Comments.Count()
+                    }
+                }
+                );
         }
         public async Task<IActionResult> Details(int? id)
         {
