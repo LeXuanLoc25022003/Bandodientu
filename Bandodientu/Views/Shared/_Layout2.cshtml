@@ -48,6 +48,7 @@
 	@await RenderSectionAsync("Scripts6", required: false)
 	@await RenderSectionAsync("Scripts7", required: false)
 	@await RenderSectionAsync("Scripts8", required: false)
+	@await RenderSectionAsync("Scripts9", required: false)
 	<!-- end copyright -->
 	<!-- jquery -->
 	<script src="Contact/js/jquery-1.11.3.min.js"></script>
@@ -72,6 +73,9 @@
 	<script>
 		function navigateToHome() {
 			window.location.href = "https://localhost:7295/";
+		}
+		function navigateToOrderDetails() {
+			window.location.href = "https://localhost:7295/HistoryOrder/Index";
 		}
 	</script>
 

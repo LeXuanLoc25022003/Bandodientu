@@ -3,19 +3,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Bandodientu.Components
 {
-	[ViewComponent(Name = "ProductSell")]
-	public class ProductSellComponent : ViewComponent
+	[ViewComponent(Name = "ProductSellOldLaptop")]
+	public class ProductSellOldLaptopComponent : ViewComponent
 	{
 		private readonly DataContext _context;
-		public ProductSellComponent(DataContext context)
+		public ProductSellOldLaptopComponent(DataContext context)
 		{
 			_context = context;
 		}
 		public async Task<IViewComponentResult> InvokeAsync()
 		{
 			var listofProduct = (from p in _context.Products
-								 where (p.IsActive == true)
-								 select p).Take(6).ToList();
+								 where (p.IsActive == true && p.MenuID==5)
+								 select p).Take(4).ToList();
 			return await Task.FromResult((IViewComponentResult)View("Default", listofProduct));
 		}
 	}

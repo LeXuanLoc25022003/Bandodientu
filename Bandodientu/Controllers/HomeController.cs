@@ -22,7 +22,15 @@ namespace Bandodientu.Controllers
         {
 			return View();
         }
-        public ActionResult Dangky()
+		public IActionResult LoginOut()
+		{
+			Function._CustomerID = 0;
+			Function._UserName = string.Empty;
+			Function._Email = string.Empty;
+			Function._Phone = string.Empty;
+			return RedirectToAction("Dangnhap", "Home", new { area = "" });
+		}
+		public ActionResult Dangky()
         {
             var mnList = (from m in _context.Locations
                           select new SelectListItem()

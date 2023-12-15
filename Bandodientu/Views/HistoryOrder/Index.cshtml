@@ -1,7 +1,8 @@
-﻿@model Cart;
-@using Bandodientu.Utilities;
+﻿@using Bandodientu.Utilities;
+@model IList<Bandodientu.Models.Order>
 @{
-	IList<Customer> customer = ViewBag.Customer;
+	IList<Product> Product = ViewBag.Product;
+	IList<OrderStatus> status = ViewBag.status;
 	Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 <!DOCTYPE html>
@@ -40,13 +41,21 @@
 	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 	<style>
-		.button-details-cacenl{
-			display:flex;
+		.button-details-cacenl {
+			display: flex;
 		}
 
-		.button-details-cacenl .cancel {
-			padding-left:20px;
-			margin-left:80px;
+			.button-details-cacenl .cancel {
+				padding-left: 20px;
+				margin-left: 80px;
+			}
+
+		td, th {
+			padding:10px;
+		}
+
+		.table-order{
+			margin-left:177px;
 		}
 	</style>
 </head>
@@ -141,7 +150,7 @@
 					<h3 class="breadcrumb-header">Checkout</h3>
 					<ul class="breadcrumb-tree">
 						<li><a href="#">Home</a></li>
-						<li class="active">Checkout</li>
+						<li class="active">OrderDetail</li>
 					</ul>
 				</div>
 			</div>
@@ -149,179 +158,37 @@
 		</div>
 		<!-- /container -->
 	</div>
-	<!-- /BREADCRUMB -->
-	<!-- SECTION -->
-	<div class="section">
-		<!-- container -->
-		<div class="container">
-			<!-- row -->
-			<div class="row">
-
-				<div class="col-md-7">
-					<!-- Billing Details -->
-					<div class="billing-details">
-						<div class="section-title">
-							<h3 class="title">Billing address</h3>
-						</div>
-						<div class="form-group">
-							<input class="input" type="text" name="Full-name" value="@Function._UserName" style="color:red" readonly="readonly">
-						</div>
-						<div class="form-group">
-							<input class="input" type="text" name="Phone" value="@Function._Phone" style="color:red" readonly="readonly">
-						</div>
-						<div class="form-group">
-							<input class="input" type="email" name="email" value="@Function._Email" style="color:red" readonly="readonly">
-						</div>
-						<div class="form-group">
-							<input class="input" type="text" id="address" placeholder="Nhập địa chỉ...">
-						</div>
-						@* <div class="form-group">
-							<div class="input-checkbox">
-								<input type="checkbox" id="create-account">
-								<label for="create-account">
-									<span></span>
-									Create Account?
-								</label>
-								<div class="caption">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
-									<input class="input" type="password" name="password" placeholder="Enter Your Password">
-								</div>
-							</div>
-						</div> *@
-
-					</div>
-					<!-- /Billing Details -->
-					<!-- Shiping Details -->
-					@* <div class="shiping-details">
-						<div class="section-title">
-							<h3 class="title">Shiping address</h3>
-						</div>
-						<div class="input-checkbox">
-							<input type="checkbox" id="shiping-address">
-							<label for="shiping-address">
-								<span></span>
-								Ship to a diffrent address?
-							</label>
-							<div class="caption">
-								<div class="form-group">
-									<input class="input" type="text" name="first-name" placeholder="First Name">
-								</div>
-								<div class="form-group">
-									<input class="input" type="text" name="last-name" placeholder="Last Name">
-								</div>
-								<div class="form-group">
-									<input class="input" type="email" name="email" placeholder="Email">
-								</div>
-								<div class="form-group">
-									<input class="input" type="text" name="address" placeholder="Address">
-								</div>
-								<div class="form-group">
-									<input class="input" type="text" name="city" placeholder="City">
-								</div>
-								<div class="form-group">
-									<input class="input" type="text" name="country" placeholder="Country">
-								</div>
-								<div class="form-group">
-									<input class="input" type="text" name="zip-code" placeholder="ZIP Code">
-								</div>
-								<div class="form-group">
-									<input class="input" type="tel" name="tel" placeholder="Telephone">
-								</div>
-							</div>
-						</div>
-					</div> *@
-					<!-- /Shiping Details -->
-					<!-- Order notes -->
-@* 					<div class="order-notes">
-						<textarea class="input" placeholder="Order Notes"></textarea>
-					</div> *@
-					<!-- /Order notes -->
-				</div>
-				<!-- Order Details -->
-				<div class="col-md-5 order-details">
-					<div class="section-title text-center">
-						<h3 class="title">Your Order</h3>
-					</div>
-					<div class="order-summary">
-						<div class="order-col">
-							<div><strong>PRODUCT</strong></div>
-							<div><strong>TOTAL</strong></div>
-						</div>
-						@if (Model != null && Model?.Lines.Count > 0)
-						{
-						@foreach (var line in Model?.Lines)
-						{
-						<div class="order-products">
-							<div class="order-col">
-								<div>@line.Quantity x @line.Product.ProductName</div>
-								<div>$@(line.Product.DiscountedPrice * line.Quantity)</div>
-							</div>
-						</div>
-						}
-						}
-						<div class="order-col">
-							<div>Shiping</div>
-							<div><strong>$20000</strong></div>
-						</div>
-						<div class="order-col">
-							<div><strong>TOTAL</strong></div>
-							<div><strong class="order-total">$@(Model?.ComputeTotalValue() + 20000)</strong></div>
-						</div>
-					</div>
-@* 					<div class="payment-method">
-						<div class="input-radio">
-							<input type="radio" name="payment" id="payment-1">
-							<label for="payment-1">
-								<span></span>
-								Direct Bank Transfer
-							</label>
-							<div class="caption">
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-							</div>
-						</div>
-						<div class="input-radio">
-							<input type="radio" name="payment" id="payment-2">
-							<label for="payment-2">
-								<span></span>
-								Cheque Payment
-							</label>
-							<div class="caption">
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-							</div>
-						</div>
-						<div class="input-radio">
-							<input type="radio" name="payment" id="payment-3">
-							<label for="payment-3">
-								<span></span>
-								Paypal System
-							</label>
-							<div class="caption">
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-							</div>
-						</div>
-					</div>
-					<div class="input-checkbox">
-						<input type="checkbox" id="terms">
-						<label for="terms">
-							<span></span>
-							I've read and accept the <a href="#">terms & conditions</a>
-						</label>
-					</div> *@
-					<button id="c_send" class="primary-btn order-submit">Đặt hàng</button>					
-					<div class="button-details-cacenl" style="display:none">
-						<button onclick="navigateToOrderDetails()" class="primary-btn order-submit">Lịch sử đơn hàng</button>
-						<button id="c_cancel" class="primary-btn order-submit cancel">Hủy đơn</button>
-					</div>
-
-				</div>
-				<!-- /Order Details -->
-			</div>
-			<!-- /row -->
-		</div>
-		<!-- /container -->
-	</div>
-	<!-- /SECTION -->
-	<!-- NEWSLETTER -->
+	<table border="1" class="table-order">
+		<thead>
+			<tr>
+				<th rowspan="2">Mã</th>
+				<th rowspan="2">Ngày tạo</th>
+				<th rowspan="2">Trạng thái</th>
+				<th rowspan="2">Tổng tiền</th>
+				<th rowspan="2">Chức năng</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var items in Model)
+			{
+				var name = status.FirstOrDefault(s => s.OrderStatusID == items.OrderStatusID);
+				<tr>
+					<th>@items.Code</th>
+					<th>@items.CreateDate</th>
+					<th>@name.Name</th>
+					<th>@items.ToTalAmount</th>
+					<th>
+						<a type="submit" class="btn btn-info" asp-controller="OrderDetail" asp-action="Index" asp-route-id="@items.OrderID">Xem chi tiết đơn hàng</a>
+					@if (items.OrderStatusID == 1 || items.OrderStatusID == 2)
+					{
+							<button type="button" class="btn btn-info btn-cancel" data-id="@items.OrderID">Hủy đơn</button>
+					}
+				</th>
+			</tr>
+			}
+		</tbody>
+	</table>
+	<button type="button" class="btn btn-warning table-order" onclick="navigateToHome()">Quay về trang chủ</button>
 	<div id="newsletter" class="section">
 		<!-- container -->
 		<div class="container">
@@ -457,70 +324,29 @@
 	<script src="~/js/nouislider.min.js"></script>
 	<script src="~/js/jquery.zoom.min.js"></script>
 	<script src="~/js/main.js"></script>
-	@section Scripts6{
+	@section Scripts9{
+		<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 		<script>
 			$(document).ready(function () {
-				$("#c_send").click(function () {
-					_address = $("#address").val();
-					$.ajax({
-						url: "/Checkout/Order",
-						type: "POST",
-						data: { address:_address},
-						success: function (result) {
-							if (result) {
-								$("#address").val("");
-								$("#c_send").hide();
-								$(".button-details-cacenl").show();
-								$(".billing-details").hide();
-								toastr.success('Đặt hàng thành công');
-							} else {
-								toastr.error('Đặt hàng không thành công');
-							}
-						}
-					});
-				});
-			})
-		</script>
-	}
-	@section Scripts7{
-		<script>
-			$(document).ready(function () {
-				$("#c_cancel").click(function () {
+				$(".btn-cancel").click(function () {
 					_id = $(this).data("id");
-					if (confirm("Bạn có muốn xóa không")) {
+					if (confirm("Bạn có muốn hủy đơn hàng không")) {
 						$.ajax({
-							url: "/Admin/Comment/Delete",
+							url: "/Checkout/Update",
 							type: "POST",
 							data: { id: _id },
 							success: function (result) {
 								if (result) {
-									$("#tr_" + _id).remove();
-									toastr.success('Xóa thành công');
+									toastr.success('Hủy đơn hàng thành công');
 								}
 								else {
-									toastr.error('Xóa không thành công');
+									toastr.error('Hủy đơn hàng không thành công');
 								}
 							}
 						})
 					}
-				});
-			})
-		</script>
-	}
-	@section Scripts8{
-		<script>
-			$(document).ready(function () {
-				$("#c_detail").click(function () {
-					$.ajax({
-						success: function (result) {
-							if (result) {
-								$(".caption").show();
-								$(".order-details").hide();
-							} else {
-								toastr.error('Bạn chưa đặt hàng');
-							}
-						}
-					});
 				});
 			})
 		</script>
