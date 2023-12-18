@@ -1,5 +1,6 @@
 ﻿using Bandodientu.Models;
 using Bandodientu.Models.ViewModels;
+using Bandodientu.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,8 @@ namespace Bandodientu.Areas.Admin.Controllers
         }
         public IActionResult Index(int productPage=1)
         {
-			return View(
+            ViewBag.postcomment = _context.Products.Where(m => m.IsActive == true).ToList();
+            return View(
 			new CommentListViewModel
 			{
 				Comments = _context.Comments

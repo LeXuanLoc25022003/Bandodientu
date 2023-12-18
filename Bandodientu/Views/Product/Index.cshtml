@@ -2,7 +2,7 @@
 @model ProductListViewModel;
 @using Bandodientu.Utilities;
 @{
-	Layout = null;
+	Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -352,11 +352,9 @@
 											<button class="quick-view"><i class="fa fa-eye"></i><a class="tooltipp" href="/@url">quick view</a></button>
 										</div>
 									</div>
-									<form asp-action="AddItem" method="post">
-										<div class="add-to-cart">
-											<button class="add-to-cart-btn" data-id="@item.ProductID"><i class="fa fa-shopping-cart"></i><a href="/Cart/AddToCart/?productId=@item.ProductID">add to cart</a></button>
-										</div>
-									</form>
+									<div class="add-to-cart">
+										<button class="add-to-cart-btn" data-id="@item.ProductID"><i class="fa fa-shopping-cart"></i><a>add to cart</a></button>
+									</div>
 							</div>
 						</div>
 							<div class="clearfix visible-sm visible-xs"></div>
@@ -610,6 +608,29 @@
 				});
 				return values;
 			}
+		});
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			$(".add-to-cart-btn").click(function (e) {
+				e.preventDefault(); 
+				$.ajax({
+					url: "/Cart/AddToCart",
+					data: {
+						productId: $(this).data("id")
+					},
+					success: function (data) {
+						toastr.success('Thêm giỏ hàng thành công!');
+						setTimeout(function () {
+							window.location.href = "https://localhost:7295/Product/Index";
+						}, 1000);
+					},
+					error: function () {
+						toastr.error('Đã xảy ra lỗi!');
+					}
+				});
+			});
 		});
 	</script>
 </body>

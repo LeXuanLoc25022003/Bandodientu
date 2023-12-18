@@ -30,10 +30,11 @@
                             <tr>
                                 <th class="col-2 text-center">Mã sản phẩm</th>
                                 <th class="col-1 text-justify">Image</th>
-                                <td class="col-4 text-center">ProductName</td>
-                                <td class="col-2 text-center">Số lượng</td>
+                                <td class="col-3 text-center">ProductName</td>
+                                <td class="col-1 text-center">Giá gốc</td>
+                                <td class="col-1 text-center">Giá giảm</td>
                                 <td class="col-1 text-center">Ẩn/Hiện</td>
-                                <td class="col-2 text-center">Chức năng</td>
+                                <td class="col-4 text-center">Chức năng</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -49,7 +50,8 @@
                                            asp-route-id="@item.ProductID" class="text-center"><img style="width:50px;height:50px" src="@item.Image" /></a>
                                     </td>
                                     <td class="text-left">@item.ProductName</td>
-                                    <td class="text-center">@item.Quantity</td>
+                                    <td class="text-center">@item.OriginalPrice</td>
+                                    <td class="text-center">@item.DiscountedPrice</td>
                                     <td class="text-center">
                                         @if (item.IsActive == true)
                                         {
@@ -64,6 +66,12 @@
                                         <a asp-area="Admin" asp-controller="Product" asp-action="Edit"
                                            asp-route-id="@item.ProductID" class="btn btn-primary btn-sm"
                                            title="Sửa nội dung bài viết"><i class="bi bi-pencil"></i></a>
+                                        <a asp-area="Admin" asp-controller="ProductImage" asp-action="Index"
+                                           asp-route-id="@item.ProductID" class="btn btn btn-success btn-sm"
+                                           title="Danh sách hình ảnh"><i class="bi bi-image"></i></a>
+                                        <a asp-area="Admin" asp-controller="ProductComment" asp-action="Index"
+                                           asp-route-id="@item.ProductID" class="btn btn btn-success btn-sm"
+                                           title="Danh sách bình luận"><i class="bi bi-chat"></i></a>
                                         <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.ProductID">Chi tiết</a>
                                         <a data-id="@item.ProductID" class="btn btn-danger btn-sm btn-delete"><i class="bi bi-trash"></i></a>
                                     </td>
@@ -96,27 +104,40 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
         $(document).ready(function () {
             $(".btn-delete").click(function () {
                 _id = $(this).data("id");
-                if (confirm("Bạn có muốn xóa không")) {
-                    $.ajax({
-                        url: "/Admin/Product/Delete",
-                        type: "POST",
-                        data: { id: _id },
-                        success: function (result) {
-                            if (result) {
-                                $("#tr_" + _id).remove();
-                                toastr.success('Xóa thành công');
+
+                // Use SweetAlert for confirmation
+                Swal.fire({
+                    title: 'Bạn có chắc muốn xóa?',
+                    text: "Thao tác này không thể hoàn tác!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "/Admin/Product/Delete",
+                            type: "POST",
+                            data: { id: _id },
+                            success: function (result) {
+                                if (result) {
+                                    $("#tr_" + _id).remove();
+                                    toastr.success('Xóa thành công');
+                                } else {
+                                    toastr.error('Xóa không thành công');
+                                }
                             }
-                            else {
-                                toastr.error('Xóa không thành công');
-                            }
-                        }
-                    })
-                }
+                        });
+                    }
+                });
             });
-        })
+        });
     </script>
 }

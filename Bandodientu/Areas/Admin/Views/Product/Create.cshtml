@@ -30,7 +30,7 @@
             </div>
             <div class="form-group col-md-12">
                 <label asp-for="Description">Description</label>
-                <input type="text" class="form-control mb-3" asp-for="Description">
+                <textarea asp-for="Description" class="form-control" placeholder="Nhập mô tả sản phẩm"></textarea>
             </div>
             <div class="form-group col-md-12">
                 <label asp-for="Color">Color</label>
@@ -83,4 +83,6 @@
 @{
     var summerNoteFiles = new Bandodientu.Areas.Admin.Models.SummerNote("#Contents");
     <partial name="_SummerNoteFiles" model="summerNoteFiles" />
+    var summerNoteFiles1 = new Bandodientu.Areas.Admin.Models.SummerNote("#Description");
+    <partial name="_SummerNoteFiles" model="summerNoteFiles1" />
 }

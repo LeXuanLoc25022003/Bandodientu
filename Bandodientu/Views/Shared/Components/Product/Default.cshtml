@@ -103,11 +103,14 @@
 													<button class="quick-view"><i class="fa fa-eye"></i><a class="tooltipp" href="/@url">quick view</a></button>
 												</div>
 											</div>
-												<form asp-action="AddToCart" method="post">
-													<div class="add-to-cart">
-														<button class="add-to-cart-btn" data-id="@item.ProductID"><i class="fa fa-shopping-cart"></i><a href="/Cart/AddToCart/?productId=@item.ProductID">add to cart</a></button>
-													</div>
-												</form>
+@* 											<form asp-action="AddToCart" method="post">
+												<div class="add-to-cart">
+													<button class="add-to-cart-btn" data-id="@item.ProductID"><i class="fa fa-shopping-cart"></i><a href="/Cart/AddToCart/?productId=@item.ProductID">add to cart</a></button>
+												</div>
+											</form> *@
+											<div class="add-to-cart">
+												<button class="add-to-cart-btn" data-id="@item.ProductID"><i class="fa fa-shopping-cart"></i><a>add to cart</a></button>
+											</div>
 										</div>
 									}
 								}
@@ -218,11 +221,9 @@
 													<button class="quick-view"><i class="fa fa-eye"></i><a class="tooltipp" href="/@url">quick view</a></button>
 												</div>
 											</div>
-											<form asp-action="AddToCart" method="post">
-												<div class="add-to-cart">
-													<button class="add-to-cart-btn" data-id="@item.ProductID"><i class="fa fa-shopping-cart"></i><a href="/Cart/AddToCart/?productId=@item.ProductID">add to cart</a></button>
-												</div>
-											</form>
+											<div class="add-to-cart">
+												<button class="add-to-cart-btn" data-id="@item.ProductID"><i class="fa fa-shopping-cart"></i><a>add to cart</a></button>
+											</div>
 										</div>
 									}
 								}
@@ -243,40 +244,29 @@
 <!-- /SECTION -->
 <!-- SECTION -->
 @await Component.InvokeAsync("ProductSell")
-@* @section scripts{
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
+@section AddToCart{
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 	<script>
 		$(document).ready(function () {
-			$(".add-to-cart-btn").click(function () {
+			$(".add-to-cart-btn").click(function (e) {
+				e.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ "a"
 				$.ajax({
 					url: "/Cart/AddToCart",
 					data: {
-						id: $(this).data("id"),
-						SoLuong: 1,
-						type: "ajax"
+						productId: $(this).data("id")
 					},
 					success: function (data) {
-						Swal.fire({
-							icon: 'success',
-							title: 'Thêm giỏ hàng thành công',
-							showConfirmButton: false,
-							timer: 2500
-						});
-						console.log(data.soLuong);
-						$("#cart_count").html(data.Quantity);
+						toastr.success('Thêm giỏ hàng thành công!');
+						setTimeout(function () {
+							window.location.reload();
+						}, 500);
+						// window.location.href = "https://localhost:7295/";
 					},
 					error: function () {
-						Swal.fire({
-							icon: 'error',
-							title: 'Thêm giỏ hàng thất bại',
-							text: 'Vui lòng thử lại',
-							showConfirmButton: false,
-							timer: 2500
-						});
+						toastr.error('Đã xảy ra lỗi!');
 					}
 				});
 			});
 		});
 	</script>
-} *@
+}

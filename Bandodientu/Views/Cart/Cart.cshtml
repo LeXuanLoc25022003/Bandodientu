@@ -105,7 +105,9 @@
 									@foreach (var line in Model?.Lines)
 									{
 										<tr class="table-body-row">
-											<td class="product-remove"><a href="/Cart/RemoveFromCart/?productId=@line.Product.ProductID"><i class="far fa-window-close"></i></a></td>
+											<td class="product-remove">
+												<i class="far fa-window-close" data-id="@line.Product.ProductID"></i>
+											</td>
 											<td class="product-image"><img src="@line.Product.Image" alt=""></td>
 											<td class="product-name">@line.Product.ProductName</td>
 											<td class="product-price">@line.Product.DiscountedPrice</td>
@@ -168,7 +170,7 @@
 							</div>
 						</div>
 
-						<div class="coupon-section">
+@* 						<div class="coupon-section">
 							<h3>Apply Coupon</h3>
 							<div class="coupon-form-wrap">
 								<form action="index.html">
@@ -176,7 +178,7 @@
 									<p><input type="submit" value="Apply"></p>
 								</form>
 							</div>
-						</div>
+						</div> *@
 					</div>
 				}
 				else
@@ -211,7 +213,7 @@
 							</div>
 						</div>
 
-						<div class="coupon-section">
+@* 						<div class="coupon-section">
 							<h3>Apply Coupon</h3>
 							<div class="coupon-form-wrap">
 								<form action="index.html">
@@ -219,7 +221,7 @@
 									<p><input type="submit" value="Apply"></p>
 								</form>
 							</div>
-						</div>
+						</div> *@
 					</div>
 				}
 			</div>
@@ -319,6 +321,30 @@
 	<script src="~/Contact/js/form-validate.js"></script>
 	<!-- main js -->
 	<script src="~/Contact/js/main.js"></script>
-
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			$(".far").click(function (e) {
+				e.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ "a"
+				$.ajax({
+					url: "/Cart/RemoveFromCart",
+					data: {
+						productId: $(this).data("id")
+					},
+					success: function (data) {
+						toastr.success('Xóa đơn hàng thành công!');
+						setTimeout(function () {
+							window.location.href = "https://localhost:7295/Cart"
+						}, 500);
+					},
+					error: function () {
+						toastr.error('Đã xảy ra lỗi!');
+					}
+				});
+			});
+		});
+	</script>
 </body>
 </html>

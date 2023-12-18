@@ -12,7 +12,7 @@
             <div asp-validation-summary="All"></div>
             <div class="form-row">
                 <input type="text" class="form-control mb-3" asp-for="ProductID" type="hidden">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-12">
                     <label asp-for="ProductName">ProductName</label>
                     <input type="text" class="form-control mb-3" asp-for="ProductName">
                     <span asp-validation-for="ProductName" class="alert-danger"></span>
@@ -23,7 +23,7 @@
                 <input type="text" class="form-control mb-3" asp-for="OriginalPrice">
                 <span asp-validation-for="OriginalPrice" class="alert-danger"></span>
             </div>
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-6">
                 <label asp-for="DiscountedPrice">DiscountedPrice</label>
                 <input type="text" class="form-control mb-3" asp-for="DiscountedPrice">
             </div>
@@ -39,7 +39,11 @@
             </div>
             <div class="form-group col-md-12">
                 <label asp-for="Description">Description</label>
-                <input type="text" class="form-control mb-3" asp-for="Description">
+                <textarea asp-for="Description" class="form-control"></textarea>
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="Contents">Content</label>
+                <textarea asp-for="Contents" class="form-control"></textarea>
             </div>
             <div class="form-group col-md-12">
                 <label asp-for="Color">Color</label>
@@ -66,3 +70,9 @@
         </form>
     </div>
 </main>
+@{
+    var summerNoteFiles = new Bandodientu.Areas.Admin.Models.SummerNote("#Contents");
+    <partial name="_SummerNoteFiles" model="summerNoteFiles" />
+    var summerNoteFiles1 = new Bandodientu.Areas.Admin.Models.SummerNote("#Description");
+    <partial name="_SummerNoteFiles" model="summerNoteFiles1" />
+}

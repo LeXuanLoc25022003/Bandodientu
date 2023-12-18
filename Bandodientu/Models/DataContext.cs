@@ -22,6 +22,8 @@ namespace Bandodientu.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderStatus> OrderStatuses { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<view_Post_Menu> view_Post_Menus { get; set; }
 
 	}
 }

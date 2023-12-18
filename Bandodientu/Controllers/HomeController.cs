@@ -105,6 +105,8 @@ namespace Bandodientu.Controllers
             {
                 return NotFound();
             }
+			ViewBag.ImageID = _context.ProductImages
+				.Where(m => (m.ProductID == id)).ToList();
             var post = _context.Products
                 .FirstOrDefault(m => (m.ProductID == id));
             var comments = _context.Comments
@@ -129,7 +131,7 @@ namespace Bandodientu.Controllers
             {
                 return NotFound();
             }
-			ViewBag.ProductID = post.ProductID;
+            ViewBag.ProductID = post.ProductID;
             ViewBag.comment = comments.ToString();
 			ViewBag.rate1 = rate1.ToString();
 			ViewBag.rate2 = rate2.ToString();

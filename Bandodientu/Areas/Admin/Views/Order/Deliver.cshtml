@@ -1,0 +1,119 @@
+﻿@using Bandodientu.Models;
+@model IList<Order>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    List<Customer> customer = ViewBag.customer;
+    List<OrderStatus> orderstatus = ViewBag.orderstatus;
+}
+<style>
+    a:not([href]):not([class]), a:not([href]):not([class]):hover {
+        color: red;
+    }
+</style>
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2> Danh sách đơn hàng đã xác nhận</h2>
+    </div>
+    <form asp-action="Search" asp-controller="Customer">
+        <div class="input-group mb-4 border rounded-pill p-1" style="background-color:white">
+            <input type="search" name="keywords" placeholder="Tìm kiếm theo tên người dùng?" aria-describedby="button-addon3" class="form-control bg-none border-0">
+            <div class="input-group-append border-0">
+                <button id="button-addon3" type="submit" class="btn btn-link text-success"><i class="bi bi-search"></i></button>
+            </div>
+        </div>
+    </form>
+    @foreach (var item in Model)
+    {
+        var ct = customer.FirstOrDefault(m => m.CustomerID == item.CustomerID);
+        var ost = orderstatus.FirstOrDefault(m => m.OrderStatusID == item.OrderStatusID);
+        <section class="section profile">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body pt-3" style="margin-top:15px;margin-left:10px">
+                            <ul class="list" style="font-size:20px;font-weight:900">
+                                <li class="list-item one">Mã đơn hàng: <a>@item.Code</a></li>
+                                <li class="list-item two">Tên khách hàng: <a>@ct.UserName</a></li>
+                                <li class="list-item three">Ngày sinh: <a>@ct.Birthday</a></li>
+                                <li class="list-item four">Số điện thoại: <a>@ct.Phone</a></li>
+                                <li class="list-item four">Email: <a>@ct.Email</a></li>
+                                <li class="list-item four">Địa chỉ: <a>@item.Address</a></li>
+                                <li class="list-item four">Trạng thái: <a>@ost.Name</a></li>
+                                <li class="list-item four">Ngày đặt hàng: <a>@item.CreateDate.ToString("dd/MM/yyyy")</a></li>
+                                <li class="list-item four">Tổng đơn hàng: <a>@item.ToTalAmount</a></li>
+                                <a asp-area="Admin" asp-controller="Order" asp-action="Detail"
+                                   asp-route-id="@item.OrderID" class="btn btn-success btn-sm"
+                                   title="Xem đơn hàng" style="margin-left:20px;margin-right:5px"><i class="bi bi-eye"></i></a>
+                                <a data-bs-toggle="modal" data-bs-target="#basicModal" data-id="@item.OrderID" class="btn btn-success btn-sm btn-capnhat" title="Xác nhận đơn hàng"><i class="bi bi-check"></i></a>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+    <a style="margin-top:10px;width:100px" class="btn btn-warning p-2" href="javascript:history.back()">
+        <i class="bi bi-arrow-left-circle"></i> Quay lại
+    </a>
+</main>
+<div class="modal fade" id="basicModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Đơn hàng đã giao thành công</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="OrderID" />
+                <div class="form-group">
+                    <label>Trạng thái</label>
+                    <select class="form-control" id="OrderStatusID">
+                        <option value="4">
+                            Đơn hàng được giao thành công
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success btnLuu">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</div><!-- End Basic Modal-->
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".btn-capnhat").click(function () {
+                var id = $(this).data("id");
+                $('#OrderID').val(id);
+            });
+            $(".btnLuu").click(function () {
+                // Lấy giá trị data-id từ nút "Xác nhận đơn hàng"
+                var id = $('#OrderID').val();
+                var tt = $('#OrderStatusID').val();
+
+                $.ajax({
+                    url: '/Admin/Order/UpdateDeliver',
+                    type: 'POST',
+                    data: { id: id, trangthai: tt },
+                    success: function (res) {
+                        if (res.Success) {
+                            toastr.error('Xác nhận không thành công');
+                        }
+                        else {
+                            toastr.success('Xác nhận thành công');
+                            setTimeout(function () {
+                                window.location.href = "https://localhost:7295/Admin/Order/Complete";
+                            }, 500);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

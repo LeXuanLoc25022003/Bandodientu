@@ -13,9 +13,16 @@
 
         <form method="post" asp-action="Edit">
             <div asp-validation-summary="All"></div>
+            <div class="form-group col-md-6">
+                <label asp-for="MenuID">Chọn mục</label>
+                <select asp-for="MenuID" class="form-control"
+                        asp-items="@(new SelectList(ViewBag.mnList,"Value","Text"))">
+                </select>
+                <span asp-validation-for="MenuID" class="alert-danger"></span>
+            </div>
             <div class="form-row">
                 <input type="text" class="form-control mb-3" asp-for="ProductID" type="hidden">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-12">
                     <label asp-for="ProductName">ProductName</label>
                     <input type="text" class="form-control mb-3" asp-for="ProductName" placeholder="Nhập tên sản phẩm">
                     <span asp-validation-for="ProductName" class="alert-danger"></span>
@@ -32,11 +39,10 @@
                         <input type="text" class="form-control mb-3" asp-for="DiscountedPrice" placeholder="Nhập giá khuyến mãi sản phẩm" />
                         <span asp-validation-for="DiscountedPrice" class="alert-danger"></span>
                     </div>
-                    <div class="form-group col-mb-6">
-                        <label asp-for="Description">Description</label>
-                        <input type="text" class="form-control mb-3" asp-for="Description" placeholder="Nhập mô tả sản phẩm" />
-                        <span asp-validation-for="Description" class="alert-danger"></span>
-                    </div>
+                <div class="form-group col-md-12">
+                    <label asp-for="Description">Description</label>
+                    <textarea asp-for="Description" class="form-control" placeholder="Nhập mô tả sản phẩm"></textarea>
+                </div>
                     <div class="form-group col-mb-6">
                         <label asp-for="Color">Color</label>
                         <input type="text" class="form-control mb-3" asp-for="Color" placeholder="Nhập màu sản phẩm" />
@@ -61,6 +67,10 @@
                             <input type ="text" class="form-control" asp-for="Image" id="file_input" aria-describedby="button-addon2" />
                         </div>
                     </div>
+                <div class="form-group col-md-12">
+                    <label asp-for="Contents">Content</label>
+                    <textarea asp-for="Contents" class="form-control"></textarea>
+                </div>
                     <div class="form-group col-mb-6">
                         <label asp-for="New">New</label>
                         <input type="text" class="form-control mb-3" asp-for="New" placeholder="Nhập sản phẩm mới hoặc không" />
@@ -81,8 +91,8 @@
                             <label>
                                 @Html.CheckBox("IsActive",false)
                                 Hiển thị
-                        </label>
-                </div>
+                            </label>
+                        </div>
                     </div>
             <button type="submit" class="btn btn-lg btn-primary p-2"><i class="bi bi-file-plus-fill"></i>Lưu</button>
             <a asp-controller="Product" asp-action="Index" class="btn btn-lg btn-warning p-2">Quay lại</a>
@@ -92,4 +102,6 @@
 @{
     var summerNoteFiles = new Bandodientu.Areas.Admin.Models.SummerNote("#Contents");
     <partial name="_SummerNoteFiles" model="summerNoteFiles" />
+    var summerNoteFiles1 = new Bandodientu.Areas.Admin.Models.SummerNote("#Description");
+    <partial name="_SummerNoteFiles" model="summerNoteFiles1" />
 }
