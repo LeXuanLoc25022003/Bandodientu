@@ -37,8 +37,7 @@ namespace Bandodientu.Areas.Admin.Controllers
         }
         public IActionResult Detail(int id)
         {
-            ViewBag.orderstatus = _context.OrderStatuses.ToList();
-            ViewBag.customer = _context.customers.ToList();
+            ViewBag.product = _context.Products.ToList();
             ViewBag.order = _context.Orders.ToList();
             var items = _context.OrderDetails.Where(m=>m.OrderID == id).ToList();
             return View(items);
@@ -198,6 +197,35 @@ namespace Bandodientu.Areas.Admin.Controllers
             ViewBag.orderstatus = _context.OrderStatuses.ToList();
             ViewBag.customer = _context.customers.ToList();
             var items = _context.Orders.Where(m => m.OrderStatusID == 4).ToList();
+            return View(items);
+        }
+        public IActionResult Cancel()
+        {
+            ViewBag.orderstatus = _context.OrderStatuses.ToList();
+            ViewBag.customer = _context.customers.ToList();
+            var items = _context.Orders.Where(m => m.OrderStatusID == 5).ToList();
+            return View(items);
+        }
+        [HttpPost]
+        public IActionResult UpdateCancel(int id, int trangthai)
+        {
+            var item = _context.Orders.Find(id);
+            if (item != null)
+            {
+                _context.Orders.Attach(item);
+                item.OrderStatusID = trangthai;
+                item.CreateDate = DateTime.Now;
+                _context.Entry(item).Property(x => x.OrderStatusID).IsModified = true;
+                _context.SaveChanges();
+                return Json(new { messeage = "Success", Success = true });
+            }
+            return Json(new { messeage = "Success", Success = false });
+        }
+        public IActionResult CustomerCancel()
+        {
+            ViewBag.orderstatus = _context.OrderStatuses.ToList();
+            ViewBag.customer = _context.customers.ToList();
+            var items = _context.Orders.Where(m=>m.OrderStatusID == 6).ToList();
             return View(items);
         }
     }

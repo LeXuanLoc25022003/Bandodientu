@@ -12,7 +12,7 @@
 </style>
 <main id="main" class="main">
     <div class="pagetitle">
-        <h2> Danh sách đơn hàng đã xác nhận</h2>
+        <h2> Danh sách đơn hàng đang giao</h2>
     </div>
     <form asp-action="Search" asp-controller="Customer">
         <div class="input-group mb-4 border rounded-pill p-1" style="background-color:white">
@@ -57,7 +57,7 @@
         <i class="bi bi-arrow-left-circle"></i> Quay lại
     </a>
 </main>
-<div class="modal fade" id="basicModal" tabindex="-1">
+@* <div class="modal fade" id="basicModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -81,36 +81,44 @@
             </div>
         </div>
     </div>
-</div><!-- End Basic Modal-->
+</div><!-- End Basic Modal--> *@
 @section Scripts{
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
         $(document).ready(function () {
             $(".btn-capnhat").click(function () {
-                var id = $(this).data("id");
-                $('#OrderID').val(id);
-            });
-            $(".btnLuu").click(function () {
-                // Lấy giá trị data-id từ nút "Xác nhận đơn hàng"
-                var id = $('#OrderID').val();
-                var tt = $('#OrderStatusID').val();
-
-                $.ajax({
-                    url: '/Admin/Order/UpdateDeliver',
-                    type: 'POST',
-                    data: { id: id, trangthai: tt },
-                    success: function (res) {
-                        if (res.Success) {
-                            toastr.error('Xác nhận không thành công');
-                        }
-                        else {
-                            toastr.success('Xác nhận thành công');
-                            setTimeout(function () {
-                                window.location.href = "https://localhost:7295/Admin/Order/Complete";
-                            }, 500);
-                        }
+                id = $(this).data("id");
+                tt = 4;
+                // Use SweetAlert for confirmation
+                Swal.fire({
+                    title: 'Đơn hàng đã giao đến nơi?',
+                    text: "Thao tác này không thể hoàn tác!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "/Admin/Order/UpdateCancel",
+                            type: "POST",
+                            data: { id: id, trangthai: tt },
+                            success: function (result) {
+                                if (result) {
+                                    toastr.success('Đơn hàng được giao thành công');
+                                    setTimeout(function () {
+                                        window.location.href = "https://localhost:7295/Admin/Order/Complete";
+                                    }, 700);
+                                } else {
+                                    toastr.error('Đơn hàng được giao không thành công');
+                                }
+                            }
+                        });
                     }
                 });
             });

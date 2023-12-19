@@ -46,6 +46,13 @@
 	@await RenderSectionAsync("Scripts3", required: false)
 	@await RenderSectionAsync("AddToCart", required: false)
 	@await RenderSectionAsync("DeleteToCart", required: false)
-	
+	<script>
+		function navigateToHome() {
+			window.location.href = "https://localhost:7295/";
+		}
+		function navigateToOrderDetails() {
+			window.location.href = "https://localhost:7295/HistoryOrder/Index";
+		}
+	</script>
 </body>
 </html>

@@ -3,42 +3,53 @@
 @model IList<OrderDetail>
 @{
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-    List<Customer> customer = ViewBag.customer;
-    List<OrderStatus> orderstatus = ViewBag.orderstatus;
+    List<Product> product = ViewBag.product;
     List<Order> order = ViewBag.order;
-    @foreach (var item in Model)
-    {
-        var orderInfo = order.FirstOrDefault(m => m.OrderID == item.OrderID);
-        // Lấy thông tin khách hàng từ bảng Customer
-        var customerInfo = orderInfo != null ? orderInfo.Address : null;
-    }
 }
 <main id="main" class="main">
     <div class="pagetitle">
         <h2>Chi tiết đơn hàng</h2>
     </div>
-    @foreach(var item in Model)
-    {
-        var orderInfo = order.FirstOrDefault(m => m.OrderID == item.OrderID);
-        // Lấy thông tin khách hàng từ bảng Customer
-        var customerInfo = orderInfo != null ? orderInfo.Address : null;
-    <div class="container shadow p-5">
-        <form>
-            <div asp-validation-summary="All"></div>
-            <div class="form-row" style="display:block ruby">
-                <input type="text" class="form-control mb-3" asp-for="@item.OrderDetailID" type="hidden">
-                <div class="form-group col-md-3" style="padding-right:100px">
-                        <label asp-for="@orderInfo.Code">Code</label>
-                        <input type="text" class="form-control mb-3" asp-for="@orderInfo.Code">
-                        <span asp-validation-for="@orderInfo.Code" class="alert-danger"></span>
-                </div>
-                <div class="form-group col-md-3">
-                        <label asp-for="@customerInfo"></label>
-                        <input type="text" class="form-control mb-3" asp-for="@customerInfo">
-                        <span asp-validation-for="@customerInfo" class="alert-danger"></span>
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card recent-sales overflow-auto">
+                    <div class="card-body mt-4">
+                        <table class="table table-borderless datatable">
+                            <thead>
+                                <tr>
+                                    <th class="col-2 text-center">#</th>
+                                    <th class="col-2 text-center">Ảnh</th>
+                                    <th class="col-3 text-center">Tên sản phẩm</th>
+                                    <th class="col-3 text-center">Giá tiền</th>
+                                    <th class="col-1 text-center">Số lượng</th>
+                                    <th class="col-2 text-center">Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int i = 1;
+                                }
+                                @foreach (var items in Model)
+                                {
+                                    var pd = product.FirstOrDefault(s => s.ProductID == items.ProductID);
+                                    <tr>
+                                        <th class="text-center" scope="row">@(i++)</th>
+                                        <td class="text-center"><img src="@pd.Image" style="width:80px" /></td>
+                                        <td class="text-center">@pd.ProductName</td>
+                                        <td class="text-center">@items.Price<sup>đ</sup></td>
+                                        <td class="text-center">@items.Quantity</td>
+                                        <td class="text-center">@(@items.Quantity * items.Price)<sup>đ</sup></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <a style="margin-top:10px;width:100px" class="btn btn-warning p-2" href="javascript:history.back()">
+                            <i class="bi bi-arrow-left-circle"></i> Quay lại
+                        </a>
+                    </div>
                 </div>
             </div>
-        </form>
-    </div>
-    }
+        </div>
+    </section>
 </main>

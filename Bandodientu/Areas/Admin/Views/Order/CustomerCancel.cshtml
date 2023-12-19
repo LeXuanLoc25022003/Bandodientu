@@ -44,7 +44,7 @@
                                 <a asp-area="Admin" asp-controller="Order" asp-action="Detail"
                                    asp-route-id="@item.OrderID" class="btn btn-success btn-sm"
                                    title="Xem đơn hàng" style="margin-left:20px;margin-right:5px"><i class="bi bi-eye"></i></a>
-                                <a data-bs-toggle="modal" data-bs-target="#basicModal" data-id="@item.OrderID" class="btn btn-success btn-sm btn-capnhat" title="Xác nhận đơn hàng"><i class="bi bi-check"></i></a>
+                                <a data-id="@item.OrderID" class="btn btn-success btn-sm btn-cancel" title="Xác nhận hủy đơn hàng"><i class="bi bi-check"></i></a>
 
                             </ul>
                         </div>
@@ -89,12 +89,12 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
         $(document).ready(function () {
-            $(".btn-capnhat").click(function () {
+            $(".btn-cancel").click(function () {
                 id = $(this).data("id");
-                tt = 3;
+                tt = 5;
                 // Use SweetAlert for confirmation
                 Swal.fire({
-                    title: 'Bạn có muốn chuyển đơn hàng đến đơn vị vận chuyển không?',
+                    title: 'Bạn có chắc muốn hủy đơn hàng?',
                     text: "Thao tác này không thể hoàn tác!",
                     icon: 'warning',
                     showCancelButton: true,
@@ -110,12 +110,12 @@
                             data: { id: id, trangthai: tt },
                             success: function (result) {
                                 if (result) {
-                                    toastr.success('Xác nhận đơn hàng được đưa đến đơn vị vận chuyển thành công');
+                                    toastr.success('Xác nhận hủy đơn hàng thành công');
                                     setTimeout(function () {
-                                        window.location.href = "https://localhost:7295/Admin/Order/Deliver";
+                                        window.location.href = "https://localhost:7295/Admin/Order/Cancel";
                                     }, 700);
                                 } else {
-                                    toastr.error('Xác nhận đơn hàng được đưa đến đơn vị vận chuyển không thành công');
+                                    toastr.error('Xác nhận hủy đơn hàng không thành công');
                                 }
                             }
                         });

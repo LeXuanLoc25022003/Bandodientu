@@ -10,7 +10,8 @@ namespace Bandodientu.Controllers
     public class CheckoutController : Controller
     {
 		public readonly DataContext _context;
-		public CheckoutController(DataContext context)
+
+        public CheckoutController(DataContext context)
 		{
 			_context = context;
 		}
@@ -57,6 +58,7 @@ namespace Bandodientu.Controllers
 					}
 					_context.SaveChanges();
 					cart.Clear();
+					HttpContext.Session.SetJson("cart", cart);
 					return true;
 			}
 			catch
@@ -64,23 +66,38 @@ namespace Bandodientu.Controllers
 				return false;
 			}
         }
-		public IActionResult Cancel(int id)
-		{
-			var items = _context.Orders.Find(id);
-			return View(items);
-		}
-		[HttpPost]
-		public IActionResult Cancel(Order order)
-		{
-			if(ModelState.IsValid)
-			{
-				order.OrderStatusID = 5;
-				order.CreateDate = DateTime.Now;
-				_context.Orders.Update(order);
-				_context.SaveChanges();
-				return RedirectToAction("Index","Home");
-			}
-			return View(order);
-		}
+        //public IActionResult Cancel(int id)
+        //{
+        //	var items = _context.Orders.Find(id);
+        //	return View(items);
+        //}
+        //[HttpPost]
+        //public IActionResult Cancel(Order order)
+        //{
+        //	if(ModelState.IsValid)
+        //	{
+        //		order.OrderStatusID = 5;
+        //		order.CreateDate = DateTime.Now;
+        //		_context.Orders.Update(order);
+        //		_context.SaveChanges();
+        //		return RedirectToAction("Index","Home");
+        //	}
+        //	return View(order);
+        //}
+        [HttpPost]
+        public IActionResult UpdateCancel(int id, int trangthai)
+        {
+            var item = _context.Orders.Find(id);
+            if (item != null)
+            {
+                _context.Orders.Attach(item);
+                item.OrderStatusID = trangthai;
+                item.CreateDate = DateTime.Now;
+                _context.Entry(item).Property(x => x.OrderStatusID).IsModified = true;
+                _context.SaveChanges();
+                return Json(new { messeage = "Success", Success = true });
+            }
+            return Json(new { messeage = "Success", Success = false });
+        }
     }
 }

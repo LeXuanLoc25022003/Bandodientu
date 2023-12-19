@@ -41,11 +41,11 @@
                                 <li class="list-item four">Trạng thái: <a>@ost.Name</a></li>
                                 <li class="list-item four">Ngày đặt hàng: <a>@item.CreateDate.ToString("dd/MM/yyyy")</a></li>
                                 <li class="list-item four">Tổng đơn hàng: <a>@item.ToTalAmount</a></li>
-                                <a asp-area="Admin" asp-controller="Order" asp-action="Details"
+                                <a asp-area="Admin" asp-controller="Order" asp-action="Detail"
                                    asp-route-id="@item.OrderID" class="btn btn-success btn-sm"
                                    title="Xem đơn hàng" style="margin-left:20px;margin-right:5px"><i class="bi bi-eye"></i></a>
                                 <a data-bs-toggle="modal" data-bs-target="#basicModal" data-id="@item.OrderID" class="btn btn-success btn-sm btn-capnhat" title="Xác nhận đơn hàng"><i class="bi bi-check"></i></a>
-
+                                <a data-bs-toggle="modal" data-bs-target="#verticalycentered" data-id="@item.OrderID" class="btn btn-success btn-sm btn-cancel" title="Hủy đơn hàng"><i class="bi bi-x-circle"></i></a>
                         </ul>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
         <i class="bi bi-arrow-left-circle"></i> Quay lại
     </a>
 </main>
-<div class="modal fade" id="basicModal" tabindex="-1">
+@* <div class="modal fade" id="basicModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -82,35 +82,107 @@
         </div>
     </div>
 </div><!-- End Basic Modal-->
+<div class="modal fade" id="verticalycentered" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="OrderID" />
+                <div class="form-group">
+                    <label>Trạng thái</label>
+                    <select class="form-control" id="OrderStatusCancel">
+                        <option value="5">
+                            Xác nhận hủy đơn hàng
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success btnCancel">Xác nhận hủy đơn</button>
+            </div>
+        </div>
+    </div>
+</div> *@
 @section Scripts{
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
         $(document).ready(function () {
             $(".btn-capnhat").click(function () {
-                var id = $(this).data("id");
-                $('#OrderID').val(id);
+                id = $(this).data("id");
+                tt = 2;
+                // Use SweetAlert for confirmation
+                Swal.fire({
+                    title: 'Bạn có muốn xác nhận đơn hàng không?',
+                    text: "Thao tác này không thể hoàn tác!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "/Admin/Order/UpdateCancel",
+                            type: "POST",
+                            data: { id: id, trangthai: tt },
+                            success: function (result) {
+                                if (result) {
+                                    toastr.success('Xác nhận đơn hàng thành công');
+                                    setTimeout(function () {
+                                        window.location.href = "https://localhost:7295/Admin/Order/Prepar";
+                                    }, 700);
+                                } else {
+                                    toastr.error('Xác nhận đơn hàng không thành công');
+                                }
+                            }
+                        });
+                    }
+                });
             });
-            $(".btnLuu").click(function () {
-                // Lấy giá trị data-id từ nút "Xác nhận đơn hàng"
-                var id = $('#OrderID').val();
-                var tt = $('#OrderStatusID').val();
-
-                $.ajax({
-                    url: '/Admin/Order/UpdateTT',
-                    type: 'POST',
-                    data: { id: id, trangthai: tt },
-                    success: function (res) {
-                        if (res.Success) {
-                            toastr.error('Xác nhận không thành công');
-                        }
-                        else {
-                            toastr.success('Xác nhận thành công');
-                            setTimeout(function () {
-                                window.location.href = "https://localhost:7295/Admin/Order/Prepar";
-                            }, 500);
-                        }
+        });
+    </script>
+}
+@section Scripts1{
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        $(document).ready(function () {
+            $(".btn-cancel").click(function () {
+                id = $(this).data("id");
+                tt = 5;
+                // Use SweetAlert for confirmation
+                Swal.fire({
+                    title: 'Bạn có muốn xác nhận đơn hàng không?',
+                    text: "Thao tác này không thể hoàn tác!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "/Admin/Order/UpdateCancel",
+                            type: "POST",
+                            data: { id: id, trangthai: tt },
+                            success: function (result) {
+                                if (result) {
+                                    toastr.success('Xác nhận hủy đơn hàng thành công');
+                                    setTimeout(function () {
+                                        window.location.href = "https://localhost:7295/Admin/Order/Cancel";
+                                    }, 700);
+                                } else {
+                                    toastr.error('Xác nhận hủy đơn hàng không thành công');
+                                }
+                            }
+                        });
                     }
                 });
             });
