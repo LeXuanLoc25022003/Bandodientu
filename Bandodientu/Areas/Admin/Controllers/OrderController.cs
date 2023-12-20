@@ -35,6 +35,16 @@ namespace Bandodientu.Areas.Admin.Controllers
             }
             );
         }
+        public async Task<IActionResult> Search(int month, int year)
+        {
+            return View("Index",
+                new OrderListViewModel
+                {
+                    Orders = _context.Orders
+                    .Where(m=>m.CreateDate.Month == month || m.CreateDate.Year == year)
+                }
+                );
+        }
         public IActionResult Detail(int id)
         {
             ViewBag.product = _context.Products.ToList();
@@ -133,21 +143,21 @@ namespace Bandodientu.Areas.Admin.Controllers
             var items = _context.Orders.Where(m=>m.OrderStatusID==1).ToList();
             return View(items);
         }
-        [HttpPost]
-        public IActionResult UpdateTT(int id,int trangthai)
-        {
-            var item = _context.Orders.Find(id);
-            if (item != null)
-            {
-                _context.Orders.Attach(item);
-                item.OrderStatusID = trangthai;
-                item.CreateDate= DateTime.Now;
-                _context.Entry(item).Property(x=>x.OrderStatusID).IsModified =true;
-                _context.SaveChanges();
-                return Json(new { messeage = "Success", Success = true });
-            }
-            return Json(new {messeage="Success" ,Success=false});
-        }
+        //[HttpPost]
+        //public IActionResult UpdateTT(int id,int trangthai)
+        //{
+        //    var item = _context.Orders.Find(id);
+        //    if (item != null)
+        //    {
+        //        _context.Orders.Attach(item);
+        //        item.OrderStatusID = trangthai;
+        //        item.CreateDate= DateTime.Now;
+        //        _context.Entry(item).Property(x=>x.OrderStatusID).IsModified =true;
+        //        _context.SaveChanges();
+        //        return Json(new { messeage = "Success", Success = true });
+        //    }
+        //    return Json(new {messeage="Success" ,Success=false});
+        //}
         public IActionResult Prepar()
         {
             ViewBag.orderstatus = _context.OrderStatuses.ToList();
@@ -155,21 +165,21 @@ namespace Bandodientu.Areas.Admin.Controllers
             var items = _context.Orders.Where(m => m.OrderStatusID == 2).ToList();
             return View(items);
         }
-        [HttpPost]
-        public IActionResult UpdateTTDh(int id, int trangthai)
-        {
-            var item = _context.Orders.Find(id);
-            if (item != null)
-            {
-                _context.Orders.Attach(item);
-                item.OrderStatusID = trangthai;
-                item.CreateDate = DateTime.Now;
-                _context.Entry(item).Property(x => x.OrderStatusID).IsModified = true;
-                _context.SaveChanges();
-                return Json(new { messeage = "Success", Success = true });
-            }
-            return Json(new { messeage = "Success", Success = false });
-        }
+        //[HttpPost]
+        //public IActionResult UpdateTTDh(int id, int trangthai)
+        //{
+        //    var item = _context.Orders.Find(id);
+        //    if (item != null)
+        //    {
+        //        _context.Orders.Attach(item);
+        //        item.OrderStatusID = trangthai;
+        //        item.CreateDate = DateTime.Now;
+        //        _context.Entry(item).Property(x => x.OrderStatusID).IsModified = true;
+        //        _context.SaveChanges();
+        //        return Json(new { messeage = "Success", Success = true });
+        //    }
+        //    return Json(new { messeage = "Success", Success = false });
+        //}
         public IActionResult Deliver()
         {
             ViewBag.orderstatus = _context.OrderStatuses.ToList();
@@ -177,21 +187,21 @@ namespace Bandodientu.Areas.Admin.Controllers
             var items = _context.Orders.Where(m => m.OrderStatusID == 3).ToList();
             return View(items);
         }
-        [HttpPost]
-        public IActionResult UpdateDeliver(int id, int trangthai)
-        {
-            var item = _context.Orders.Find(id);
-            if (item != null)
-            {
-                _context.Orders.Attach(item);
-                item.OrderStatusID = trangthai;
-                item.CreateDate = DateTime.Now;
-                _context.Entry(item).Property(x => x.OrderStatusID).IsModified = true;
-                _context.SaveChanges();
-                return Json(new { messeage = "Success", Success = true });
-            }
-            return Json(new { messeage = "Success", Success = false });
-        }
+        //[HttpPost]
+        //public IActionResult UpdateDeliver(int id, int trangthai)
+        //{
+        //    var item = _context.Orders.Find(id);
+        //    if (item != null)
+        //    {
+        //        _context.Orders.Attach(item);
+        //        item.OrderStatusID = trangthai;
+        //        item.CreateDate = DateTime.Now;
+        //        _context.Entry(item).Property(x => x.OrderStatusID).IsModified = true;
+        //        _context.SaveChanges();
+        //        return Json(new { messeage = "Success", Success = true });
+        //    }
+        //    return Json(new { messeage = "Success", Success = false });
+        //}
         public IActionResult Complete()
         {
             ViewBag.orderstatus = _context.OrderStatuses.ToList();

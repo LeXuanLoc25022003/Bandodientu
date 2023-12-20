@@ -3,11 +3,13 @@
 @{
 	ViewData["Title"] = "Index";
 	Layout = "~/Views/Shared/_Layout2.cshtml";
+	IList<ReplyComment> pst = ViewBag.replycomment;
+	IList<Customer> customer = ViewBag.Customer;
 }
 <div class="comments-list-wrap">
-	<h3 class="comment-count-title">@ViewBag.comment Comments</h3>
+	<h3 class="comment-count-title">@ViewBag.tong Comments</h3>
 	<div class="comment-list">
-		@if (Model != null)
+		@if (Model != null && Model.Any(item => item.PostID == ViewBag.PostID))
 		{
 			foreach (var item in Model.Where(item => item.PostID == ViewBag.PostID))
 			{
@@ -18,12 +20,34 @@
 						<form class="hidden-message" id="hidden-message">
 							<input id="c_customerID" value="@Function._CustomerID" class="input" type="text" style="display:none">
 							<input id="c_commentID" value="@item.CommentID" class="input1" type="text" style="display:none">
+							<input id="postid" value="@ViewBag.PostID" class="input1" type="text" style="display:none">
 							<input id="messeage" style="border-radius:50px;width: 400px;margin-left: 80px" type="text" placeholder="Nhập câu trả lời....." /><br />
 							<button type="button" id="c_reply" class="btn btn-info" style="border-radius: 50px;margin-left: 400px;">Trả lời</button>
 						</form>
 					</div>
 				</div>
-				@await Component.InvokeAsync("PostCommentChild", new { commentId = item.CommentID })
+
+				var replyComments = pst.Where(p => p.CommentID == item.CommentID).ToList();
+
+				@if (replyComments.Any())
+				{
+					foreach (var reply in replyComments)
+					{
+						var pd = customer.FirstOrDefault(c => c.CustomerID == reply.CustomerID);
+						<div class="single-comment-body child">
+							<div class="comment-text-body">
+								<h4>@pd.UserName<span class="comment-date">@reply.CreateDate</span> <a href="#">reply</a></h4>
+								<p>@reply.Messeage</p>
+							</div>
+						</div>
+					}
+				}
+				else
+				{
+					<div class="single-comment-body child">
+						<p>Chưa có phản hồi</p>
+					</div>
+				}
 			}
 		}
 		else
@@ -34,7 +58,6 @@
 		}
 	</div>
 </div>
-
 <div class="comment-template">
 	<h4>Leave a comment</h4>
 	<p>If you have a comment dont feel hesitate to send us your opinion.</p>
@@ -66,12 +89,6 @@
 					},
 				});
 			});
-		});
-	</script>
-}
-@section Scripts3{
-	<script>
-		$(document).ready(function () {
 			$("#c_send").click(function () {
 				_name = $("#c_name").val();
 				_email = $("#c_email").val();
@@ -94,25 +111,28 @@
 					}
 				});
 			});
-		})
+		});
 	</script>
 }
 @section Scripts5{
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 	<script>
 		$(document).ready(function () {
 			$("#c_reply").click(function () {
 				_customerID = $("#c_customerID").val();
 				_commentID = $("#c_commentID").val();
 				messeage = $("#messeage").val();
+				postID = $("#postid").val();
 				$.ajax({
 					url: "/ReplyComment/Create",
 					type: "POST",
-					data: { customerID: _customerID, commentID: _commentID, messeage: messeage },
+					data: { customerID: _customerID, commentID: _commentID, messeage: messeage, postID: postID }, // Corrected variable name
 					success: function (result) {
 						if (result) {
 							$("#c_customerID").val("");
 							$("#c_commentID").val("");
 							$("#messeage").val("");
+							$("#postid").val("");
 							toastr.success('Gửi thành công');
 						} else {
 							toastr.error('Gửi không thành công');
@@ -120,6 +140,7 @@
 					}
 				});
 			});
+
 		});
 	</script>
 }

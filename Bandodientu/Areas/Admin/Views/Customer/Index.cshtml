@@ -50,11 +50,11 @@
                                     <td class="text-center">
                                         @if (item.IsActive == true)
                                         {
-                                            @Html.CheckBox("IsActive", true, new { disabled = "disabled" })
+                                            <a href="#" class="IsActive" data-id="@item.CustomerID"><i class="bi bi-check2 text-success" style="font-size:25px"></i></a>
                                         }
                                         else
                                         {
-                                            @Html.CheckBox("IsActive", new { disabled = "disabled" })
+                                            <a href="#" class="IsActive" data-id="@item.CustomerID"><i class="bi bi-x text-danger" style="font-size:25px"></i></a>
                                         }
                                     </td>
                                     <td class="text-center">
@@ -96,6 +96,24 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
         $(document).ready(function () {
+            $('body').on('click', '.IsActive', function (e) {
+                e.preventDefault();
+                var check = $(this);
+                _id = check.data("id");
+                $.ajax({
+                    url: "/Admin/Customer/IsActive",
+                    type: "POST",
+                    data: { id: _id },
+                    success: function (rs) {
+                        if (rs.isActive) {
+                            $(check).html("<i class='bi bi-check2 text-success' style='font-size: 25px'></i>");
+                        }
+                        else {
+                            $(check).html("<i class='bi bi-x text-danger' style='font-size:25px'></i>");
+                        }
+                    }
+                });
+            })
             $(".btn-delete").click(function () {
                 _id = $(this).data("id");
 

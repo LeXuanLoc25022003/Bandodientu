@@ -37,18 +37,18 @@
                                     <td class="text-center">
                                         @if (item.IsActive == true)
                                         {
-                                            @Html.CheckBox("IsActive", true, new { disabled = "disabled" })
+                                            <a href="#" class="IsActive" data-id="@item.CommentID"><i class="bi bi-check2 text-success" style="font-size:25px"></i></a>
                                         }
                                         else
                                         {
-                                            @Html.CheckBox("IsActive", new { disabled = "disabled" })
+                                            <a href="#" class="IsActive" data-id="@item.CommentID"><i class="bi bi-x text-danger" style="font-size:25px"></i></a>
                                         }
                                     </td>
                                     <td class="text-center">
                                         <a asp-area="Admin" asp-controller="PostComment" asp-action="Edit"
                                            asp-route-id="@item.CommentID" class="btn btn-primary btn-sm"
                                            title="Sửa nội dung bình luận"><i class="bi bi-pencil"></i></a>
-                                        <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.CommentID">Chi tiết</a>
+                                        <a class="btn btn-info btn-sm" asp-controller="PostComment" asp-action="Details" asp-route-id="@item.CommentID">Chi tiết</a>
                                         <a class="btn btn-danger btn-sm btn-delete" data-id="@item.CommentID">Xóa</a>
                                     </td>
                                 </tr>
@@ -66,6 +66,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         $(document).ready(function () {
+            $('body').on('click', '.IsActive', function (e) {
+                e.preventDefault();
+                var check = $(this);
+                _id = check.data("id");
+                $.ajax({
+                    url: "/Admin/PostComment/IsActive",
+                    type: "POST",
+                    data: { id: _id },
+                    success: function (rs) {
+                        if (rs.isActive) {
+                            $(check).html("<i class='bi bi-check2 text-success' style='font-size: 25px'></i>");
+                        }
+                        else {
+                            $(check).html("<i class='bi bi-x text-danger' style='font-size:25px'></i>");
+                        }
+                    }
+                });
+            })
             $(".btn-delete").click(function () {
                 _id = $(this).data("id");
                 if (confirm("Bạn có muốn xóa không")) {

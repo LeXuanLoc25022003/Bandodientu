@@ -60,12 +60,15 @@ namespace Bandodientu.Controllers
 				.FirstOrDefault(m => m.PostID == id);
 			var comments = _context.postComments
 				.Count(m => (m.PostID == id));
+			var replycomments = _context.replyComments
+				.Count(m => (m.PostID == id));
 			if (post == null)
 			{
 				return NotFound();
 			}
 			ViewBag.PostID = post.PostID;
 			ViewBag.comment = comments.ToString();
+			ViewBag.tong = (replycomments + comments).ToString();
 			return View(post);
 
 		}

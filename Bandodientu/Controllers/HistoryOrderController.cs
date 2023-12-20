@@ -18,7 +18,9 @@ namespace Bandodientu.Controllers
 		}
 		public IActionResult Index()
 		{
-			var customer = _context.customers.FirstOrDefault(c => (c.CustomerID == Function._CustomerID));
+            if (!Function.IsLoginCustomer())
+                return RedirectToAction("Dangnhap", "Home");
+            var customer = _context.customers.FirstOrDefault(c => (c.CustomerID == Function._CustomerID));
 			ViewBag.Status = _context.OrderStatuses.ToList();
 			var items = _context.Orders.Where(o => (o.CustomerID == customer.CustomerID)).ToList();
 			return View(items);

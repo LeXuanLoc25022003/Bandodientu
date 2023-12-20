@@ -13,7 +13,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<title>Electro - HTML Ecommerce Template</title>
+	<title>Order Detail</title>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
@@ -55,8 +55,72 @@
 		}
 
 		.table-order {
-			margin-left: 177px;
+			margin-left: 32px;
 		}
+
+		.table-order {
+			margin-top: 20px;
+			width: 97%;
+			border-collapse: collapse;
+		}
+
+			.table-order th, .table-order td {
+				border: 1px solid #ddd;
+				padding: 12px;
+				text-align: left;
+			}
+
+			.table-order th, .table-order td {
+				border: 1px solid #1ca457;
+				padding: 12px;
+				text-align: left;
+			}
+			.table-order th {
+				background-color: #f2f2f2;
+			}
+
+			.table-order tbody tr:hover {
+				background-color: #f5f5f5;
+			}
+
+		.btn-cancel {
+			background-color: #d9534f;
+			border: 1px solid #d43f3a;
+			color: #fff;
+		}
+
+		.table-order th, .table-order td {
+			border: 1px solid red;
+			padding: 12px;
+			text-align: left;
+		}
+
+			.btn-cancel:hover {
+				background-color: #c9302c;
+				border: 1px solid #ac2925;
+			}
+
+		.btn-view-details {
+			background-color: #5bc0de;
+			border: 1px solid #46b8da;
+			color: #fff;
+		}
+
+			.btn-view-details:hover {
+				background-color: #31b0d5;
+				border: 1px solid #269abc;
+			}
+
+		.btn-back {
+			background-color: #f0ad4e;
+			border: 1px solid #eea236;
+			color: #fff;
+		}
+
+			.btn-back:hover {
+				background-color: #ec971f;
+				border: 1px solid #d58512;
+			}
 	</style>
 </head>
 <body>
@@ -161,11 +225,11 @@
 	<table border="1" class="table-order">
 		<thead>
 			<tr>
-				<th rowspan="2">Ảnh</th>
-				<th rowspan="2">Tên sản phẩm</th>
-				<th rowspan="2">Giá tiền</th>
-				<th rowspan="2">Số lượng</th>
-				<th rowspan="2">Thành tiền</th>
+				<th rowspan="2" style="color:red">Ảnh</th>
+				<th rowspan="2" style="color:red">Tên sản phẩm</th>
+				<th rowspan="2" style="color:red">Giá tiền</th>
+				<th rowspan="2" style="color:red">Số lượng</th>
+				<th rowspan="2" style="color:red">Thành tiền</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -182,7 +246,8 @@
 			}
 		</tbody>
 	</table>
-
+	<button type="button" class="btn btn-warning table-order" onclick="navigateToHistoryOrder()">Quay về trang lịch sử mua hàng</button>
+	<button type="button" class="btn btn-warning table-order" onclick="navigateToHome()">Quay về trang chủ</button>
 	<div id="newsletter" class="section">
 		<!-- container -->
 		<div class="container">

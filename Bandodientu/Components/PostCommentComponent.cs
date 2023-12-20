@@ -19,6 +19,8 @@ namespace Bandodientu.Components
 								 select p).Take(6).ToList();
 			ViewBag.PostCommentID = _context.postComments.FirstOrDefault()?.CommentID;
 			ViewBag.customer = _context.customers.FirstOrDefault()?.CustomerID;
+			ViewBag.replycomment = _context.replyComments.ToList();
+			ViewBag.Customer = _context.customers.ToList();
 			return await Task.FromResult((IViewComponentResult)View("Default", listofProduct));
 		}
 	}

@@ -40,11 +40,11 @@
                                     <td class="text-center">
                                         @if (item.IsActive == true)
                                         {
-                                            @Html.CheckBox("IsActive", true, new { disabled = "disabled" })
+                                            <a href="#" class="IsActive" data-id="@item.CommentID"><i class="bi bi-check2 text-success" style="font-size:25px"></i></a>
                                         }
                                         else
                                         {
-                                            @Html.CheckBox("IsActive", new { disabled = "disabled" })
+                                            <a href="#" class="IsActive" data-id="@item.CommentID"><i class="bi bi-x text-danger" style="font-size:25px"></i></a>
                                         }
                                     </td>
                                     <td class="text-center">

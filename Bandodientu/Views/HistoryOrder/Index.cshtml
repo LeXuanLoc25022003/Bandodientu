@@ -13,7 +13,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<title>Electro - HTML Ecommerce Template</title>
+	<title>History Order</title>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
@@ -33,13 +33,6 @@
 
 	<!-- Custom stlylesheet -->
 	<link type="text/css" rel="stylesheet" href="~/css/style.css" />
-
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-	  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-	<![endif]-->
 	<style>
 		.button-details-cacenl {
 			display: flex;
@@ -55,8 +48,61 @@
 		}
 
 		.table-order{
-			margin-left:177px;
+			margin-left:32px;
 		}
+
+		.table-order {
+			margin-top: 20px;
+			width: 97%;
+			border-collapse: collapse;
+		}
+
+			.table-order th, .table-order td {
+				border: 1px solid red;
+				padding: 12px;
+				text-align: left;
+			}
+
+			.table-order th {
+				background-color: #f2f2f2;
+			}
+
+			.table-order tbody tr:hover {
+				background-color: #f5f5f5;
+			}
+
+		.btn-cancel {
+			background-color: #d9534f;
+			border: 1px solid #d43f3a;
+			color: #fff;
+		}
+
+			.btn-cancel:hover {
+				background-color: #c9302c;
+				border: 1px solid #ac2925;
+			}
+
+		.btn-view-details {
+			background-color: #5bc0de;
+			border: 1px solid #46b8da;
+			color: #fff;
+		}
+
+			.btn-view-details:hover {
+				background-color: #31b0d5;
+				border: 1px solid #269abc;
+			}
+
+		.btn-back {
+			background-color: #f0ad4e;
+			border: 1px solid #eea236;
+			color: #fff;
+		}
+
+			.btn-back:hover {
+				background-color: #ec971f;
+				border: 1px solid #d58512;
+			}
 	</style>
 </head>
 <body>
@@ -150,7 +196,7 @@
 					<h3 class="breadcrumb-header">Checkout</h3>
 					<ul class="breadcrumb-tree">
 						<li><a href="#">Home</a></li>
-						<li class="active">OrderDetail</li>
+						<li class="active">HistoryOrder</li>
 					</ul>
 				</div>
 			</div>
@@ -158,14 +204,14 @@
 		</div>
 		<!-- /container -->
 	</div>
-	<table border="1" class="table-order">
+	<table class="table-order">
 		<thead>
 			<tr>
-				<th rowspan="2">Mã</th>
-				<th rowspan="2">Ngày tạo</th>
-				<th rowspan="2">Trạng thái</th>
-				<th rowspan="2">Tổng tiền</th>
-				<th rowspan="2">Chức năng</th>
+				<th rowspan="2" style="color:red">Mã</th>
+				<th rowspan="2" style="color:red">Ngày tạo</th>
+				<th rowspan="2" style="color:red">Trạng thái</th>
+				<th rowspan="2" style="color:red">Tổng tiền</th>
+				<th rowspan="2" style="color:red">Chức năng</th>
 			</tr>
 		</thead>
 		<tbody>

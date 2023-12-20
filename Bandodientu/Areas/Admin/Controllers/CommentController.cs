@@ -35,6 +35,18 @@ namespace Bandodientu.Areas.Admin.Controllers
 				}
 			);
 		}
+        [HttpPost]
+        public IActionResult IsActive(int? id)
+        {
+            var item = _context.Comments.Find(id);
+            if (item != null)
+            {
+                item.IsActive = !item.IsActive;
+                _context.SaveChanges();
+                return Json(new { success = true, isActive = item.IsActive });
+            }
+            return Json(new { success = false });
+        }
         public async Task<IActionResult> Search(int keywords,int month,int year, int productPage = 1)
         {
             return View("Index",

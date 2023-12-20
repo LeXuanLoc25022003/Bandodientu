@@ -51,6 +51,18 @@ namespace Bandodientu.Areas.Admin.Controllers
                 }
                 );
         }
+        [HttpPost]
+        public IActionResult IsActive(int? id)
+        {
+            var item = _context.AdminUsers.Find(id);
+            if (item != null)
+            {
+                item.IsActive = !item.IsActive;
+                _context.SaveChanges();
+                return Json(new { success = true, isActive = item.IsActive });
+            }
+            return Json(new { success = false });
+        }
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.AdminUsers == null)

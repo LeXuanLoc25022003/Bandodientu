@@ -19,6 +19,7 @@ namespace Bandodientu.Components
                                  where (post.IsActive == true)
                                  select post).Take(3).ToList();
 			ViewBag.postcomments = _context.postComments.Where(m => (bool)m.IsActive).ToList();
+			ViewBag.replycomments = _context.replyComments.Where(m => (bool)m.IsActive).ToList();
 			return await Task.FromResult((IViewComponentResult)View("Default", listofComment));
         }
     }

@@ -17,13 +17,14 @@ namespace Bandodientu.Controllers
 			return View();
 		}
 		[HttpPost]
-		public bool Create(int customerID, int commentID, string messeage)
+		public bool Create(int customerID, int commentID, string messeage,int postID)
 		{
 			try
 			{
 				ReplyComment c = new ReplyComment();
 				c.CustomerID = customerID;
 				c.CommentID = commentID;
+				c.PostID= postID;
 				c.Messeage = messeage;
 				c.CreateDate = DateTime.Now;
 				c.IsActive = true;
