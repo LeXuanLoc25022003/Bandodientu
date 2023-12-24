@@ -14,5 +14,6 @@ namespace Bandodientu.Models
 		public DateTime CreateDate { get; set; }
 		public string? Messeage {  get; set; }
 		public bool? IsActive { get; set; }
+		public int IsRead {  get; set; }
 	}
 }

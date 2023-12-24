@@ -39,12 +39,21 @@
 					<li><a href="#"><i class="fa fa-phone"></i> @Function._Phone</a></li>
 					<li><a href="#"><i class="fa fa-envelope-o"></i> @Function._Email</a></li>
 				</ul>
-				<ul class="header-links pull-right">
-					<li><a href="Home/Dangnhap">Đăng nhập</a></li>
-					<li><a href="Home/Dangky">Đăng ký</a></li>
-					<li><a href="Admin">Admin</a></li>
-					<li><a href="Home/LoginOut">Đăng xuất</a></li>
-				</ul>
+				@if (Function.IsLoginCustomer())
+				{
+					<ul class="header-links pull-right">
+						<li><a href="Home/Dangky">Đăng ký</a></li>
+						<li><a href="Home/LoginOut">Đăng xuất</a></li>
+						<li><a href="Admin">Admin</a></li>
+					</ul>
+				}
+				else
+				{
+					<ul class="header-links pull-right">
+						<li><a href="Home/Dangnhap">Đăng nhập</a></li>
+						<li><a href="Admin">Admin</a></li>
+					</ul>
+				}
 			</div>
 		</div>
 		<!-- /TOP HEADER -->
@@ -57,7 +66,7 @@
 					<!-- LOGO -->
 					<div class="col-md-3">
 						<div class="header-logo">
-							<a href="#" class="logo">
+							<a href="https://localhost:7295/" class="logo">
 								<img src="./img/logo.png" alt="">
 							</a>
 						</div>
@@ -71,7 +80,7 @@
 									<option value="1">All Products</option>
 								</select>
 								<input class="input" placeholder="Search here">
-								<button class="search-btn">Search</button>
+								<button class="search-btn">Tìm kiếm</button>
 							</form>
 						</div>
 					</div>

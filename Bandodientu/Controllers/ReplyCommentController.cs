@@ -14,7 +14,8 @@ namespace Bandodientu.Controllers
 		}
 		public IActionResult Index()
 		{
-			return View();
+			var items = _context.replyComments.Where(m=>m.IsActive==true).ToList();
+			return View(items);
 		}
 		[HttpPost]
 		public bool Create(int customerID, int commentID, string messeage,int postID)

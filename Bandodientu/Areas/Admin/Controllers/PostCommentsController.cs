@@ -27,5 +27,31 @@ namespace Bandodientu.Areas.Admin.Controllers
             }
             return View(items);
         }
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var mn = _context.postComments
+                .Where(m => m.CommentID == id);
+            if (mn == null)
+            {
+                return NotFound();
+            }
+            return View(mn);
+        }
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            var deleComment = _context.postComments.Find(id);
+            if (deleComment == null)
+            {
+                return NotFound();
+            }
+            _context.postComments.Remove(deleComment);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }

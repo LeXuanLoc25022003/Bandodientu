@@ -27,7 +27,7 @@
 					</div>
 				</div>
 
-				var replyComments = pst.Where(p => p.CommentID == item.CommentID).ToList();
+				var replyComments = pst.Where(p => p.CommentID == item.CommentID && p.IsActive==true).ToList();
 
 				@if (replyComments.Any())
 				{
@@ -59,14 +59,13 @@
 	</div>
 </div>
 <div class="comment-template">
-	<h4>Leave a comment</h4>
-	<p>If you have a comment dont feel hesitate to send us your opinion.</p>
+	<h4>Để lại một bình luận</h4>
 	<form>
 		<p>
-			<input id="c_name" type="text" placeholder="Your Name">
-			<input id="c_email" type="email" placeholder="Your Email">
+			<input id="c_name" type="text" placeholder="Nhập tên">
+			<input id="c_email" type="email" placeholder="Nhập email">
 		</p>
-		<p><textarea name="comment" id="c_comment" cols="30" rows="10" placeholder="Your Message"></textarea></p>
+		<p><textarea name="comment" id="c_comment" cols="30" rows="10" placeholder="Nhập bình luận"></textarea></p>
 		<input id="c_postID" value="@ViewBag.PostID" class="input1" type="text" style="display:none">
 		<p><button type="button" id="c_send" class="btn btn-outline-info">Gửi</button></p>
 	</form>

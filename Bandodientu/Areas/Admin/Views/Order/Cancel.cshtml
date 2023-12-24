@@ -14,14 +14,14 @@
     <div class="pagetitle">
         <h2> Danh sách đơn hàng đã hủy</h2>
     </div>
-    <form asp-action="Search" asp-controller="Customer">
+@*     <form asp-action="Search" asp-controller="Customer">
         <div class="input-group mb-4 border rounded-pill p-1" style="background-color:white">
             <input type="search" name="keywords" placeholder="Tìm kiếm theo tên người dùng?" aria-describedby="button-addon3" class="form-control bg-none border-0">
             <div class="input-group-append border-0">
                 <button id="button-addon3" type="submit" class="btn btn-link text-success"><i class="bi bi-search"></i></button>
             </div>
         </div>
-    </form>
+    </form> *@
     @foreach (var item in Model)
     {
         var ct = customer.FirstOrDefault(m => m.CustomerID == item.CustomerID);

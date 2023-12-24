@@ -21,9 +21,12 @@ namespace Bandodientu.Utilities
         public static string _Address = String.Empty;
         public static string Phone = String.Empty;
 		public static string _Password = String.Empty;
+		public static string Image=String.Empty;
         public static int _ProductID;
         public static int _PostID;
-        public static string TitleSlugGeneration(string type,string productname,long id)
+		public static int _ReplyCommentID;
+
+		public static string TitleSlugGeneration(string type,string productname,long id)
 		{
 			string sProduct = type + "-" + SlugGenerator.SlugGenerator.GenerateSlug(productname) + "-" + id.ToString() + ".html";
 			return sProduct;

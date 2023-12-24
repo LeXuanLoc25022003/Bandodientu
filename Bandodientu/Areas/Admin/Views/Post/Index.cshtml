@@ -3,6 +3,8 @@
 @model PostListViewModel;
 @{
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    IList<PostComment> cmt = ViewBag.cmt;
+    IList<ReplyComment> cmt1 = ViewBag.cmt1;
 }
 <main id="main" class="main">
     <div class="pagetitle">
@@ -24,7 +26,7 @@
     </form>
     <p>
         <a type="button" class="btn btn-success" asp-area="Admin" asp-controller="Post" asp-action="Create">
-            <i class="bi bibi-file-earmark-text me-1">Thêm tin tức</i>
+            <i class="ri-add-circle-line me-1">Thêm tin tức</i>
         </a>
     </p>
     <section class="section dashboard">
@@ -49,7 +51,10 @@
                             }
                             @foreach (var item in Model.Posts)
                             {
-                                <tr class="text-center" id="tr_@item.PostID">
+                                    var cm = cmt.Count(m => m.PostID == item.PostID);
+                                    var cm1 = cmt1.Count(m => m.PostID == item.PostID);
+                                    var tong = (cm + cm1);
+                                    <tr class="text-center" id="tr_@item.PostID">
                                     <td>@(i++)</td>
                                     <td class="text-center">
                                         <a asp-area="Admin" asp-controller="Post" asp-action="Details"
@@ -73,7 +78,7 @@
                                            title="Sửa nội dung bài viết"><i class="bi bi-pencil"></i></a>
                                         <a asp-area="Admin" asp-controller="PostComments" asp-action="Index"
                                            asp-route-id="@item.PostID" class="btn btn btn-success btn-sm"
-                                           title="Danh sách bình luận"><i class="bi bi-chat"></i></a>
+                                           title="Danh sách bình luận"><i class="bi bi-chat"></i>(@tong)</a>
                                         <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.PostID">Chi tiết</a>
                                         <a data-id="@item.PostID" class="btn btn-danger btn-sm btn-delete"><i class="bi bi-trash"></i></a>
                                     </td>

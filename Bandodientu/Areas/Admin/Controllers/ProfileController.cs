@@ -51,41 +51,24 @@ namespace Bandodientu.Areas.Admin.Controllers
 		//        return false;
 		//    }
 		//}
-		public IActionResult Edit(int? id, string fullName, string about, string company, string Job, string Country, string Address, string Phone, string Email, string password)
+		public IActionResult Edit()
 		{
-			if (id == null || id == 0)
-			{
-				return NotFound();
-			}
-			var mn = _context.AdminUsers.Find(id);
-			if (mn == null)
-			{
-				return NotFound();
-			}
+
+			var mn = _context.AdminUsers.Where(m=>m.UserID==Function._UserID).ToList();
 			return View(mn);
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 
-		public IActionResult Edit(AdminUser user, string fullName, string about, string company, string Job, string Country, string Address, string Phone, string Email, string password)
+		public IActionResult Edit(AdminUser user)
 		{
-			if (ModelState.IsValid)
-			{
-				user.UserName = fullName;
-				user.About = about;
-				user.Company = company;
-				user.Job = Job;
-				user.Country = Country;
-				user.Address = Address;
-				user.Phone = Phone;
-				user.Email = Email;
-				user.Password = password;
-				_context.AdminUsers.Update(user);
-				_context.SaveChanges();
-				return RedirectToAction("Index");
-			}
-			return View(user);
+			user.UserID=Function._UserID;
+			user.IsActive = true;
+			user.Password=Function._Password;
+			_context.AdminUsers.Update(user);
+			_context.SaveChanges();
+			return RedirectToAction("Index");
 		}
 	}
 }

@@ -36,8 +36,8 @@
                                 <a asp-area="Admin" asp-controller="Order" asp-action="Detail"
                                    asp-route-id="@item.OrderID" class="btn btn-success btn-sm"
                                    title="Xem đơn hàng" style="margin-left:20px;margin-right:5px"><i class="bi bi-eye"></i></a>
-                                <a data-bs-toggle="modal" data-bs-target="#basicModal" data-id="@item.OrderID" class="btn btn-success btn-sm btn-capnhat" title="Xác nhận đơn hàng"><i class="bi bi-check"></i></a>
-                                <a data-bs-toggle="modal" data-bs-target="#verticalycentered" data-id="@item.OrderID" class="btn btn-success btn-sm btn-cancel" title="Hủy đơn hàng"><i class="bi bi-x-circle"></i></a>
+                                <a data-id="@item.OrderID" class="btn btn-success btn-sm btn-capnhat" title="Xác nhận đơn hàng"><i class="bi bi-check"></i></a>
+                                <a data-id="@item.OrderID" class="btn btn-success btn-sm btn-cancel" title="Hủy đơn hàng"><i class="bi bi-x-circle"></i></a>
                         </ul>
                     </div>
                 </div>

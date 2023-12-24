@@ -4,6 +4,11 @@
 @{
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .contact-tr {
+        color: red;
+    }
+</style>
 <main id="main" class="main">
     <div class="pagetitle">
         <h2> Danh sách liên hệ</h2>
@@ -60,7 +65,7 @@
                                 <td class="col-2 text-center">Date</td>
                                 <td class="col-3 text-center">Messeage</td>
                                 <th class="col-1 text-center">Ẩn/Hiện</th>
-                                <td class="col-3 text-center">Chức năng</td>
+                                <td class="col-4 text-center">Chức năng</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -69,33 +74,67 @@
                             }
                             @foreach (var item in Model.Contacts)
                             {
-                                <tr class="text-center" id="tr_@item.ContactID">
-                                    <td>@(i++)</td>
-                                    <td class ="text-center">
-                                        <a asp-area="Admin" asp-controller="Contact" asp-action="Details"
-                                           asp-route-id="@item.ContactID" class="text-center">@item.Name</a>
-                                    </td>
-                                    <td class="text-center">@item.Email</td>
-                                    <td class="text-center">@item.CreateDate.ToString("dd/MM/yyyy")</td>
-                                    <td class="text-center">@item.Messeage</td>
-                                    <td class="text-center">
-                                        @if (item.IsActive == true)
-                                        {
-                                            <a href="#" class="IsActive" data-id="@item.ContactID"><i class="bi bi-check2 text-success" style="font-size:25px"></i></a>
-                                        }
-                                        else
-                                        {
-                                            <a href="#" class="IsActive" data-id="@item.ContactID"><i class="bi bi-x text-danger" style="font-size:25px"></i></a>
-                                        }
-                                    </td>
-                                    <td class="text-center">
-                                        <a asp-area="Admin" asp-controller="Contact" asp-action="Edit"
-                                           asp-route-id="@item.ContactID" class="btn btn-primary btn-sm"
-                                           title="Sửa nội dung liên hệ"><i class="bi bi-pencil"></i></a>
-                                        <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.ContactID">Chi tiết</a>
-                                        <a data-id="@item.ContactID" class="btn btn-danger btn-sm btn-delete"><i class="bi bi-trash"></i></a>
-                                    </td>
-                                </tr>
+                                if (item.IsRead == 1)
+                                {
+                                    <tr class="text-center contact-tr" id="tr_@item.ContactID" style="color:red">
+                                        <td>@(i++)</td>
+                                        <td class="text-center" style="color:red">
+                                            <a asp-area="Admin" asp-controller="Contact" asp-action="Details"
+                                               asp-route-id="@item.ContactID" class="text-center" style="color:red">@item.Name</a>
+                                        </td>
+                                        <td class="text-center" style="color:red">@item.Email</td>
+                                        <td class="text-center" style="color:red">@item.CreateDate.ToString("dd/MM/yyyy")</td>
+                                        <td class="text-center" style="color:red">@item.Messeage</td>
+                                        <td class="text-center">
+                                            @if (item.IsActive == true)
+                                            {
+                                                <a href="#" class="IsActive" data-id="@item.ContactID"><i class="bi bi-check2 text-success" style="font-size:25px"></i></a>
+                                            }
+                                            else
+                                            {
+                                                <a href="#" class="IsActive" data-id="@item.ContactID"><i class="bi bi-x text-danger" style="font-size:25px"></i></a>
+                                            }
+                                        </td>
+                                        <td class="text-center">
+                                            <a asp-area="Admin" asp-controller="Contact" asp-action="Edit"
+                                               asp-route-id="@item.ContactID" class="btn btn-primary btn-sm"
+                                               title="Sửa nội dung liên hệ"><i class="bi bi-pencil"></i></a>
+                                            <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.ContactID"><i class="bi bi-eye"></i></a>
+                                            <a data-id="@item.ContactID" class="btn btn-success btn-sm btn-capnhat" title="Xác nhận xử lí thành công"><i class="bi bi-check"></i></a>
+                                            <a data-id="@item.ContactID" class="btn btn-danger btn-sm btn-delete"><i class="bi bi-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr class="text-center" id="tr_@item.ContactID" style="color:green">
+                                        <td>@(i++)</td>
+                                        <td class="text-center" style="color:green">
+                                            <a asp-area="Admin" asp-controller="Contact" asp-action="Details"
+                                               asp-route-id="@item.ContactID" class="text-center" style="color:green">@item.Name</a>
+                                        </td>
+                                        <td class="text-center" style="color:green">@item.Email</td>
+                                        <td class="text-center" style="color:green">@item.CreateDate.ToString("dd/MM/yyyy")</td>
+                                        <td class="text-center" style="color:green">@item.Messeage</td>
+                                        <td class="text-center">
+                                            @if (item.IsActive == true)
+                                            {
+                                                <a href="#" class="IsActive" data-id="@item.ContactID"><i class="bi bi-check2 text-success" style="font-size:25px"></i></a>
+                                            }
+                                            else
+                                            {
+                                                <a href="#" class="IsActive" data-id="@item.ContactID"><i class="bi bi-x text-danger" style="font-size:25px"></i></a>
+                                            }
+                                        </td>
+                                        <td class="text-center">
+                                            <a asp-area="Admin" asp-controller="Contact" asp-action="Edit"
+                                               asp-route-id="@item.ContactID" class="btn btn-primary btn-sm"
+                                               title="Sửa nội dung liên hệ"><i class="bi bi-pencil"></i></a>
+                                            <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.ContactID">Chi tiết</a>
+                                            <a data-id="@item.ContactID" class="btn btn-danger btn-sm btn-delete"><i class="bi bi-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                }
                             }
                         </tbody>
                     </table>
@@ -176,6 +215,39 @@
                     }
                 });
             });
+            $(".btn-capnhat").click(function () {
+                id = $(this).data("id");
+                tt = 2;
+                // Use SweetAlert for confirmation
+                Swal.fire({
+                    title: 'Xác nhận bạn đã hoàn thành công tác xử lí?',
+                    text: "Thao tác này không thể hoàn tác!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "/Admin/Contact/UpdateCancel",
+                            type: "POST",
+                            data: { id: id, trangthai: tt },
+                            success: function (result) {
+                                if (result) {
+                                    toastr.success('Xác nhận xử lí thành công');
+                                    setTimeout(function () {
+                                        window.location.href = "https://localhost:7295/Admin/Contact/Index";
+                                    }, 700);
+                                } else {
+                                    toastr.error('Xác nhận xử lí không thành công');
+                                }
+                            }
+                        });
+                    }
+                });
+            });
         });
     </script>
-}
+    }

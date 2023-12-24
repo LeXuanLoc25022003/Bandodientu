@@ -57,11 +57,11 @@ namespace Bandodientu.Controllers
 				return NotFound();
 			}
 			var post = _context.Posts
-				.FirstOrDefault(m => m.PostID == id);
+				.FirstOrDefault(m => m.PostID == id && m.IsActive==true);
 			var comments = _context.postComments
-				.Count(m => (m.PostID == id));
+				.Count(m => (m.PostID == id) && m.IsActive==true);
 			var replycomments = _context.replyComments
-				.Count(m => (m.PostID == id));
+				.Count(m => (m.PostID == id) && m.IsActive == true);
 			if (post == null)
 			{
 				return NotFound();

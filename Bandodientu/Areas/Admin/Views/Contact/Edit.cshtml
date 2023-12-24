@@ -42,6 +42,11 @@
                     <input type="text" class="form-control mb-3" asp-for="Messeage" placeholder="" />
                     <span asp-validation-for="Messeage" class="alert-danger"></span>
                 </div>
+                <div class="form-group col-mb-6">
+                    <label asp-for="IsRead">IsRead</label>
+                    <input type="text" class="form-control mb-3" asp-for="IsRead" placeholder="" />
+                    <span asp-validation-for="IsRead" class="alert-danger"></span>
+                </div>
                 <div class="form-group mt-5 mb-5">
                     <label>
                         @Html.CheckBox("IsActive",false)

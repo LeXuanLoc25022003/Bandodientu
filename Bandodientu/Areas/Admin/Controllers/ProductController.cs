@@ -19,6 +19,7 @@ namespace Bandodientu.Areas.Admin.Controllers
 
         public IActionResult Index(int productPage=1)
         {
+            ViewBag.cmt = _context.Comments.ToList();
             return View(
                 new ProductListViewModel
                 {
@@ -70,7 +71,6 @@ namespace Bandodientu.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
             var tbProduct = await _context.Products
                 //.Include(t => t.PostOrder)
                 .FirstOrDefaultAsync(m => m.ProductID == id);
@@ -123,7 +123,19 @@ namespace Bandodientu.Areas.Admin.Controllers
                 Text = "---Select---",
                 Value = string.Empty
             });
+            var mnColor = (from m in _context.Colors
+                          select new SelectListItem()
+                          {
+                              Text = m.Name,
+                              Value = m.Name.ToString()
+                          }).ToList();
+            mnColor.Insert(0, new SelectListItem()
+            {
+                Text = "---Select---",
+                Value = string.Empty
+            });
             ViewBag.mnList = mnList;
+            ViewBag.mnColor = mnColor;
             return View();
         }
 

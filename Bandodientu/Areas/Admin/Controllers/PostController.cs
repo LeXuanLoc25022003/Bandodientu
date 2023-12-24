@@ -3,6 +3,7 @@ using Bandodientu.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Drawing.Printing;
 
 namespace Bandodientu.Areas.Admin.Controllers
@@ -20,6 +21,8 @@ namespace Bandodientu.Areas.Admin.Controllers
 
 		public IActionResult Index(int productPage = 1)
 		{
+            ViewBag.cmt = _context.postComments.ToList();
+            ViewBag.cmt1 = _context.replyComments.ToList();
             return View(
             new PostListViewModel
             {

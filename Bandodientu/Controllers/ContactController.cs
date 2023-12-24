@@ -27,6 +27,7 @@ namespace Bandodientu.Controllers
 				contact.Phone = c_phone;
 				contact.Messeage = c_text;
 				contact.CreateDate = DateTime.Now;
+				contact.IsRead = 1;
 				contact.IsActive = true;
 				_context.Add(contact);
 				_context.SaveChangesAsync();

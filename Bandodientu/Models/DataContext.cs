@@ -24,6 +24,7 @@ namespace Bandodientu.Models
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<view_Post_Menu> view_Post_Menus { get; set; }
+        public DbSet<Color> Colors { get; set; }
 
 	}
 }

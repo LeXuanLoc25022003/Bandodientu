@@ -131,5 +131,20 @@ namespace Bandodientu.Areas.Admin.Controllers
             }
             return View(contact);
         }
+        [HttpPost]
+        public IActionResult UpdateCancel(int id, int trangthai)
+        {
+            var item = _context.Contacts.Find(id);
+            if (item != null)
+            {
+                _context.Contacts.Attach(item);
+                item.IsRead = trangthai;
+                item.CreateDate = DateTime.Now;
+                _context.Entry(item).Property(x => x.IsRead).IsModified = true;
+                _context.SaveChanges();
+                return Json(new { messeage = "Success", Success = true });
+            }
+            return Json(new { messeage = "Success", Success = false });
+        }
     }
 }

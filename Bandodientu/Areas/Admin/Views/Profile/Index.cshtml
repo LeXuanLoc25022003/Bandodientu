@@ -141,7 +141,7 @@
                     <div class="card">
                         <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-                            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+                            <img src="@Function.Image" alt="Profile" class="rounded-circle">
                             <h2>@Function._UserName</h2>
                             <h3>@Function._Job</h3>
                             <div class="social-links mt-2">
@@ -214,7 +214,7 @@
 
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 label">Phone</div>
-                                        <div class="col-lg-9 col-md-8">@Function._Phone</div>
+                                        <div class="col-lg-9 col-md-8">@Function.Phone</div>
                                     </div>
 
                                     <div class="row">
@@ -227,80 +227,75 @@
                                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                                     <!-- Profile Edit Form -->
-                                    <form>
-                                        @Html.AntiForgeryToken()
+                                    <form asp-action="Edit" method="post">
+                                        <input type="text" class="form-control mb-3" asp-for="UserID" type="hidden">
                                         <div class="row mb-3">
                                             <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                                            <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Image</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <img src="assets/img/profile-img.jpg" alt="Profile">
-                                                <div class="pt-2">
-                                                    <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                                                    <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <button class="btn btn-success" type="button" onclick="openDialog()">Choose a pic</button>
+                                                    </div>
+                                                    <input type="text" class="form-control" asp-for="Image" id="file_input" aria-describedby="button-addon2" />
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row mb-3">
-                                            <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
+                                            <label asp-for="UserName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input type="text" class="form-control" id="fullName">           
+                                                <input type="text" class="form-control" id="fullName" asp-for="UserName" value="@Function._UserName">
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <textarea class="form-control" id="about" style="height:100px"></textarea>
+                                                <input class="form-control" id="about" style="height:100px" asp-for="About" value="@Function._About"></input>
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label for="company" class="col-md-4 col-lg-3 col-form-label">Company</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input type="text" class="form-control" id="company">
-    
+                                                <input type="text" class="form-control" id="company" asp-for="Company" value="@Function._Company"> 
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input type="text" class="form-control" id="Job"/>
+                                                <input type="text" class="form-control" id="Job" asp-for="Job" value="@Function._Job"/>
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input type="text" class="form-control" id="Country">
+                                                <input type="text" class="form-control" id="Country" asp-for="Country" value="@Function._Country">
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input type="text" class="form-control" id="Address">
+                                                <input type="text" class="form-control" id="Address" asp-for="Address" value="@Function._Address">
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input type="text" class="form-control" id="Phone">   
+                                                <input type="text" class="form-control" id="Phone" asp-for="Phone" value="@Function.Phone">   
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input type="email" class="form-control" id="Email">
+                                                <input type="email" class="form-control" id="Email" asp-for="Email" value="@Function._Email">
            
                                             </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <input type="text" class="form-control" id="password" style="display:none" value="@Function._Password"/>
-                                        </div>
-                                        <div class="row mb-3">
-                                               <input type="text" class="form-control" id="id" style="display:none" value="@Function._UserID"/>
                                         </div>
                                         <div class="text-center">
                                             <button type="submit" class="btn btn-primary btn-edit">Save Changes</button>
@@ -409,68 +404,6 @@
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-    @section Scripts{
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $(".btn-edit").click(function () {
-                    var _id = $("#id").val();
-                    var _password = $("#password").val();
-                    var _fullName = $("#fullName").val();
-                    var _about = $("#about").val();
-                    var _company = $("#company").val();
-                    var _Job = $("#Job").val();
-                    var _Country = $("#Country").val();
-                    var _Address = $("#Address").val();
-                    var _Phone = $("#Phone").val();
-                    var _Email = $("#Email").val();
-
-                    // Conditionally include the password field only if it's not empty
-                    var data = {
-                        id: _id,
-                        fullName: _fullName,
-                        about: _about,
-                        company: _company,
-                        Job: _Job,
-                        Country: _Country,
-                        Address: _Address,
-                        Phone: _Phone,
-                        Email: _Email
-                    };
-
-                    if (_password.trim() !== "") {
-                        data.password = _password;
-                    }
-
-                    if (confirm("Bạn có muốn sửa không")) {
-                        $.ajax({
-                            url: "/Admin/Profile/Edit",
-                            type: "POST",
-                            data: data,
-                            headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() }, // Include the anti-forgery token
-                            success: function (result) {
-                                if (result) {
-                                    $("#password").val("");
-                                    $("#fullName").val("");
-                                    $("#about").val("");
-                                    $("#company").val("");
-                                    $("#Job").val("");
-                                    $("#Country").val("");
-                                    $("#Address").val("");
-                                    $("#Phone").val("");
-                                    $("#Email").val("");
-                                    toastr.success('Sửa thành công');
-                                } else {
-                                    toastr.error('Sửa không thành công');
-                                }
-                            }
-                        });
-                    }
-                });
-            });
-        </script>
-    }
     <!-- Vendor JS Files -->
     <script src="~/admin/assets/vendor/apexcharts/apexcharts.min.js"></script>
     <script src="~/admin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -488,3 +421,7 @@
 </body>
 
 </html>
+@{
+    var summerNoteFiles = new Bandodientu.Areas.Admin.Models.SummerNote("#Contents");
+    <partial name="_SummerNoteFiles" model="summerNoteFiles" />
+}

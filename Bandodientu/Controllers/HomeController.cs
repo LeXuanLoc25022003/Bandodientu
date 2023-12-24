@@ -105,6 +105,7 @@ namespace Bandodientu.Controllers
             {
                 return NotFound();
             }
+			ViewBag.Menuid = _context.Products.Where(p => p.ProductID == id).ToList();
 			ViewBag.ImageID = _context.ProductImages
 				.Where(m => (m.ProductID == id)).ToList();
             var post = _context.Products

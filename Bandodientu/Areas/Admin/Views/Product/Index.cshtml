@@ -3,6 +3,7 @@
 @model ProductListViewModel;
 @{
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    IList<Comment> cmt = ViewBag.cmt;
 }
 <main id="main" class="main">
     <div class="pagetitle">
@@ -18,7 +19,7 @@
     </form>
     <p>
         <a type="button" class="btn btn-success" asp-area="Admin" asp-controller="Product" asp-action="Create">
-            <i class="bi bibi-file-earmark-text me-1">Thêm sản phẩm</i>
+            <i class="ri-add-circle-line me-1">Thêm sản phẩm</i>
         </a>
     </p>
     <section class="section dashboard">
@@ -43,6 +44,7 @@
                             }
                             @foreach (var item in Model.Products.OrderBy(n=>n.ProductID))
                             {
+                                var cm = cmt.Count(m => m.ProductID == item.ProductID);
                                 <tr id="tr_@item.ProductID" class="text-center">
                                     <td>@(i++)</td>
                                     <td class="text-center">
@@ -71,7 +73,7 @@
                                            title="Danh sách hình ảnh"><i class="bi bi-image"></i></a>
                                         <a asp-area="Admin" asp-controller="ProductComment" asp-action="Index"
                                            asp-route-id="@item.ProductID" class="btn btn btn-success btn-sm"
-                                           title="Danh sách bình luận"><i class="bi bi-chat"></i></a>
+                                           title="Danh sách bình luận"><i class="bi bi-chat"></i>(@cm)</a>
                                         <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.ProductID">Chi tiết</a>
                                         <a data-id="@item.ProductID" class="btn btn-danger btn-sm btn-delete"><i class="bi bi-trash"></i></a>
                                     </td>

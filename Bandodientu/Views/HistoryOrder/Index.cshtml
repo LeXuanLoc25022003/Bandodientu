@@ -196,7 +196,7 @@
 					<h3 class="breadcrumb-header">Checkout</h3>
 					<ul class="breadcrumb-tree">
 						<li><a href="#">Home</a></li>
-						<li class="active">HistoryOrder</li>
+						<li class="active">Lịch sử đặt hàng</li>
 					</ul>
 				</div>
 			</div>
@@ -209,6 +209,7 @@
 			<tr>
 				<th rowspan="2" style="color:red">Mã</th>
 				<th rowspan="2" style="color:red">Ngày tạo</th>
+				<th rowspan="2" style="color:red">Địa chỉ</th>
 				<th rowspan="2" style="color:red">Trạng thái</th>
 				<th rowspan="2" style="color:red">Tổng tiền</th>
 				<th rowspan="2" style="color:red">Chức năng</th>
@@ -221,6 +222,7 @@
 				<tr>
 					<th>@items.Code</th>
 					<th>@items.CreateDate</th>
+					<th>@items.Address</th>
 					<th>@name.Name</th>
 					<th>@items.ToTalAmount</th>
 					<th>
@@ -397,7 +399,7 @@
 								data: { id: id, trangthai: tt },
 								success: function (result) {
 									if (result) {
-										toastr.success('Hủy đơn hàng thành công');
+										toastr.warning('Đang chờ xác nhận của shop');
 									} else {
 										toastr.error('Hủy đơn hàng không thành công');
 									}

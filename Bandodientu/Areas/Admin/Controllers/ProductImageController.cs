@@ -11,7 +11,6 @@ namespace Bandodientu.Areas.Admin.Controllers
 	[Area("Admin")]
 	public class ProductImageController : Controller
 	{
-		int PageSize = 3;
 		private readonly DataContext _context;
 
 		public ProductImageController(DataContext context)
@@ -21,6 +20,7 @@ namespace Bandodientu.Areas.Admin.Controllers
 
         public IActionResult Index(int id)
         {
+            ViewBag.Product = _context.Products.ToList();
             Function._ProductID = id;
             if (id == null || id == 0)
             {

@@ -44,6 +44,7 @@ namespace Bandodientu.Areas.Admin.Controllers
             Function._Country = string.IsNullOrEmpty(check.Country) ? string.Empty : check.Country;
             Function._Address = string.IsNullOrEmpty(check.Address) ? string.Empty : check.Address;
             Function.Phone = string.IsNullOrEmpty(check.Phone) ? string.Empty : check.Phone;
+            Function.Image = string.IsNullOrEmpty(check.Image) ? string.Empty : check.Image;
             Function._Password = string.IsNullOrEmpty(check.Password) ? string.Empty : check.Password;
             return RedirectToAction("Index","Home");
 		}

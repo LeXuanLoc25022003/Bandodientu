@@ -43,11 +43,13 @@
                     <label asp-for="Description">Description</label>
                     <textarea asp-for="Description" class="form-control" placeholder="Nhập mô tả sản phẩm"></textarea>
                 </div>
-                    <div class="form-group col-mb-6">
-                        <label asp-for="Color">Color</label>
-                        <input type="text" class="form-control mb-3" asp-for="Color" placeholder="Nhập màu sản phẩm" />
-                        <span asp-validation-for="Color" class="alert-danger"></span>
-                    </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Color">Chọn màu</label>
+                    <select asp-for="Color" class="form-control"
+                            asp-items="@(new SelectList(ViewBag.mnColor,"Value","Text"))">
+                    </select>
+                    <span asp-validation-for="Color" class="alert-danger"></span>
+                </div>
                     <div class="form-group col-mb-6">
                         <label asp-for="Quantity">Quantity</label>
                         <input type="text" class="form-control mb-3" asp-for="Quantity" placeholder="Nhập số lượng sản phẩm" />
